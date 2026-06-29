@@ -1,0 +1,16 @@
+import type { MetadataRoute } from 'next';
+import { SITE_URL } from '@/lib/site';
+
+export default function robots(): MetadataRoute.Robots {
+  return {
+    rules: [
+      {
+        userAgent: '*',
+        allow: '/',
+        disallow: ['/api/private/', '/admin-lite']
+      }
+    ],
+    sitemap: [`${SITE_URL}/sitemap.xml`, `${SITE_URL}/sitemap-noticias.xml`, `${SITE_URL}/sitemap-categorias.xml`],
+    host: SITE_URL
+  };
+}

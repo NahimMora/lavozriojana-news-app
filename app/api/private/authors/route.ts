@@ -1,0 +1,39 @@
+import { requireApiKey } from '@/lib/auth';
+import { getPagination, jsonError, jsonOk } from '@/lib/http';
+import { prisma } from '@/lib/prisma';
+import { authorSchema } from '@/lib/schemas';
+import { ensureUniqueAuthorSlug } from '@/lib/slug';
+
+export const runtime = 'nodejs';
+
+export async function GET(request: Request) {
+  const unauthorized = requireApiKey(request);
+  if (unauthorized) return unauthorized;
+  const { page, perPage, skip } = getPagination(request.url, { page: 1, perPage: 50 });
+  const [items, total] = await Promise.all([
+    prisma.author.findMany({ orderBy: { name: 'asc' }, skip, take: perPage }),
+    prisma.author.count()
+  ]);
+  return jsonOk({ items, pagination: { page, perPage, total } });
+}
+
+export async function POST(request: Request) {
+  const unauthorized = requireApiKey(request);
+  if (unauthorized) return unauthorized;
+
+  try {
+    const input = authorSchema.parse(await request.json());
+    const author = await prisma.author.create({
+      data: {
+        name: input.name,
+        slug: input.slug ? await ensureUniqueAuthorSlug(input.slug) : await ensureUniqueAuthorSlug(input.name),
+        bio: input.bio || null,
+        avatarUrl: input.avatarUrl || null,
+        isActive: input.isActive ?? true
+      }
+    });
+    return jsonOk(author, { status: 201 });
+  } catch (error) {
+    return jsonError('No se pudo crear el autor.', 400, error instanceof Error ? error.message : error);
+  }
+}

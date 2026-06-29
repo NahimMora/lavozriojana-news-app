@@ -1,0 +1,242 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextIndex"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum CommentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum LeadStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum BannerSlot {
+  HOME_TOP
+  HOME_MIDDLE
+  SIDEBAR
+  ARTICLE_INLINE
+  ARTICLE_AFTER_CONTENT
+  FOOTER
+  CATEGORY_TOP
+  SEARCH_TOP
+}
+
+model Category {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(120)
+  slug        String   @unique @db.VarChar(140)
+  description String?  @db.VarChar(280)
+  color       String?  @db.VarChar(24)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  posts       Post[]
+
+  @@index([isActive])
+  @@map("categories")
+}
+
+model Author {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(160)
+  slug      String   @unique @db.VarChar(180)
+  bio       String?  @db.Text
+  avatarUrl String?  @db.VarChar(500)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  posts     Post[]
+
+  @@index([isActive])
+  @@map("authors")
+}
+
+model Post {
+  id                Int          @id @default(autoincrement())
+  title             String       @db.VarChar(240)
+  slug              String       @unique @db.VarChar(220)
+  excerpt           String       @db.Text
+  contentHtml       String       @db.LongText
+  contentText       String       @db.LongText
+  categoryId        Int
+  authorId          Int
+  sourceName        String?      @db.VarChar(180)
+  sourceUrl         String?      @db.VarChar(500)
+  mainImageUrl      String?      @db.VarChar(500)
+  mainImageWidth    Int?
+  mainImageHeight   Int?
+  mainImageAlt      String?      @db.VarChar(240)
+  mainImageCaption  String?      @db.VarChar(320)
+  mainImageCredit   String?      @db.VarChar(180)
+  status            PostStatus   @default(DRAFT)
+  publishedAt       DateTime?
+  seoTitle          String?      @db.VarChar(255)
+  seoDescription    String?      @db.VarChar(320)
+  ogTitle           String?      @db.VarChar(255)
+  ogDescription     String?      @db.VarChar(320)
+  ogImageUrl        String?      @db.VarChar(500)
+  isFeatured        Boolean      @default(false)
+  isBreaking        Boolean      @default(false)
+  editorialPriority Int          @default(0)
+  metadata          Json?
+  viewCount         Int          @default(0)
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+  category          Category     @relation(fields: [categoryId], references: [id])
+  author            Author       @relation(fields: [authorId], references: [id])
+  tags              PostTag[]
+  comments          Comment[]
+  pageViews         PageView[]
+  redirects         Redirect[]
+
+  @@index([status, publishedAt])
+  @@index([categoryId, publishedAt])
+  @@index([authorId])
+  @@index([isFeatured, status, publishedAt])
+  @@index([isBreaking, status, publishedAt])
+  @@index([viewCount])
+  @@fulltext([title, excerpt, contentText])
+  @@map("posts")
+}
+
+model Tag {
+  id        Int       @id @default(autoincrement())
+  name      String    @db.VarChar(100)
+  slug      String    @unique @db.VarChar(120)
+  createdAt DateTime  @default(now())
+  posts     PostTag[]
+
+  @@map("tags")
+}
+
+model PostTag {
+  postId Int
+  tagId  Int
+  post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tag    Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([postId, tagId])
+  @@index([tagId])
+  @@map("post_tags")
+}
+
+model MediaAsset {
+  id        Int      @id @default(autoincrement())
+  url       String   @db.VarChar(500)
+  alt       String?  @db.VarChar(240)
+  caption   String?  @db.VarChar(320)
+  credit    String?  @db.VarChar(180)
+  width     Int?
+  height    Int?
+  mimeType  String?  @db.VarChar(120)
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@map("media_assets")
+}
+
+model Banner {
+  id              Int        @id @default(autoincrement())
+  name            String     @db.VarChar(160)
+  slot            BannerSlot
+  imageUrl        String?    @db.VarChar(500)
+  linkUrl         String?    @db.VarChar(500)
+  altText         String?    @db.VarChar(240)
+  isActive        Boolean    @default(true)
+  startsAt        DateTime?
+  endsAt          DateTime?
+  priority        Int        @default(0)
+  impressionCount Int        @default(0)
+  clickCount      Int        @default(0)
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  @@index([slot, isActive, priority])
+  @@index([startsAt, endsAt])
+  @@map("banners")
+}
+
+model Comment {
+  id         Int           @id @default(autoincrement())
+  postId     Int
+  authorName String        @db.VarChar(120)
+  body       String        @db.Text
+  status     CommentStatus @default(PENDING)
+  ipHash     String?       @db.VarChar(128)
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+  post       Post          @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([postId, status, createdAt])
+  @@index([status])
+  @@map("comments")
+}
+
+model PhoneLead {
+  id        Int        @id @default(autoincrement())
+  name      String?    @db.VarChar(120)
+  phone     String     @db.VarChar(40)
+  consent   Boolean    @default(true)
+  source    String?    @db.VarChar(240)
+  status    LeadStatus @default(ACTIVE)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@index([phone])
+  @@index([status])
+  @@map("phone_leads")
+}
+
+model PageView {
+  id            Int      @id @default(autoincrement())
+  postId        Int
+  ipHash        String?  @db.VarChar(128)
+  userAgentHash String?  @db.VarChar(128)
+  createdAt     DateTime @default(now())
+  post          Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([postId, createdAt])
+  @@index([ipHash, postId, createdAt])
+  @@map("page_views")
+}
+
+model StaticPage {
+  id             Int      @id @default(autoincrement())
+  slug           String   @unique @db.VarChar(160)
+  title          String   @db.VarChar(180)
+  contentHtml    String   @db.LongText
+  seoTitle       String?  @db.VarChar(255)
+  seoDescription String?  @db.VarChar(320)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("static_pages")
+}
+
+model Redirect {
+  id        Int      @id @default(autoincrement())
+  fromSlug  String   @unique @db.VarChar(220)
+  toSlug    String   @db.VarChar(220)
+  postId    Int?
+  createdAt DateTime @default(now())
+  post      Post?    @relation(fields: [postId], references: [id], onDelete: SetNull)
+
+  @@index([toSlug])
+  @@map("redirects")
+}
