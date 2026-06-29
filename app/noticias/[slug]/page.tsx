@@ -61,10 +61,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function NewsPage({ params }: Props) {
-  const post = await getPostBySlug(params.slug);
+  const post = await getPostBySlug(params.slug).catch(() => null);
 
   if (!post) {
-    const redirectRow = await prisma.redirect.findUnique({ where: { fromSlug: params.slug } });
+    const redirectRow = await prisma.redirect.findUnique({ where: { fromSlug: params.slug } }).catch(() => null);
     if (redirectRow) redirect(`/noticias/${redirectRow.toSlug}`);
     notFound();
   }
@@ -72,13 +72,15 @@ export default async function NewsPage({ params }: Props) {
   await recordPostView(post.id, headers()).catch(() => null);
 
   const [related, mostRead] = await Promise.all([
-    getRelatedPosts(post),
-    prisma.post.findMany({
-      where: { status: 'PUBLISHED', publishedAt: { lte: new Date() }, id: { not: post.id } },
-      include: publicPostInclude,
-      orderBy: [{ viewCount: 'desc' }, { publishedAt: 'desc' }],
-      take: 4
-    })
+    getRelatedPosts(post).catch(() => []),
+    prisma.post
+      .findMany({
+        where: { status: 'PUBLISHED', publishedAt: { lte: new Date() }, id: { not: post.id } },
+        include: publicPostInclude,
+        orderBy: [{ viewCount: 'desc' }, { publishedAt: 'desc' }],
+        take: 4
+      })
+      .catch(() => [])
   ]);
 
   const articleUrl = absoluteUrl(`/noticias/${post.slug}`);

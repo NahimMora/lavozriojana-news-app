@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+import { isDatabaseConfigured, prisma } from '@/lib/prisma';
 import { jsonError, jsonOk } from '@/lib/http';
 import { phoneLeadSchema } from '@/lib/schemas';
 import { sanitizePlainText } from '@/lib/sanitize';
@@ -8,6 +8,8 @@ export const runtime = 'nodejs';
 
 export async function POST(request: Request) {
   try {
+    if (!isDatabaseConfigured()) return jsonError('Base de datos no configurada.', 503);
+
     const body = await request.json();
     const input = phoneLeadSchema.parse(body);
 

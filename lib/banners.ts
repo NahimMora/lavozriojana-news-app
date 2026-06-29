@@ -1,8 +1,8 @@
 import { BannerSlot } from '@prisma/client';
-import { prisma } from '@/lib/prisma';
+import { isDatabaseConfigured, prisma } from '@/lib/prisma';
 
 export async function getActiveBanners(slot: BannerSlot, limit = 1, trackImpressions = true) {
-  if (!process.env.DATABASE_URL) return [];
+  if (!isDatabaseConfigured()) return [];
 
   const now = new Date();
   const banners = await prisma.banner

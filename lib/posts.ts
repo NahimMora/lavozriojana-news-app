@@ -1,5 +1,5 @@
 import { Prisma, PostStatus } from '@prisma/client';
-import { prisma } from '@/lib/prisma';
+import { isDatabaseConfigured, prisma } from '@/lib/prisma';
 
 export const publicPostInclude = {
   category: true,
@@ -23,7 +23,7 @@ export const publicPostWhere = {
 } satisfies Prisma.PostWhereInput;
 
 export async function getCategoriesSafe() {
-  if (!process.env.DATABASE_URL) return [];
+  if (!isDatabaseConfigured()) return [];
 
   try {
     return await prisma.category.findMany({
@@ -35,70 +35,87 @@ export async function getCategoriesSafe() {
   }
 }
 
+const emptyHomeData = {
+  categories: [],
+  breaking: [],
+  featured: [],
+  latest: [],
+  mostRead: [],
+  categoryBlocks: []
+};
+
 export async function getHomeData() {
+  if (!isDatabaseConfigured()) return emptyHomeData;
+
   const now = new Date();
   const where = {
     status: PostStatus.PUBLISHED,
     publishedAt: { lte: now }
   } satisfies Prisma.PostWhereInput;
 
-  const [categories, breaking, featured, latest, mostRead] = await Promise.all([
-    prisma.category.findMany({
-      where: { isActive: true },
-      orderBy: { name: 'asc' }
-    }),
-    prisma.post.findMany({
-      where: { ...where, isBreaking: true },
-      include: publicPostInclude,
-      orderBy: [{ editorialPriority: 'desc' }, { publishedAt: 'desc' }],
-      take: 6
-    }),
-    prisma.post.findMany({
-      where: { ...where, isFeatured: true },
-      include: publicPostInclude,
-      orderBy: [{ editorialPriority: 'desc' }, { publishedAt: 'desc' }],
-      take: 5
-    }),
-    prisma.post.findMany({
-      where,
-      include: publicPostInclude,
-      orderBy: [{ publishedAt: 'desc' }],
-      take: 18
-    }),
-    prisma.post.findMany({
-      where,
-      include: publicPostInclude,
-      orderBy: [{ viewCount: 'desc' }, { publishedAt: 'desc' }],
-      take: 6
-    })
-  ]);
-
-  const categoryBlocks = await Promise.all(
-    categories.slice(0, 6).map(async (category) => ({
-      category,
-      posts: await prisma.post.findMany({
-        where: {
-          ...where,
-          categoryId: category.id
-        },
+  try {
+    const [categories, breaking, featured, latest, mostRead] = await Promise.all([
+      prisma.category.findMany({
+        where: { isActive: true },
+        orderBy: { name: 'asc' }
+      }),
+      prisma.post.findMany({
+        where: { ...where, isBreaking: true },
+        include: publicPostInclude,
+        orderBy: [{ editorialPriority: 'desc' }, { publishedAt: 'desc' }],
+        take: 6
+      }),
+      prisma.post.findMany({
+        where: { ...where, isFeatured: true },
+        include: publicPostInclude,
+        orderBy: [{ editorialPriority: 'desc' }, { publishedAt: 'desc' }],
+        take: 5
+      }),
+      prisma.post.findMany({
+        where,
         include: publicPostInclude,
         orderBy: [{ publishedAt: 'desc' }],
-        take: 4
+        take: 18
+      }),
+      prisma.post.findMany({
+        where,
+        include: publicPostInclude,
+        orderBy: [{ viewCount: 'desc' }, { publishedAt: 'desc' }],
+        take: 6
       })
-    }))
-  );
+    ]);
 
-  return {
-    categories,
-    breaking,
-    featured,
-    latest,
-    mostRead,
-    categoryBlocks
-  };
+    const categoryBlocks = await Promise.all(
+      categories.slice(0, 6).map(async (category) => ({
+        category,
+        posts: await prisma.post.findMany({
+          where: {
+            ...where,
+            categoryId: category.id
+          },
+          include: publicPostInclude,
+          orderBy: [{ publishedAt: 'desc' }],
+          take: 4
+        })
+      }))
+    );
+
+    return {
+      categories,
+      breaking,
+      featured,
+      latest,
+      mostRead,
+      categoryBlocks
+    };
+  } catch {
+    return emptyHomeData;
+  }
 }
 
 export async function getPostBySlug(slug: string) {
+  if (!isDatabaseConfigured()) return null;
+
   return prisma.post.findFirst({
     where: {
       slug,
@@ -116,6 +133,8 @@ export async function getPostBySlug(slug: string) {
 }
 
 export async function getRelatedPosts(post: PublicPost, limit = 4) {
+  if (!isDatabaseConfigured()) return [];
+
   return prisma.post.findMany({
     where: {
       status: PostStatus.PUBLISHED,
@@ -141,6 +160,8 @@ export async function getRelatedPosts(post: PublicPost, limit = 4) {
 }
 
 export async function searchPosts(query: string, page: number, perPage: number) {
+  if (!isDatabaseConfigured()) return { posts: [], total: 0 };
+
   const q = query.trim();
   const skip = (page - 1) * perPage;
   const where: Prisma.PostWhereInput = {
@@ -160,7 +181,7 @@ export async function searchPosts(query: string, page: number, perPage: number) 
       : {})
   };
 
-  const [posts, total] = await Promise.all([
+  const [posts, total]: [PublicPost[], number] = await Promise.all([
     prisma.post.findMany({
       where,
       include: publicPostInclude,
@@ -169,7 +190,7 @@ export async function searchPosts(query: string, page: number, perPage: number) 
       take: perPage
     }),
     prisma.post.count({ where })
-  ]);
+  ]).catch(() => [[], 0]);
 
   return { posts, total };
 }

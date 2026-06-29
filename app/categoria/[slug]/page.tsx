@@ -7,7 +7,7 @@ import { Pagination } from '@/components/news/Pagination';
 import { PostCard } from '@/components/news/PostCard';
 import { absoluteUrl } from '@/lib/site';
 import { prisma } from '@/lib/prisma';
-import { publicPostInclude } from '@/lib/posts';
+import { publicPostInclude, type PublicPost } from '@/lib/posts';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function CategoryPage({ params, searchParams }: Props) {
   const page = Math.max(1, Number(searchParams.page || 1));
   const perPage = 12;
-  const category = await prisma.category.findUnique({ where: { slug: params.slug } });
+  const category = await prisma.category.findUnique({ where: { slug: params.slug } }).catch(() => null);
   if (!category || !category.isActive) notFound();
 
   const where = {
@@ -42,7 +42,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
     categoryId: category.id
   };
 
-  const [posts, total, mostRead] = await Promise.all([
+  const [posts, total, mostRead]: [PublicPost[], number, PublicPost[]] = await Promise.all([
     prisma.post.findMany({
       where,
       include: publicPostInclude,
@@ -57,7 +57,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
       orderBy: [{ viewCount: 'desc' }, { publishedAt: 'desc' }],
       take: 6
     })
-  ]);
+  ]).catch(() => [[], 0, []]);
 
   return (
     <div className="container section">

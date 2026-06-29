@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/prisma';
+import { isDatabaseConfigured, prisma } from '@/lib/prisma';
 
 const fallbackPages: Record<string, { title: string; contentHtml: string; description: string }> = {
   contacto: {
@@ -34,11 +34,13 @@ const fallbackPages: Record<string, { title: string; contentHtml: string; descri
 };
 
 export async function getStaticPage(slug: string) {
-  try {
-    const page = await prisma.staticPage.findUnique({ where: { slug } });
-    if (page) return page;
-  } catch {
-    // Fallback keeps institutional routes available before DB setup.
+  if (isDatabaseConfigured()) {
+    try {
+      const page = await prisma.staticPage.findUnique({ where: { slug } });
+      if (page) return page;
+    } catch {
+      // Fallback keeps institutional routes available before DB setup.
+    }
   }
 
   const fallback = fallbackPages[slug];
