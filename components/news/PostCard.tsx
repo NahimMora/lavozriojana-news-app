@@ -2,6 +2,10 @@ import Link from 'next/link';
 import type { PublicPost } from '@/lib/posts';
 import { formatDate } from '@/lib/format';
 
+function fallbackClass(slug: string) {
+  return `media-fallback category-fallback category-${slug}`;
+}
+
 export function PostCard({
   post,
   variant = 'default',
@@ -16,7 +20,7 @@ export function PostCard({
   const imageAlt = post.mainImageAlt || post.title;
 
   return (
-    <article className={`post-card ${compact ? 'compact' : ''}`}>
+    <article className={`post-card ${compact ? 'compact' : ''} ${large ? 'large-card' : ''}`}>
       <Link href={`/noticias/${post.slug}`} className="post-media" aria-label={post.title}>
         {post.mainImageUrl ? (
           <img
@@ -27,7 +31,10 @@ export function PostCard({
             loading={priority ? 'eager' : 'lazy'}
           />
         ) : (
-          <span className="media-fallback">La Voz Riojana</span>
+          <span className={fallbackClass(post.category.slug)}>
+            <span>{post.category.name}</span>
+            <strong>{post.title}</strong>
+          </span>
         )}
       </Link>
       <div>
@@ -39,7 +46,7 @@ export function PostCard({
         </h2>
         {!compact && <p className="post-excerpt">{post.excerpt}</p>}
         <div className="post-meta">
-          <span>{post.author.name}</span>
+          <span>Redaccion</span>
           <time dateTime={post.publishedAt?.toISOString()}>{formatDate(post.publishedAt)}</time>
         </div>
       </div>

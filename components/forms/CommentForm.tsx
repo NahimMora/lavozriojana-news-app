@@ -26,9 +26,9 @@ export function CommentForm({ postId }: { postId: number }) {
 
     if (response.ok) {
       form.reset();
-      setStatus('Comentario enviado. Quedará visible cuando sea aprobado.');
+      setStatus('Comentario enviado. Quedara visible cuando sea aprobado.');
     } else {
-      setStatus('No se pudo enviar el comentario. Revisá los datos e intentá nuevamente.');
+      setStatus('No se pudo enviar el comentario. Revisa los datos e intenta nuevamente.');
     }
 
     setLoading(false);

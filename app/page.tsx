@@ -32,8 +32,12 @@ export default async function HomePage() {
   }
 
   const mainPost = data.featured[0] || data.latest[0];
-  const secondaryPosts = (data.featured.length > 1 ? data.featured.slice(1, 5) : data.latest.slice(1, 5));
-  const latestPosts = data.latest.filter((post) => post.id !== mainPost?.id).slice(0, 9);
+  const heroSecondary = (data.featured.length > 1 ? data.featured.slice(1, 4) : data.latest.slice(1, 4)).filter(
+    (post) => post.id !== mainPost?.id
+  );
+  const heroIds = new Set([mainPost?.id, ...heroSecondary.map((post) => post.id)].filter(Boolean));
+  const livePosts = data.latest.filter((post) => !heroIds.has(post.id)).slice(0, 5);
+  const latestPosts = data.latest.filter((post) => !heroIds.has(post.id)).slice(0, 9);
 
   return (
     <>
@@ -43,19 +47,31 @@ export default async function HomePage() {
       </div>
 
       <section className="section">
-        <div className="container hero-grid">
+        <div className="container home-hero-grid">
           {mainPost ? (
             <PostCard post={mainPost} variant="large" priority />
           ) : (
             <div className="form-panel">
               <h1 className="section-title">La Voz Riojana</h1>
-              <p className="muted">Todavía no hay noticias publicadas. Ejecutá el seed o publicá la primera nota por API.</p>
+              <p className="muted">Todavia no hay noticias publicadas. Ejecuta el seed o publica la primera nota por API.</p>
             </div>
           )}
-          <div className="sidebar">
-            {secondaryPosts.map((post) => (
+          <div className="hero-secondary-column">
+            {heroSecondary[0] && <PostCard post={heroSecondary[0]} key={heroSecondary[0].id} />}
+            {heroSecondary.slice(1).map((post) => (
               <PostCard post={post} variant="compact" key={post.id} />
             ))}
+          </div>
+          <div className="live-column">
+            <section className="latest-panel">
+              <h2 className="section-title">Ahora</h2>
+              <div className="latest-list">
+                {livePosts.map((post) => (
+                  <PostCard post={post} variant="compact" key={post.id} />
+                ))}
+              </div>
+            </section>
+            <MostRead posts={data.mostRead.slice(0, 5)} />
           </div>
         </div>
       </section>
@@ -63,7 +79,7 @@ export default async function HomePage() {
       <section className="section topline">
         <div className="container news-layout">
           <div>
-            <h2 className="section-title">Últimas noticias</h2>
+            <h2 className="section-title">Ultimas noticias</h2>
             <div className="editorial-grid">
               {latestPosts.map((post) => (
                 <PostCard post={post} key={post.id} />

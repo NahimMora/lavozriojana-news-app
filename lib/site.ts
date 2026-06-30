@@ -16,16 +16,17 @@ export const MEDIA_URL =
 export const DEFAULT_OG_IMAGE = `${MEDIA_URL}/og/la-voz-riojana-og.jpg`;
 
 export const INITIAL_CATEGORIES = [
-  'Política',
+  'Ultimo momento',
+  'Politica',
   'Policiales',
-  'Sociedad',
   'Interior',
-  'Deportes',
-  'Espectáculos',
-  'Cultura',
-  'Economía',
+  'Sociedad',
+  'Economia',
   'Salud',
-  'Educación'
+  'Educacion',
+  'Deportes',
+  'Cultura',
+  'Espectaculos'
 ];
 
 export function absoluteUrl(path = '/') {

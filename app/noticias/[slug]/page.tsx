@@ -7,7 +7,7 @@ import { Breadcrumbs } from '@/components/news/Breadcrumbs';
 import { PostCard } from '@/components/news/PostCard';
 import { ShareLinks } from '@/components/news/ShareLinks';
 import { CommentForm } from '@/components/forms/CommentForm';
-import { formatDateTime } from '@/lib/format';
+import { estimateReadingMinutes, formatDate, formatDateTime } from '@/lib/format';
 import { absoluteUrl, DEFAULT_OG_IMAGE, SITE_NAME, SITE_URL } from '@/lib/site';
 import { getPostBySlug, getRelatedPosts, publicPostInclude } from '@/lib/posts';
 import { prisma } from '@/lib/prisma';
@@ -83,6 +83,7 @@ export default async function NewsPage({ params }: Props) {
       .catch(() => [])
   ]);
 
+  const readingMinutes = estimateReadingMinutes(post.contentText);
   const articleUrl = absoluteUrl(`/noticias/${post.slug}`);
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -126,15 +127,16 @@ export default async function NewsPage({ params }: Props) {
         <h1 className="article-title">{post.title}</h1>
         <p className="article-lead">{post.excerpt}</p>
         <div className="post-meta">
-          <span>{post.author.name}</span>
-          <time dateTime={post.publishedAt?.toISOString()}>{formatDateTime(post.publishedAt)}</time>
-          <span>Actualizado {formatDateTime(post.updatedAt)}</span>
+          <span>Por {post.author.name}</span>
+          <time dateTime={post.publishedAt?.toISOString()}>{formatDate(post.publishedAt)}</time>
+          <span>Actualizado: {formatDateTime(post.updatedAt)}</span>
+          <span>Lectura de {readingMinutes} min</span>
         </div>
         <ShareLinks title={post.title} path={`/noticias/${post.slug}`} />
       </header>
 
-      {post.mainImageUrl && (
-        <figure className="container article-figure">
+      <figure className="container article-figure">
+        {post.mainImageUrl ? (
           <img
             src={post.mainImageUrl}
             alt={post.mainImageAlt || post.title}
@@ -142,14 +144,19 @@ export default async function NewsPage({ params }: Props) {
             height={post.mainImageHeight || undefined}
             loading="eager"
           />
-          {(post.mainImageCaption || post.mainImageCredit) && (
-            <figcaption>
-              {post.mainImageCaption}
-              {post.mainImageCredit ? ` Foto: ${post.mainImageCredit}` : ''}
-            </figcaption>
-          )}
-        </figure>
-      )}
+        ) : (
+          <div className={`article-image-fallback category-fallback category-${post.category.slug}`}>
+            <span>{post.category.name}</span>
+            <strong>{post.title}</strong>
+          </div>
+        )}
+        {(post.mainImageCaption || post.mainImageCredit || !post.mainImageUrl) && (
+          <figcaption>
+            {post.mainImageCaption || `Imagen editorial de referencia para ${post.category.name}.`}
+            {post.mainImageCredit ? ` Foto: ${post.mainImageCredit}` : ''}
+          </figcaption>
+        )}
+      </figure>
 
       <div className="container article-content-wrap">
         <div>
@@ -161,7 +168,7 @@ export default async function NewsPage({ params }: Props) {
           <section className="section">
             <h2 className="section-title">Comentarios</h2>
             <div className="comment-list">
-              {post.comments.length === 0 && <p className="muted">Todavía no hay comentarios aprobados.</p>}
+              {post.comments.length === 0 && <p className="muted">Se el primero en comentar con respeto.</p>}
               {post.comments.map((comment) => (
                 <div className="comment-item" key={comment.id}>
                   <strong>{comment.authorName}</strong>
@@ -171,11 +178,20 @@ export default async function NewsPage({ params }: Props) {
             </div>
             <CommentForm postId={post.id} />
           </section>
+
+          <section className="section related-block">
+            <h2 className="section-title">Tambien puede interesarte</h2>
+            <div className="editorial-grid">
+              {(related.length ? related : mostRead).slice(0, 3).map((item) => (
+                <PostCard post={item} key={item.id} />
+              ))}
+            </div>
+          </section>
         </div>
         <aside className="sidebar">
           <BannerAd slot="SIDEBAR" />
           <section>
-            <h2 className="section-title">Más noticias</h2>
+            <h2 className="section-title">Mas noticias de La Rioja</h2>
             <div className="comment-list">
               {(related.length ? related : mostRead).map((item) => (
                 <PostCard post={item} variant="compact" key={item.id} />

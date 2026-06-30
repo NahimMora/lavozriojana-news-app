@@ -1,5 +1,6 @@
 import { Prisma, PostStatus } from '@prisma/client';
 import { isDatabaseConfigured, prisma } from '@/lib/prisma';
+import { INITIAL_CATEGORIES } from '@/lib/site';
 
 export const publicPostInclude = {
   category: true,
@@ -15,6 +16,16 @@ export type PublicPost = Prisma.PostGetPayload<{
   include: typeof publicPostInclude;
 }>;
 
+const categoryOrder = new Map(INITIAL_CATEGORIES.map((name, index) => [name.toLowerCase(), index]));
+
+export function sortCategories<T extends { name: string }>(categories: T[]) {
+  return categories.sort((a, b) => {
+    const aOrder = categoryOrder.get(a.name.toLowerCase()) ?? 999;
+    const bOrder = categoryOrder.get(b.name.toLowerCase()) ?? 999;
+    return aOrder - bOrder || a.name.localeCompare(b.name, 'es-AR');
+  });
+}
+
 export const publicPostWhere = {
   status: PostStatus.PUBLISHED,
   publishedAt: {
@@ -26,10 +37,11 @@ export async function getCategoriesSafe() {
   if (!isDatabaseConfigured()) return [];
 
   try {
-    return await prisma.category.findMany({
+    const categories = await prisma.category.findMany({
       where: { isActive: true },
       orderBy: { name: 'asc' }
     });
+    return sortCategories(categories);
   } catch {
     return [];
   }
@@ -85,8 +97,10 @@ export async function getHomeData() {
       })
     ]);
 
+    const sortedCategories = sortCategories(categories);
+
     const categoryBlocks = await Promise.all(
-      categories.slice(0, 6).map(async (category) => ({
+      sortedCategories.slice(0, 6).map(async (category) => ({
         category,
         posts: await prisma.post.findMany({
           where: {
@@ -101,7 +115,7 @@ export async function getHomeData() {
     );
 
     return {
-      categories,
+      categories: sortedCategories,
       breaking,
       featured,
       latest,

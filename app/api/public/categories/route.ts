@@ -1,5 +1,6 @@
 import { isDatabaseConfigured, prisma } from '@/lib/prisma';
 import { jsonOk } from '@/lib/http';
+import { sortCategories } from '@/lib/posts';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -14,5 +15,5 @@ export async function GET() {
     })
     .catch(() => []);
 
-  return jsonOk({ items: categories });
+  return jsonOk({ items: sortCategories(categories) });
 }

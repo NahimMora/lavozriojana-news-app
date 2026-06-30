@@ -3,7 +3,13 @@ import { getActiveBanner } from '@/lib/banners';
 
 export async function BannerAd({ slot }: { slot: BannerSlot }) {
   const banner = await getActiveBanner(slot);
-  if (!banner?.imageUrl) return null;
+  if (!banner?.imageUrl) {
+    return (
+      <div className="ad-slot ad-slot-empty" data-slot={slot}>
+        <span>Publicidad</span>
+      </div>
+    );
+  }
 
   const image = (
     <img

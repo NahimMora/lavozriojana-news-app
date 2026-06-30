@@ -5,8 +5,8 @@ export function MostRead({ posts }: { posts: PublicPost[] }) {
   if (!posts.length) return null;
 
   return (
-    <section>
-      <h2 className="section-title">Más leídas</h2>
+    <section className="ranking-panel">
+      <h2 className="section-title">Mas leidas</h2>
       <ol className="rank-list">
         {posts.map((post, index) => (
           <li key={post.id}>
@@ -15,7 +15,7 @@ export function MostRead({ posts }: { posts: PublicPost[] }) {
               <Link className="kicker" href={`/categoria/${post.category.slug}`}>
                 {post.category.name}
               </Link>
-              <Link href={`/noticias/${post.slug}`} style={{ display: 'block', fontWeight: 800, lineHeight: 1.25 }}>
+              <Link href={`/noticias/${post.slug}`} className="rank-title">
                 {post.title}
               </Link>
             </div>

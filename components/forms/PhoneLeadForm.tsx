@@ -27,9 +27,9 @@ export function PhoneLeadForm({ source = 'web' }: { source?: string }) {
 
     if (response.ok) {
       form.reset();
-      setStatus('Teléfono registrado correctamente.');
+      setStatus('Telefono registrado correctamente.');
     } else {
-      setStatus('No se pudo registrar el teléfono. Verificá el número y el consentimiento.');
+      setStatus('No se pudo registrar el telefono. Verifica el numero y el consentimiento.');
     }
 
     setLoading(false);
@@ -50,13 +50,13 @@ export function PhoneLeadForm({ source = 'web' }: { source?: string }) {
           <input name="name" maxLength={120} />
         </label>
         <label style={{ flex: '1 1 180px' }}>
-          Teléfono
+          Telefono
           <input name="phone" required minLength={7} maxLength={40} placeholder="+54 9..." />
         </label>
       </div>
       <label style={{ display: 'flex', gridTemplateColumns: 'auto 1fr', alignItems: 'center', gap: 8, marginTop: 12 }}>
         <input type="checkbox" name="consent" required style={{ width: 'auto' }} />
-        Acepto que La Voz Riojana guarde mi teléfono para futuros avisos informativos por WhatsApp.
+        Acepto que La Voz Riojana guarde mi telefono para futuros avisos informativos por WhatsApp.
       </label>
       <button className="button" type="submit" disabled={loading} style={{ marginTop: 12 }}>
         {loading ? 'Guardando...' : 'Registrarme'}

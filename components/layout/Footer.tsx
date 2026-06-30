@@ -31,7 +31,7 @@ export async function Footer() {
             </Link>
           </div>
           <div>
-            <h3>Categorías</h3>
+            <h3>Categorias</h3>
             <div className="footer-links">
               {categories.slice(0, 10).map((category) => (
                 <Link href={`/categoria/${category.slug}`} key={category.slug}>
@@ -43,16 +43,16 @@ export async function Footer() {
           <div>
             <h3>Institucional</h3>
             <div className="footer-links">
-              <Link href="/quienes-somos">Quiénes somos</Link>
+              <Link href="/quienes-somos">Quienes somos</Link>
               <Link href="/contacto">Contacto</Link>
               <Link href="/publicidad">Publicidad</Link>
-              <Link href="/politica-de-privacidad">Política de privacidad</Link>
-              <Link href="/terminos-y-condiciones">Términos y condiciones</Link>
+              <Link href="/politica-de-privacidad">Politica de privacidad</Link>
+              <Link href="/terminos-y-condiciones">Terminos y condiciones</Link>
             </div>
           </div>
         </div>
         <div className="footer-bottom">
-          © {new Date().getFullYear()} La Voz Riojana. Todos los derechos reservados. lavozriojana.com
+          Copyright {new Date().getFullYear()} La Voz Riojana. Todos los derechos reservados. lavozriojana.com
         </div>
       </div>
     </footer>
