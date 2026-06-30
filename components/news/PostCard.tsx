@@ -67,6 +67,9 @@ export function PostCard({
             <h2 className="overlay-title">
               <Link href={`/noticias/${post.slug}`}>{post.title}</Link>
             </h2>
+            {post.excerpt && (
+              <p className="overlay-excerpt">{post.excerpt}</p>
+            )}
           </div>
         </div>
       </article>
