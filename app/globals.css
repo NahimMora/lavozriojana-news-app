@@ -56,7 +56,7 @@
 
 /* ─── Reset ──────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; font-size: 110%; }
+html { scroll-behavior: smooth; font-size: 100%; }
 
 body {
   margin: 0;
@@ -436,8 +436,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .overlay-text {
   position: absolute;
   bottom: 0; left: 0; right: 0;
-  padding: 50px 14px 14px;
-  background: linear-gradient(to top, rgba(5,8,12,.92) 0%, rgba(5,8,12,.55) 50%, transparent 100%);
+  padding: 64px 14px 14px;
+  background: linear-gradient(to top, rgba(2,4,8,.97) 0%, rgba(2,4,8,.75) 45%, rgba(2,4,8,.2) 75%, transparent 100%);
   z-index: 2;
   pointer-events: none;
 }
@@ -463,6 +463,13 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .overlay-title a { color: inherit; }
 .overlay-title a:hover { color: rgba(255,255,255,.82); }
 
+.overlay-excerpt {
+  margin: 5px 0 0;
+  font-size: .72rem; line-height: 1.4; color: rgba(255,255,255,.62);
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden;
+  pointer-events: none;
+}
+
 /* Hover zoom */
 .post-card.overlay .post-media img { transition: transform 300ms ease; }
 .post-card.overlay:hover .post-media img { transform: scale(1.04); }
@@ -470,7 +477,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 /* Hero main: taller image + bigger text */
 .hero-main-slot .post-card.overlay .post-media { aspect-ratio: 3/2; min-height: 240px; }
 .hero-main-slot .overlay-title { font-size: clamp(1.4rem, 3vw, 2rem); line-height: 1.08; }
-.hero-main-slot .overlay-text  { padding: 90px 18px 18px; }
+.hero-main-slot .overlay-text  { padding: 110px 18px 18px; }
 .hero-main-slot .overlay-kicker { font-size: .65rem; margin-bottom: 7px; }
 
 /* Sub-cards: 4:3 image, compact text */
@@ -1025,6 +1032,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 
 @media (min-width: 768px) {
+  html { font-size: 110%; }
   .container { width: min(var(--max-w), calc(100% - 48px)); }
 
   .home-hero-grid {
@@ -1080,14 +1088,42 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .hero-sub-card:first-child { border-right: 0; border-bottom: 1px solid var(--border); }
   .hero-sub-row { grid-template-columns: 1fr; }
 
-  .post-title.large  { font-size: clamp(1.55rem,8vw,2.2rem); }
-  .article-title     { font-size: clamp(1.7rem,8vw,2.3rem); }
-  .article-lead      { font-size: 1rem; }
-  .lr-article p, .lr-article li { font-size: 1.04rem; }
+  /* Overlay: reduce top padding so gradient doesn't cover too much of the image */
+  .hero-main-slot .overlay-text  { padding: 48px 14px 14px; }
+  .hero-sub-card .overlay-text   { padding: 28px 10px 10px; }
+  .hero-right-item .overlay-text { padding: 26px 10px 10px; }
+  /* Hide 2-line excerpt in small overlay sub-cards on mobile — not enough room */
+  .hero-sub-card .overlay-excerpt,
+  .hero-right-item .overlay-excerpt { display: none; }
+
+  .post-title.large  { font-size: clamp(1.4rem,7vw,2rem); }
+  .article-title     { font-size: clamp(1.5rem,7vw,2.2rem); }
+  .article-lead      { font-size: .97rem; }
+  .lr-article p, .lr-article li { font-size: 1rem; }
   .post-card.horizontal { grid-template-columns: 1fr; }
   .post-card.horizontal .post-media { width:100%; aspect-ratio:16/9; }
+
+  /* Newsletter: stack form vertically on narrow screens */
+  .newsletter-block { padding: 32px 0 36px; }
+  .newsletter-form  { flex-direction: column; align-items: stretch; }
+  .newsletter-input { min-width: 0; }
+  .newsletter-btn   { width: 100%; justify-content: center; }
+  .newsletter-wa-btn { width: 100%; justify-content: center; }
+
+  /* Inline feed: tighter gap on mobile */
+  .inline-article-grid { gap: 16px; }
+
+  /* Sidebar hi-items: slightly smaller thumb on narrow screens */
+  .sidebar-hi-thumb { width: 54px; height: 54px; }
 
   .back-to-top { bottom: 16px; right: 16px; }
   .header-logo { height: 68px; }
   .site-header.is-shrunk .header-logo { height: 46px; }
+}
+
+@media (max-width: 400px) {
+  .header-logo { height: 52px; }
+  .site-header.is-shrunk .header-logo { height: 38px; }
+  .breaking-label { padding: 0 10px; font-size: .58rem; }
+  .breaking-items a { font-size: .76rem; padding: 0 12px; }
 }
