@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { BackToTopButton } from '@/components/layout/BackToTopButton';
 import { DEFAULT_OG_IMAGE, SITE_NAME, SITE_SLOGAN, SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
@@ -45,6 +46,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <main className="site-main">{children}</main>
           <Footer />
         </div>
+        <BackToTopButton />
       </body>
     </html>
   );

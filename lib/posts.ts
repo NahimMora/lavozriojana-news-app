@@ -87,20 +87,20 @@ export async function getHomeData() {
         where,
         include: publicPostInclude,
         orderBy: [{ publishedAt: 'desc' }],
-        take: 18
+        take: 32
       }),
       prisma.post.findMany({
         where,
         include: publicPostInclude,
         orderBy: [{ viewCount: 'desc' }, { publishedAt: 'desc' }],
-        take: 6
+        take: 8
       })
     ]);
 
     const sortedCategories = sortCategories(categories);
 
     const categoryBlocks = await Promise.all(
-      sortedCategories.slice(0, 6).map(async (category) => ({
+      sortedCategories.map(async (category) => ({
         category,
         posts: await prisma.post.findMany({
           where: {
