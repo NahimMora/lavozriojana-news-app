@@ -326,6 +326,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   background: #fff; animation: pulse-dot 1.4s ease-in-out infinite;
 }
 .latest-list { display: flex; flex-direction: column; flex: 1; gap: 0; }
+.latest-list .post-card.list { flex: 1; align-items: center; min-height: 0; }
 
 /* ─── Post cards ─────────────────────────────────────── */
 .post-card { display: grid; gap: 8px; min-width: 0; }
