@@ -33,9 +33,9 @@ export async function Footer() {
                 Noticias de La Rioja con foco local, actualidad y cobertura provincial.
               </p>
               <div className="footer-social" aria-label="Redes sociales">
-                <a href="https://facebook.com/"  target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook">FB</a>
-                <a href="https://twitter.com/"   target="_blank" rel="noopener noreferrer" aria-label="X / Twitter" title="X">X</a>
-                <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="IG">IG</a>
+                <a href="https://facebook.com/lavozriojana"  target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook">FB</a>
+                <a href="https://twitter.com/"                target="_blank" rel="noopener noreferrer" aria-label="X / Twitter" title="X">X</a>
+                <a href="https://instagram.com/lavozriojana" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="IG">IG</a>
               </div>
             </div>
 

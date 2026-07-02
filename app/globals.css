@@ -13,6 +13,7 @@
   --red-mid:    #b8001a;
   --red-pale:   #fbeaed;
   --red-glow:   rgba(138,16,36,0.11);
+  --red-on-dark: #ff6b7a;
 
   /* Blue secondary */
   --blue:       #236d8f;
@@ -282,7 +283,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   min-height: 30px; transition: background 130ms;
 }
 .breaking-items a:hover { background: rgba(0,0,0,.1); }
-.breaking-items time { color: rgba(255,255,255,.5); font-size: .66rem; font-weight: 800; }
+.breaking-items time { color: rgba(255,255,255,.85); font-size: .66rem; font-weight: 800; }
 
 /* ─── HOME HERO ──────────────────────────────────────── */
 /* Desktop: 2-col. Left = main + 2 sub-cards. Right = featured + list */
@@ -456,8 +457,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 
 .overlay-kicker {
-  display: block;
-  margin-bottom: 5px;
+  display: inline-block;
+  padding: 7px 0;
+  margin: -7px 0 -2px;
   font-size: .6rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase;
   color: rgba(255,255,255,.7);
   pointer-events: auto;
@@ -523,7 +525,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .sidebar-wa-btn {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 9px 18px; border-radius: var(--r-pill);
-  background: #25d366; color: #fff;
+  background: #25d366; color: #06341a;
   font: inherit; font-size: .82rem; font-weight: 800;
   text-decoration: none; transition: background 140ms;
   white-space: nowrap;
@@ -994,7 +996,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .newsletter-eyebrow {
   display: inline-block; margin-bottom: 10px;
   font-size: .62rem; font-weight: 900; letter-spacing: .14em; text-transform: uppercase;
-  color: var(--red-mid);
+  color: var(--red-on-dark);
 }
 .newsletter-title {
   margin: 0 0 10px; font-family: var(--font-serif);
@@ -1029,14 +1031,14 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   display: inline-flex; align-items: center; gap: 10px;
   height: 50px; padding: 0 28px;
   border-radius: var(--r-pill); background: #25d366;
-  color: #fff; font: inherit; font-size: 1rem; font-weight: 800;
+  color: #06341a; font: inherit; font-size: 1rem; font-weight: 800;
   text-decoration: none; transition: background 140ms; white-space: nowrap;
 }
 .newsletter-wa-btn:hover { background: #1ebe5d; }
 .newsletter-legal {
-  margin: 14px 0 0; font-size: .72rem; color: rgba(255,255,255,.3); line-height: 1.5;
+  margin: 14px 0 0; font-size: .72rem; color: rgba(255,255,255,.65); line-height: 1.5;
 }
-.newsletter-legal a { color: rgba(255,255,255,.5); text-decoration: underline; }
+.newsletter-legal a { color: rgba(255,255,255,.85); text-decoration: underline; }
 .newsletter-legal a:hover { color: #fff; }
 
 /* ─── Footer ─────────────────────────────────────────── */
@@ -1045,25 +1047,25 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .footer-grid { display:grid; grid-template-columns:1fr; gap:28px; }
 .footer-grid h3 {
   margin: 0 0 12px; font-size: .6rem; font-weight: 900; letter-spacing: .14em;
-  text-transform: uppercase; color: var(--red-mid);
+  text-transform: uppercase; color: var(--red-on-dark);
 }
 .footer-links { display:grid; gap:7px; }
 .footer-links a { font-size: .84rem; color: rgba(255,255,255,.5); transition: color 130ms; }
 .footer-links a:hover { color: #fff; }
 .footer-brand-block .footer-logo { height: 38px; width: auto; object-fit: contain; filter: brightness(0) invert(1); opacity: .85; }
-.footer-brand-desc { margin: 11px 0 0; font-size: .84rem; color: rgba(255,255,255,.4); line-height: 1.6; max-width: 230px; }
+.footer-brand-desc { margin: 11px 0 0; font-size: .84rem; color: rgba(255,255,255,.65); line-height: 1.6; max-width: 230px; }
 .footer-social { display: flex; gap: 7px; margin-top: 14px; }
 .footer-social a {
   width: 30px; height: 30px; display: grid; place-items: center;
   border: 1px solid rgba(255,255,255,.12); border-radius: var(--r-xs);
-  color: rgba(255,255,255,.45); font-size: .65rem; font-weight: 900;
+  color: rgba(255,255,255,.75); font-size: .65rem; font-weight: 900;
   transition: border-color 130ms, color 130ms, background 130ms;
 }
 .footer-social a:hover { border-color: var(--red); color: #fff; background: var(--red); }
 .footer-bottom {
   display: flex; align-items: center; justify-content: space-between;
   flex-wrap: wrap; gap: 7px; padding: 12px 0;
-  color: rgba(255,255,255,.2); font-size: .7rem;
+  color: rgba(255,255,255,.65); font-size: .7rem;
 }
 
 /* ─── Admin ──────────────────────────────────────────── */
