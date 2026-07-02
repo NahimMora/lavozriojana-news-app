@@ -104,7 +104,7 @@ No usar `www` como dominio principal. Si se configura `www`, redirigirlo a `http
 https://lavozriojana.com/
 https://lavozriojana.com/robots.txt
 https://lavozriojana.com/sitemap.xml
-https://lavozriojana.com/sitemap-noticias.xml
+https://lavozriojana.com/sitemap-news.xml
 https://lavozriojana.com/api/public/categories
 ```
 

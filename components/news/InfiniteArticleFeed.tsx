@@ -1,7 +1,9 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
+import { splitFirstArticleParagraph } from '@/lib/article-html';
 
 /* ── Types ─────────────────────────────────────────────── */
 interface RelatedPost {
@@ -24,6 +26,7 @@ interface InlinePost {
   updatedAt: string;
   author: { name: string };
   category: { name: string; slug: string };
+  tags?: Array<{ tag: { name: string; slug: string } }>;
   relatedPosts?: RelatedPost[];
 }
 
@@ -73,7 +76,7 @@ function InlineRelated({ posts, categoryName }: { posts: RelatedPost[]; category
             </div>
             {p.mainImageUrl && (
               <Link href={`/noticias/${p.slug}`} className="sidebar-hi-thumb">
-                <img src={p.mainImageUrl} alt="" loading="lazy" />
+                <Image src={p.mainImageUrl} alt="" fill sizes="62px" />
               </Link>
             )}
           </article>
@@ -86,6 +89,18 @@ function InlineRelated({ posts, categoryName }: { posts: RelatedPost[]; category
 /* ── Inline article ─────────────────────────────────────── */
 function InlineArticle({ post, onVisible }: { post: InlinePost; onVisible: (slug: string) => void }) {
   const headRef = useRef<HTMLElement>(null);
+  const articleParts = splitFirstArticleParagraph(post.contentHtml);
+  const articleTags = (post.tags || [])
+    .map((item) => item.tag)
+    .filter((tag, index, tags) => {
+      const name = tag.name.trim();
+      if (!name) return false;
+
+      const normalized = name.toLowerCase();
+      const categoryName = post.category.name.trim().toLowerCase();
+      return normalized !== categoryName && tags.findIndex((item) => item.name.trim().toLowerCase() === normalized) === index;
+    })
+    .slice(0, 6);
 
   useEffect(() => {
     const el = headRef.current;
@@ -118,15 +133,27 @@ function InlineArticle({ post, onVisible }: { post: InlinePost; onVisible: (slug
         <div>
           {/* Header */}
           <header className="article-header" ref={headRef}>
-            <div className="article-kicker-row">
-              <Link className="kicker" href={`/categoria/${post.category.slug}`}>
+            <div className="article-topic-row" aria-label="Temas de la noticia">
+              <Link className="article-topic-chip article-topic-chip-primary" href={`/categoria/${post.category.slug}`}>
                 {post.category.name}
               </Link>
+              {articleTags.map((tag) => (
+                <Link className="article-topic-chip" href={`/buscar?q=${encodeURIComponent(tag.name)}`} key={tag.slug}>
+                  {tag.name}
+                </Link>
+              ))}
             </div>
             <h2 className="article-title" style={{ fontSize: 'clamp(1.7rem, 4vw, 2.8rem)' }}>
               <Link href={`/noticias/${post.slug}`}>{post.title}</Link>
             </h2>
-            {post.excerpt && <p className="article-lead">{post.excerpt}</p>}
+            {articleParts.firstParagraphHtml ? (
+              <div
+                className="article-lead article-lead-html"
+                dangerouslySetInnerHTML={{ __html: articleParts.firstParagraphHtml }}
+              />
+            ) : (
+              post.excerpt && <p className="article-lead">{post.excerpt}</p>
+            )}
             <div className="article-byline">
               <span className="article-byline-author">Por {post.author.name}</span>
               <span className="article-byline-sep">·</span>
@@ -147,10 +174,12 @@ function InlineArticle({ post, onVisible }: { post: InlinePost; onVisible: (slug
           {/* Image or fallback */}
           <figure className="article-figure">
             {post.mainImageUrl ? (
-              <img
+              <Image
                 src={post.mainImageUrl}
                 alt={post.mainImageAlt || post.title}
-                loading="lazy"
+                width={1200}
+                height={675}
+                sizes="(min-width: 980px) 760px, 100vw"
               />
             ) : (
               <div className={`article-image-fallback category-fallback category-${post.category.slug}`}>
@@ -161,10 +190,10 @@ function InlineArticle({ post, onVisible }: { post: InlinePost; onVisible: (slug
           </figure>
 
           {/* Body */}
-          {post.contentHtml && (
+          {articleParts.restHtml && (
             <div
               className="lr-article"
-              dangerouslySetInnerHTML={{ __html: post.contentHtml }}
+              dangerouslySetInnerHTML={{ __html: articleParts.restHtml }}
             />
           )}
         </div>
@@ -187,22 +216,23 @@ export function InfiniteArticleFeed({ initialSlug }: { initialSlug: string }) {
   const [done, setDone] = useState(false);
   const seenSlugs = useRef(new Set([initialSlug]));
   const triggerRef = useRef<HTMLDivElement>(null);
+  const lastSlugRef = useRef(initialSlug);
+  const loadingRef = useRef(false);
+  const doneRef = useRef(false);
 
   const loadNext = useCallback(async () => {
-    if (loading || done) return;
+    if (loadingRef.current || doneRef.current) return;
+    loadingRef.current = true;
     setLoading(true);
 
     try {
-      const lastSlug = posts.length > 0
-        ? posts[posts.length - 1].slug
-        : initialSlug;
-
       const exclude = [...seenSlugs.current].join(',');
       const res = await fetch(
-        `/api/posts/next?slug=${encodeURIComponent(lastSlug)}&exclude=${encodeURIComponent(exclude)}`
+        `/api/posts/next?slug=${encodeURIComponent(lastSlugRef.current)}&exclude=${encodeURIComponent(exclude)}`
       );
 
       if (res.status === 204 || !res.ok) {
+        doneRef.current = true;
         setDone(true);
         return;
       }
@@ -210,18 +240,22 @@ export function InfiniteArticleFeed({ initialSlug }: { initialSlug: string }) {
       const post: InlinePost = await res.json();
 
       if (!post?.slug || seenSlugs.current.has(post.slug)) {
+        doneRef.current = true;
         setDone(true);
         return;
       }
 
       seenSlugs.current.add(post.slug);
+      lastSlugRef.current = post.slug;
       setPosts((prev) => [...prev, post]);
     } catch {
+      doneRef.current = true;
       setDone(true);
     } finally {
+      loadingRef.current = false;
       setLoading(false);
     }
-  }, [loading, done, posts, initialSlug]);
+  }, []);
 
   /* Observe trigger element */
   useEffect(() => {

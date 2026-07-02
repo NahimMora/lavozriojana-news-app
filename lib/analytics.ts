@@ -30,10 +30,7 @@ export async function recordPostView(postId: number, headers: Headers) {
         userAgentHash
       }
     }),
-    prisma.post.update({
-      where: { id: postId },
-      data: { viewCount: { increment: 1 } }
-    })
+    prisma.$executeRaw`UPDATE posts SET viewCount = viewCount + 1 WHERE id = ${postId}`
   ]);
 
   return true;

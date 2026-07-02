@@ -5,25 +5,44 @@ import { Breadcrumbs } from '@/components/news/Breadcrumbs';
 import { MostRead } from '@/components/news/MostRead';
 import { Pagination } from '@/components/news/Pagination';
 import { PostCard } from '@/components/news/PostCard';
-import { absoluteUrl } from '@/lib/site';
+import { absoluteUrl, SITE_NAME, SITE_URL } from '@/lib/site';
 import { prisma } from '@/lib/prisma';
 import { publicPostInclude, type PublicPost } from '@/lib/posts';
 
-export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
+export const revalidate = 120;
 
 type Props = {
   params: { slug: string };
   searchParams: { page?: string };
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
   const category = await prisma.category.findUnique({ where: { slug: params.slug } }).catch(() => null);
   if (!category) return { title: 'Categoría no encontrada' };
+  const page = Math.max(1, Number(searchParams.page || 1));
+  const path = page > 1 ? `/categoria/${category.slug}?page=${page}` : `/categoria/${category.slug}`;
+
+  const title = page > 1 ? `${category.name} - página ${page}` : category.name;
+  const description = category.description || `Noticias de ${category.name} en La Rioja.`;
+  const url = absoluteUrl(path);
+
   return {
-    title: category.name,
-    description: category.description || `Noticias de ${category.name} en La Rioja.`,
-    alternates: { canonical: absoluteUrl(`/categoria/${category.slug}`) }
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: 'website',
+      url,
+      siteName: SITE_NAME,
+      title,
+      description
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description
+    }
   };
 }
 
@@ -61,9 +80,30 @@ export default async function CategoryPage({ params, searchParams }: Props) {
 
   /* Category slug → CSS class */
   const cssSlug = category.slug;
+  const categoryUrl = absoluteUrl(`/categoria/${category.slug}`);
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: SITE_NAME,
+        item: SITE_URL
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: category.name,
+        item: categoryUrl
+      }
+    ]
+  };
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+
       {/* Colored category hero */}
       <div className={`cat-hero category-${cssSlug}`}>
         <div className="container">

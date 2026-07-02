@@ -18,13 +18,14 @@ export function Pagination({
 
   const hrefFor = (targetPage: number) => {
     const params = new URLSearchParams();
-    params.set('page', String(targetPage));
+    if (targetPage > 1) params.set('page', String(targetPage));
     if (query) {
       Object.entries(query).forEach(([key, value]) => {
         if (value) params.set(key, value);
       });
     }
-    return `${basePath}?${params.toString()}`;
+    const queryString = params.toString();
+    return queryString ? `${basePath}?${queryString}` : basePath;
   };
 
   return (

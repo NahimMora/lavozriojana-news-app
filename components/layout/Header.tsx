@@ -63,7 +63,6 @@ export async function Header() {
                 height={56}
                 priority
                 className="header-logo"
-                style={{ height: '120px', width: 'auto' }}
               />
             </Link>
           </div>

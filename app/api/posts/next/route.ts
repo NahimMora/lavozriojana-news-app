@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { PostStatus } from '@prisma/client';
 import { isDatabaseConfigured, prisma } from '@/lib/prisma';
 import { publicPostInclude } from '@/lib/posts';
+import { sanitizeArticleHtml } from '@/lib/sanitize';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -65,6 +66,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json({
       ...post,
+      contentHtml: sanitizeArticleHtml(post.contentHtml || ''),
       publishedAt: post.publishedAt?.toISOString() ?? null,
       updatedAt:   post.updatedAt.toISOString(),
       createdAt:   post.createdAt?.toISOString() ?? null,

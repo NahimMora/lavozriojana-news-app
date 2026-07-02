@@ -1,7 +1,7 @@
 import sanitizeHtml from 'sanitize-html';
 
-const editorialClasses: Array<string | RegExp> = [
-  /^lr-/,
+const editorialClasses = [
+  'lr-*',
   'alignleft',
   'alignright',
   'aligncenter'
@@ -52,7 +52,7 @@ export function sanitizeArticleHtml(value: string) {
       img: ['http', 'https']
     },
     allowedClasses: {
-      '*': editorialClasses as unknown as string[]
+      '*': editorialClasses
     },
     transformTags: {
       a: (_tagName, attribs) => ({

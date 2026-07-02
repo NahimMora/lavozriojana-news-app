@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { InstitutionalPage } from '@/components/news/InstitutionalPage';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 export const metadata: Metadata = { title: 'Quiénes somos' };
 
 export default function AboutPage() {

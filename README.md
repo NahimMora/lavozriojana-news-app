@@ -169,9 +169,9 @@ Incluye:
 - JSON-LD `NewsArticle`.
 - Breadcrumbs.
 - `robots.txt`.
-- `sitemap.xml`.
-- `sitemap-noticias.xml`.
-- `sitemap-categorias.xml`.
+- `sitemap.xml` (incluye posts, categorías y páginas estáticas).
+- `sitemap-news.xml` (Google News, últimas 48h).
+- Feeds RSS/Atom.
 
 ## Reinicio en Hostinger
 

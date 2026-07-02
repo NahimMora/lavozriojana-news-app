@@ -15,6 +15,9 @@ export const MEDIA_URL =
 
 export const DEFAULT_OG_IMAGE = `${MEDIA_URL}/og/la-voz-riojana-og.jpg`;
 
+/* Google exige logo raster (no SVG) para NewsArticle/Organization structured data */
+export const SITE_LOGO_URL = `${SITE_URL}/logo.png`;
+
 export const INITIAL_CATEGORIES = [
   'Ultimo momento',
   'Politica',

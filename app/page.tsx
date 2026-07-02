@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { BannerAd } from '@/components/news/BannerAd';
 import { BreakingNewsBar } from '@/components/news/BreakingNewsBar';
 import { MostRead } from '@/components/news/MostRead';
@@ -6,8 +7,8 @@ import { PostCard } from '@/components/news/PostCard';
 import { getHomeData } from '@/lib/posts';
 import type { PublicPost } from '@/lib/posts';
 
-export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
+export const revalidate = 60;
 
 function CategorySection({
   block,
@@ -180,6 +181,7 @@ export default async function HomePage() {
   return (
     <>
       <BreakingNewsBar posts={data.breaking} />
+      <h1 className="sr-only">La Voz Riojana</h1>
 
       {/* ── Hero editorial ─────────────────────────────────── */}
       <section style={{ padding: '18px 0 0' }}>
@@ -264,7 +266,7 @@ export default async function HomePage() {
                         </div>
                         {post.mainImageUrl && (
                           <Link href={`/noticias/${post.slug}`} className="sidebar-hi-thumb">
-                            <img src={post.mainImageUrl} alt="" loading="lazy" />
+                            <Image src={post.mainImageUrl} alt="" fill sizes="62px" />
                           </Link>
                         )}
                       </article>

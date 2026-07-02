@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import type { BannerSlot } from '@prisma/client';
 import { getActiveBanner } from '@/lib/banners';
 
@@ -13,11 +14,12 @@ export async function BannerAd({ slot }: { slot: BannerSlot }) {
   }
 
   const image = (
-    <img
+    <Image
       src={banner.imageUrl}
       alt={banner.altText || banner.name}
-      loading="lazy"
-      decoding="async"
+      width={1200}
+      height={160}
+      sizes="(min-width: 900px) 760px, 100vw"
     />
   );
 

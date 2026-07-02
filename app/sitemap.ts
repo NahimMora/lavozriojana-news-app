@@ -9,7 +9,6 @@ export const runtime = 'nodejs';
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
     '',
-    '/buscar',
     '/contacto',
     '/publicidad',
     '/quienes-somos',

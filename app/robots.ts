@@ -10,7 +10,10 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/api/private/', '/admin-lite']
       }
     ],
-    sitemap: [`${SITE_URL}/sitemap.xml`, `${SITE_URL}/sitemap-noticias.xml`, `${SITE_URL}/sitemap-categorias.xml`],
+    sitemap: [
+      `${SITE_URL}/sitemap.xml`,
+      `${SITE_URL}/sitemap-news.xml`
+    ],
     host: SITE_URL
   };
 }

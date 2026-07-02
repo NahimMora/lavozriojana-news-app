@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import type { PublicPost } from '@/lib/posts';
 import { formatDate } from '@/lib/format';
 
@@ -8,6 +9,29 @@ function CategoryFallback({ slug, name }: { slug: string; name: string }) {
       <span className="cf-badge">{name}</span>
       <span className="cf-brand">La Voz Riojana</span>
     </span>
+  );
+}
+
+function CardImage({
+  post,
+  priority = false,
+  sizes
+}: {
+  post: PublicPost;
+  priority?: boolean;
+  sizes: string;
+}) {
+  if (!post.mainImageUrl) return null;
+
+  return (
+    <Image
+      src={post.mainImageUrl}
+      alt={post.mainImageAlt || post.title}
+      fill
+      sizes={sizes}
+      priority={priority}
+      style={{ objectFit: 'cover' }}
+    />
   );
 }
 
@@ -50,12 +74,7 @@ export function PostCard({
         <div className="overlay-wrap">
           <Link href={`/noticias/${post.slug}`} className="post-media" aria-label={post.title}>
             {post.mainImageUrl ? (
-              <img
-                src={post.mainImageUrl}
-                alt={post.mainImageAlt || post.title}
-                loading={priority ? 'eager' : 'lazy'}
-                decoding={priority ? 'sync' : 'async'}
-              />
+              <CardImage post={post} priority={priority} sizes="(min-width: 900px) 55vw, 100vw" />
             ) : (
               <CategoryFallback slug={post.category.slug} name={post.category.name} />
             )}
@@ -82,11 +101,7 @@ export function PostCard({
       <article className="post-card side">
         <Link href={`/noticias/${post.slug}`} className="post-media" aria-label={post.title}>
           {post.mainImageUrl ? (
-            <img
-              src={post.mainImageUrl}
-              alt={post.mainImageAlt || post.title}
-              loading="lazy"
-            />
+            <CardImage post={post} sizes="112px" />
           ) : (
             <CategoryFallback slug={post.category.slug} name={post.category.name} />
           )}
@@ -125,11 +140,10 @@ export function PostCard({
     <article className={cardClass}>
       <Link href={`/noticias/${post.slug}`} className="post-media" aria-label={post.title}>
         {post.mainImageUrl ? (
-          <img
-            src={post.mainImageUrl}
-            alt={post.mainImageAlt || post.title}
-            loading={priority ? 'eager' : 'lazy'}
-            decoding={priority ? 'sync' : 'async'}
+          <CardImage
+            post={post}
+            priority={priority}
+            sizes={isHorizontal ? '(min-width: 768px) 160px, 100vw' : isCompact ? '68px' : '33vw'}
           />
         ) : (
           <CategoryFallback slug={post.category.slug} name={post.category.name} />

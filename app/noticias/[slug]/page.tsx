@@ -1,21 +1,23 @@
 import type { Metadata } from 'next';
-import { headers } from 'next/headers';
+import Image from 'next/image';
 import { notFound, redirect } from 'next/navigation';
 import { BannerAd } from '@/components/news/BannerAd';
-import { ArticleBody } from '@/components/news/ArticleBody';
+import { ArticleBody, ArticleLead } from '@/components/news/ArticleBody';
 import { Breadcrumbs } from '@/components/news/Breadcrumbs';
 import { PostCard } from '@/components/news/PostCard';
+import { PostViewTracker } from '@/components/news/PostViewTracker';
 import { ShareLinks } from '@/components/news/ShareLinks';
 import { CommentForm } from '@/components/forms/CommentForm';
 import { InfiniteArticleFeed } from '@/components/news/InfiniteArticleFeed';
 import { estimateReadingMinutes, formatDate, formatDateTime } from '@/lib/format';
-import { absoluteUrl, DEFAULT_OG_IMAGE, SITE_NAME, SITE_URL } from '@/lib/site';
+import { absoluteUrl, SITE_LOGO_URL, SITE_NAME, SITE_URL } from '@/lib/site';
+import { postDocumentTitle, postModifiedDate, postSocialImage } from '@/lib/seo';
 import { getPostBySlug, getRelatedPosts, publicPostInclude } from '@/lib/posts';
 import { prisma } from '@/lib/prisma';
-import { recordPostView } from '@/lib/analytics';
+import { splitArticleHtmlAfterParagraphs, splitFirstArticleParagraph } from '@/lib/article-html';
 
-export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
+export const revalidate = 60;
 
 type Props = {
   params: { slug: string };
@@ -25,30 +27,31 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = await getPostBySlug(params.slug).catch(() => null);
   if (!post) return { title: 'Noticia no encontrada' };
 
-  const title = post.seoTitle || post.title;
+  const title = postDocumentTitle(post);
   const description = post.seoDescription || post.excerpt;
-  const image = post.ogImageUrl || post.mainImageUrl || DEFAULT_OG_IMAGE;
+  const image = postSocialImage(post);
+  const modifiedDate = postModifiedDate(post);
   const url = absoluteUrl(`/noticias/${post.slug}`);
 
   return {
-    title,
+    title: { absolute: title },
     description,
     alternates: { canonical: url },
     openGraph: {
       type: 'article',
       url,
       siteName: SITE_NAME,
-      title: post.ogTitle || title,
+      title: post.ogTitle || post.title,
       description: post.ogDescription || description,
-      images: [{ url: image }],
+      images: [{ url: image, width: 1200, height: 630 }],
       publishedTime: post.publishedAt?.toISOString(),
-      modifiedTime: post.updatedAt.toISOString(),
+      modifiedTime: modifiedDate.toISOString(),
       authors: [post.author.name],
       section: post.category.name
     },
     twitter: {
       card: 'summary_large_image',
-      title: post.ogTitle || title,
+      title: post.ogTitle || post.title,
       description: post.ogDescription || description,
       images: [image]
     }
@@ -64,8 +67,6 @@ export default async function NewsPage({ params }: Props) {
     notFound();
   }
 
-  await recordPostView(post.id, headers()).catch(() => null);
-
   const [related, mostRead] = await Promise.all([
     getRelatedPosts(post, 7).catch(() => []),
     prisma.post
@@ -80,31 +81,78 @@ export default async function NewsPage({ params }: Props) {
 
   const readingMinutes = estimateReadingMinutes(post.contentText);
   const articleUrl = absoluteUrl(`/noticias/${post.slug}`);
+  const articleImage = postSocialImage(post);
+  const modifiedDate = postModifiedDate(post);
   const relatedOrMostRead = (related.length ? related : mostRead).slice(0, 3);
   const sidebarItems = (related.length ? related : mostRead).slice(0, 7);
+  const articleParts = splitFirstArticleParagraph(post.contentHtml);
+  const bodyParts = splitArticleHtmlAfterParagraphs(articleParts.restHtml, 2);
+  const articleTags = post.tags
+    .map((item) => item.tag)
+    .filter((tag, index, tags) => {
+      const name = tag.name.trim();
+      if (!name) return false;
+
+      const normalized = name.toLowerCase();
+      const categoryName = post.category.name.trim().toLowerCase();
+      return normalized !== categoryName && tags.findIndex((item) => item.name.trim().toLowerCase() === normalized) === index;
+    })
+    .slice(0, 8);
 
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'NewsArticle',
+    '@id': `${articleUrl}#article`,
     headline: post.title,
     description: post.seoDescription || post.excerpt,
-    image: [post.ogImageUrl || post.mainImageUrl || DEFAULT_OG_IMAGE],
+    image: [articleImage],
     datePublished: post.publishedAt?.toISOString(),
-    dateModified: post.updatedAt.toISOString(),
+    dateModified: modifiedDate.toISOString(),
+    inLanguage: 'es-AR',
+    isAccessibleForFree: true,
+    url: articleUrl,
     author: { '@type': 'Person', name: post.author.name },
     publisher: {
       '@type': 'Organization',
+      '@id': `${SITE_URL}#organization`,
       name: SITE_NAME,
-      logo: { '@type': 'ImageObject', url: `${SITE_URL}/brand-logo.svg` }
+      logo: { '@type': 'ImageObject', url: SITE_LOGO_URL, width: 1254, height: 1254 }
     },
-    mainEntityOfPage: articleUrl,
-    articleSection: post.category.name
+    mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
+    articleSection: post.category.name,
+    keywords: articleTags.map((tag) => tag.name)
+  };
+
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: SITE_NAME,
+        item: SITE_URL
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: post.category.name,
+        item: absoluteUrl(`/categoria/${post.category.slug}`)
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: post.title,
+        item: articleUrl
+      }
+    ]
   };
 
   return (
     <>
       <article>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
 
         <div className="container">
           <Breadcrumbs
@@ -118,17 +166,22 @@ export default async function NewsPage({ params }: Props) {
         {/* Main grid: body column + sidebar */}
         <div className="container article-content-wrap">
           {/* ── Body column ── */}
-          <div>
+          <div className="article-main">
             {/* Article header */}
             <header className="article-header">
-              <div className="article-kicker-row">
-                <a className="kicker" href={`/categoria/${post.category.slug}`}>
+              <div className="article-topic-row" aria-label="Temas de la noticia">
+                <a className="article-topic-chip article-topic-chip-primary" href={`/categoria/${post.category.slug}`}>
                   {post.category.name}
                 </a>
+                {articleTags.map((tag) => (
+                  <a className="article-topic-chip" href={`/buscar?q=${encodeURIComponent(tag.name)}`} key={tag.slug}>
+                    {tag.name}
+                  </a>
+                ))}
               </div>
 
               <h1 className="article-title">{post.title}</h1>
-              <p className="article-lead">{post.excerpt}</p>
+              <ArticleLead html={articleParts.firstParagraphHtml} fallback={post.excerpt} />
 
               <div className="article-byline">
                 <span className="article-byline-author">Por {post.author.name}</span>
@@ -154,18 +207,32 @@ export default async function NewsPage({ params }: Props) {
                 </span>
               </div>
 
+              {post.sourceName && (
+                <p className="article-source-note">
+                  Fuente:{' '}
+                  {post.sourceUrl ? (
+                    <a href={post.sourceUrl} target="_blank" rel="noopener noreferrer">
+                      {post.sourceName}
+                    </a>
+                  ) : (
+                    <span>{post.sourceName}</span>
+                  )}
+                </p>
+              )}
+
               <ShareLinks title={post.title} path={`/noticias/${post.slug}`} />
             </header>
 
             {/* Hero image */}
             <figure className="article-figure">
               {post.mainImageUrl ? (
-                <img
+                <Image
                   src={post.mainImageUrl}
                   alt={post.mainImageAlt || post.title}
-                  width={post.mainImageWidth || undefined}
-                  height={post.mainImageHeight || undefined}
-                  loading="eager"
+                  width={post.mainImageWidth || 1200}
+                  height={post.mainImageHeight || 675}
+                  priority
+                  sizes="(min-width: 980px) 760px, 100vw"
                 />
               ) : (
                 <div className={`article-image-fallback category-fallback category-${post.category.slug}`}>
@@ -181,15 +248,16 @@ export default async function NewsPage({ params }: Props) {
               )}
             </figure>
 
-            {/* Inline banner */}
-            <BannerAd slot="ARTICLE_INLINE" />
-
             {/* Article body */}
-            <ArticleBody html={post.contentHtml} />
+            <ArticleBody html={bodyParts.beforeHtml} />
 
-            {post.sourceName && (
-              <p className="lr-source">Fuente: {post.sourceName}</p>
+            {bodyParts.beforeHtml && bodyParts.afterHtml && (
+              <div className="article-body-ad">
+                <BannerAd slot="ARTICLE_INLINE" />
+              </div>
             )}
+
+            <ArticleBody html={bodyParts.afterHtml} />
 
             <BannerAd slot="ARTICLE_AFTER_CONTENT" />
 
@@ -247,7 +315,7 @@ export default async function NewsPage({ params }: Props) {
                     </div>
                     {item.mainImageUrl && (
                       <a href={`/noticias/${item.slug}`} className="sidebar-hi-thumb">
-                        <img src={item.mainImageUrl} alt="" loading="lazy" />
+                        <Image src={item.mainImageUrl} alt="" fill sizes="62px" />
                       </a>
                     )}
                   </article>
@@ -293,6 +361,7 @@ export default async function NewsPage({ params }: Props) {
       <div className="container" style={{ paddingBottom: 48 }}>
         <InfiniteArticleFeed initialSlug={post.slug} />
       </div>
+      <PostViewTracker postId={post.id} />
     </>
   );
 }
