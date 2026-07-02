@@ -21,29 +21,31 @@ export async function GET() {
     })
   ]);
 
+  const oneLine = (text: string) => text.replace(/\s+/g, ' ').trim();
+
   const body = [
     `# ${SITE_NAME}`,
     '',
     `> ${SITE_SLOGAN}`,
     '',
-    `Sitio principal: ${SITE_URL}`,
-    `Sitemap: ${absoluteUrl('/sitemap.xml')}`,
-    `RSS: ${absoluteUrl('/feed.xml')}`,
-    '',
-    '## Uso para asistentes e IA',
-    '',
     'Este sitio publica noticias locales de La Rioja, Argentina. Los asistentes pueden resumir, citar y enlazar el contenido publico respetando la URL canonica de cada nota.',
     '',
     '## Secciones',
     '',
-    ...categories.map((category) => `- ${category.name}: ${absoluteUrl(`/categoria/${category.slug}`)}`),
+    ...categories.map((category) => `- [${category.name}](${absoluteUrl(`/categoria/${category.slug}`)})`),
     '',
     '## Ultimas noticias',
     '',
     ...posts.map((post) => {
-      const date = post.publishedAt ? post.publishedAt.toISOString() : '';
-      return `- ${post.title} (${date}): ${absoluteUrl(`/noticias/${post.slug}`)}\n  ${post.excerpt}`;
-    })
+      const url = absoluteUrl(`/noticias/${post.slug}`);
+      const notes = post.excerpt ? `: ${oneLine(post.excerpt)}` : '';
+      return `- [${oneLine(post.title)}](${url})${notes}`;
+    }),
+    '',
+    '## Optional',
+    '',
+    `- [Sitemap](${absoluteUrl('/sitemap.xml')})`,
+    `- [RSS](${absoluteUrl('/feed.xml')})`
   ].join('\n');
 
   return new Response(body, {
