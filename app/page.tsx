@@ -265,7 +265,7 @@ export default async function HomePage() {
                           </h3>
                         </div>
                         {post.mainImageUrl && (
-                          <Link href={`/noticias/${post.slug}`} className="sidebar-hi-thumb">
+                          <Link href={`/noticias/${post.slug}`} className="sidebar-hi-thumb" aria-label={post.title}>
                             <Image src={post.mainImageUrl} alt="" fill sizes="62px" />
                           </Link>
                         )}

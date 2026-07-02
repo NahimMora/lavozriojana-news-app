@@ -24,10 +24,10 @@
   --ink:        #111827;
   --ink-2:      #374151;
   --muted:      #6b7280;
-  --muted-2:    #9ca3af;
+  --muted-2:    #5f6672;
 
   /* Surfaces */
-  --bg:         #faf7f4;
+  --bg:         #ece8e4;
   --surface:    #ffffff;
   --surface-2:  #f5f1ee;
   --surface-3:  #ece8e4;
@@ -155,7 +155,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 
 /* Search toggle btn */
 .search-toggle-btn {
-  width: 36px; height: 36px;
+  width: 44px; height: 44px;
   display: grid; place-items: center;
   border: 1.5px solid var(--border-2);
   border-radius: var(--r-sm);
@@ -206,7 +206,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 
 .search-clear-btn {
   display: grid; place-items: center;
-  width: 28px; height: 28px; border-radius: 50%;
+  width: 36px; height: 36px; border-radius: 50%;
   border: 0; background: var(--surface-3);
   color: var(--muted); cursor: pointer;
 }
@@ -238,17 +238,18 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 
 /* Mobile menu */
 .mobile-menu { display: none; position: relative; }
-.mobile-menu summary {
+.mobile-menu-toggle {
   list-style: none; display: flex; align-items: center; justify-content: center;
-  width: 36px; height: 36px; border: 1.5px solid var(--border-2); border-radius: var(--r-sm);
+  width: 44px; height: 44px; border: 1.5px solid var(--border-2); border-radius: var(--r-sm);
   cursor: pointer; color: var(--ink); background: var(--surface); user-select: none;
   transition: border-color 130ms;
 }
-.mobile-menu summary:hover { border-color: var(--red); }
-.mobile-menu summary::-webkit-details-marker { display: none; }
+.mobile-menu-toggle:hover { border-color: var(--red); }
+
+.mobile-menu-backdrop { position: fixed; inset: 0; z-index: 59; background: transparent; }
 
 .mobile-drawer {
-  position: absolute; right: 0; top: calc(100% + 8px);
+  position: absolute; left: 0; top: calc(100% + 8px);
   width: min(82vw, 250px); background: #fff;
   border: 1.5px solid var(--border); border-radius: var(--r);
   box-shadow: var(--shadow); z-index: 60; padding: 7px; display: grid; gap: 1px;

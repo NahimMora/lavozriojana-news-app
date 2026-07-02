@@ -314,7 +314,7 @@ export default async function NewsPage({ params }: Props) {
                       )}
                     </div>
                     {item.mainImageUrl && (
-                      <a href={`/noticias/${item.slug}`} className="sidebar-hi-thumb">
+                      <a href={`/noticias/${item.slug}`} className="sidebar-hi-thumb" aria-label={item.title}>
                         <Image src={item.mainImageUrl} alt="" fill sizes="62px" />
                       </a>
                     )}

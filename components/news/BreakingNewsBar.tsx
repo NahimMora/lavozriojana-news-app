@@ -17,7 +17,11 @@ export function BreakingNewsBar({ posts }: { posts: PublicPost[] }) {
             {[0, 1].map((copy) => (
               <div className="breaking-items" key={copy} aria-hidden={copy === 1}>
                 {posts.map((post) => (
-                  <Link href={`/noticias/${post.slug}`} key={`${copy}-${post.id}`}>
+                  <Link
+                    href={`/noticias/${post.slug}`}
+                    key={`${copy}-${post.id}`}
+                    tabIndex={copy === 1 ? -1 : undefined}
+                  >
                     <time dateTime={post.publishedAt?.toISOString()}>
                       {formatTime(post.publishedAt)}
                     </time>

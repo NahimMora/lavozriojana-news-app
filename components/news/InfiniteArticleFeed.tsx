@@ -75,7 +75,7 @@ function InlineRelated({ posts, categoryName }: { posts: RelatedPost[]; category
               )}
             </div>
             {p.mainImageUrl && (
-              <Link href={`/noticias/${p.slug}`} className="sidebar-hi-thumb">
+              <Link href={`/noticias/${p.slug}`} className="sidebar-hi-thumb" aria-label={p.title}>
                 <Image src={p.mainImageUrl} alt="" fill sizes="62px" />
               </Link>
             )}

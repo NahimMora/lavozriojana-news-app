@@ -5,23 +5,7 @@ import { getCategoriesSafe } from '@/lib/posts';
 import { slugify } from '@/lib/slug';
 import { SearchOverlay } from './SearchOverlay';
 import { ScrollShrinkEffect } from './ScrollShrinkEffect';
-
-const IconMenu = () => (
-  <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor" aria-hidden="true">
-    <rect width="17" height="2" rx="1" />
-    <rect y="5" width="12" height="2" rx="1" />
-    <rect y="10" width="17" height="2" rx="1" />
-  </svg>
-);
-
-const IconX = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
-    stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
-    aria-hidden="true">
-    <line x1="18" y1="6" x2="6" y2="18" />
-    <line x1="6" y1="6" x2="18" y2="18" />
-  </svg>
-);
+import { MobileMenu } from './MobileMenu';
 
 export async function Header() {
   const dbCategories = await getCategoriesSafe();
@@ -39,18 +23,7 @@ export async function Header() {
 
           {/* LEFT — mobile hamburger only */}
           <div className="masthead-left">
-            <details className="mobile-menu">
-              <summary aria-label="Menú de categorías">
-                <IconMenu />
-              </summary>
-              <nav className="mobile-drawer" aria-label="Categorías">
-                {categories.map((cat) => (
-                  <Link href={`/categoria/${cat.slug}`} key={cat.slug}>
-                    {cat.name}
-                  </Link>
-                ))}
-              </nav>
-            </details>
+            <MobileMenu categories={categories} />
           </div>
 
           {/* CENTER — logo */}
