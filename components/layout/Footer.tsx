@@ -23,8 +23,9 @@ export async function Footer() {
                 <Image
                   src="/logo.png"
                   alt={SITE_NAME}
-                  width={160}
-                  height={42}
+                  width={80}
+                  height={80}
+                  sizes="40px"
                   className="footer-logo"
                   style={{ height: '38px', width: 'auto' }}
                 />

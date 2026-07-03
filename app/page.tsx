@@ -198,7 +198,7 @@ export default async function HomePage() {
                   <div className="hero-sub-row">
                     {subCards.map((post) => (
                       <div className="hero-sub-card" key={post.id}>
-                        <PostCard post={post} variant="overlay" />
+                        <PostCard post={post} variant="overlay" priority />
                       </div>
                     ))}
                   </div>
@@ -209,7 +209,7 @@ export default async function HomePage() {
               <div className="hero-right">
                 {featured1 && (
                   <div className="hero-right-item">
-                    <PostCard post={featured1} variant="overlay" />
+                    <PostCard post={featured1} variant="overlay" priority />
                   </div>
                 )}
 

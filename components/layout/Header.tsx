@@ -32,8 +32,9 @@ export async function Header() {
               <Image
                 src="/logo.png"
                 alt={SITE_NAME}
-                width={220}
-                height={56}
+                width={128}
+                height={128}
+                sizes="120px"
                 priority
                 className="header-logo"
               />
