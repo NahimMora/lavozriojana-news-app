@@ -208,19 +208,6 @@ export default async function NewsPage({ params }: Props) {
                 </span>
               </div>
 
-              {post.sourceName && (
-                <p className="article-source-note">
-                  Fuente:{' '}
-                  {post.sourceUrl ? (
-                    <a href={post.sourceUrl} target="_blank" rel="noopener noreferrer">
-                      {post.sourceName}
-                    </a>
-                  ) : (
-                    <span>{post.sourceName}</span>
-                  )}
-                </p>
-              )}
-
               <ShareLinks title={post.title} path={`/noticias/${post.slug}`} />
             </header>
 
