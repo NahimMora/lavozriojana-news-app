@@ -20,6 +20,7 @@ type ImageInput = Partial<
     | 'mainImageCredit'
   >
 >;
+type VideoInput = Partial<Pick<PostCreateInput, 'video' | 'videoUrl' | 'videoPoster'>>;
 
 async function resolveCategory(input: Pick<PostCreateInput, 'categoryId' | 'categorySlug' | 'categoryName'>) {
   if (input.categoryId) {
@@ -120,6 +121,14 @@ function imageFields(input: ImageInput) {
   };
 }
 
+function videoFields(input: VideoInput) {
+  const video = input.video;
+  return {
+    videoUrl: video?.url ?? input.videoUrl ?? null,
+    videoPoster: video?.poster ?? input.videoPoster ?? null
+  };
+}
+
 export async function createPost(input: PostCreateInput) {
   const category = await resolveCategory(input);
   const author = await resolveAuthor(input);
@@ -139,6 +148,7 @@ export async function createPost(input: PostCreateInput) {
       sourceName: input.sourceName || null,
       sourceUrl: input.sourceUrl || null,
       ...imageFields(input),
+      ...videoFields(input),
       status: input.status,
       publishedAt,
       seoTitle: input.seoTitle || null,
@@ -201,6 +211,7 @@ export async function updatePost(id: number, input: PostPatchInput) {
       input.mainImageCredit !== undefined
         ? imageFields(input)
         : {}),
+      ...(input.video || input.videoUrl !== undefined || input.videoPoster !== undefined ? videoFields(input) : {}),
       ...(input.status ? { status: input.status } : {}),
       ...(publishedAt !== undefined ? { publishedAt } : {}),
       ...(input.seoTitle !== undefined ? { seoTitle: input.seoTitle || null } : {}),

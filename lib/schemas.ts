@@ -31,6 +31,11 @@ export const mainImageSchema = z.object({
   credit: optionalText(180)
 });
 
+export const videoSchema = z.object({
+  url: z.string().url().max(500),
+  poster: z.string().url().max(500).optional().nullable()
+});
+
 export const postCreateSchema = z.object({
   title: z.string().trim().min(8).max(240),
   slug: z.string().trim().min(3).max(220).optional(),
@@ -52,6 +57,9 @@ export const postCreateSchema = z.object({
   mainImageAlt: optionalText(240),
   mainImageCaption: optionalText(320),
   mainImageCredit: optionalText(180),
+  video: videoSchema.optional(),
+  videoUrl: optionalUrl,
+  videoPoster: optionalUrl,
   status: postStatusSchema.default('DRAFT'),
   publishedAt: z.coerce.date().optional().nullable(),
   seoTitle: optionalText(255),

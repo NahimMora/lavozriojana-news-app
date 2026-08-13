@@ -83,6 +83,8 @@ model Post {
   mainImageAlt      String?      @db.VarChar(240)
   mainImageCaption  String?      @db.VarChar(320)
   mainImageCredit   String?      @db.VarChar(180)
+  videoUrl          String?      @db.VarChar(500)
+  videoPoster       String?      @db.VarChar(500)
   status            PostStatus   @default(DRAFT)
   publishedAt       DateTime?
   seoTitle          String?      @db.VarChar(255)

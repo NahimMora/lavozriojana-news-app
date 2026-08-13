@@ -4,6 +4,7 @@ import { notFound, redirect } from 'next/navigation';
 import { AdSenseUnit } from '@/components/news/AdSenseUnit';
 import { BannerAd } from '@/components/news/BannerAd';
 import { ArticleBody, ArticleLead } from '@/components/news/ArticleBody';
+import { ArticleVideo } from '@/components/news/ArticleVideo';
 import { Breadcrumbs } from '@/components/news/Breadcrumbs';
 import { PostCard } from '@/components/news/PostCard';
 import { PostViewTracker } from '@/components/news/PostViewTracker';
@@ -121,7 +122,19 @@ export default async function NewsPage({ params }: Props) {
     },
     mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
     articleSection: post.category.name,
-    keywords: articleTags.map((tag) => tag.name)
+    keywords: articleTags.map((tag) => tag.name),
+    ...(post.videoUrl
+      ? {
+          video: {
+            '@type': 'VideoObject',
+            name: post.title,
+            description: post.seoDescription || post.excerpt,
+            thumbnailUrl: [post.videoPoster || articleImage],
+            contentUrl: post.videoUrl,
+            uploadDate: post.publishedAt?.toISOString()
+          }
+        }
+      : {})
   };
 
   const breadcrumbJsonLd = {
@@ -246,6 +259,8 @@ export default async function NewsPage({ params }: Props) {
             )}
 
             <ArticleBody html={bodyParts.afterHtml} />
+
+            {post.videoUrl && <ArticleVideo url={post.videoUrl} poster={post.videoPoster || post.mainImageUrl} />}
 
             <AdSenseUnit slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE_INLINE} className="ad-slot-article-inline" />
 

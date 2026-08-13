@@ -96,6 +96,10 @@ curl -X POST "https://lavozriojana.com/api/private/posts" \
     "sourceName": "Fuente opcional",
     "sourceUrl": "https://example.com",
     "tags": ["La Rioja", "Gobierno"],
+    "video": {
+      "url": "https://media.lavozriojana.com/noticias/videos/video.mp4",
+      "poster": "https://media.lavozriojana.com/noticias/imagen.webp"
+    },
     "mainImage": {
       "url": "https://media.lavozriojana.com/noticias/imagen.webp",
       "width": 1200,
@@ -121,6 +125,8 @@ curl -X POST "https://lavozriojana.com/api/private/posts" \
 ```
 
 El slug se genera automáticamente desde el título si no se envía.
+
+`video` es opcional. Si se envía, el video se sube previamente a R2 (mismo bucket que las imágenes, por ejemplo bajo `noticias/videos/`) y solo se manda la URL pública resultante; también se aceptan los campos planos `videoUrl` / `videoPoster` en vez del objeto `video`. Sin este campo, la noticia se publica normalmente sin reproductor.
 
 ### Listar noticias privadas
 
