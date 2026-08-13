@@ -6,6 +6,7 @@ import { Footer } from '@/components/layout/Footer';
 import { BackToTopButton } from '@/components/layout/BackToTopButton';
 import { DEFAULT_OG_IMAGE, SITE_LOGO_URL, SITE_NAME, SITE_SLOGAN, SITE_URL } from '@/lib/site';
 import { ADSENSE_CLIENT_ID } from '@/lib/adsense';
+import { GA_MEASUREMENT_ID } from '@/lib/gtag';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -91,6 +92,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="es-AR">
       <head>
+        {/* Google tag (gtag.js) */}
+        <Script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="ga-gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_MEASUREMENT_ID}');
+          `}
+        </Script>
+
         <meta name="google-adsense-account" content={ADSENSE_CLIENT_ID} />
         <Script
           async
