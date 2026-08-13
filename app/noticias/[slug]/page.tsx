@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { notFound, redirect } from 'next/navigation';
+import { AdSenseUnit } from '@/components/news/AdSenseUnit';
 import { BannerAd } from '@/components/news/BannerAd';
 import { ArticleBody, ArticleLead } from '@/components/news/ArticleBody';
 import { Breadcrumbs } from '@/components/news/Breadcrumbs';
@@ -259,6 +260,8 @@ export default async function NewsPage({ params }: Props) {
 
             <ArticleBody html={bodyParts.afterHtml} />
 
+            <AdSenseUnit slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE_INLINE} className="ad-slot-article-inline" />
+
             <BannerAd slot="ARTICLE_AFTER_CONTENT" />
 
             {/* Related articles */}
@@ -296,6 +299,7 @@ export default async function NewsPage({ params }: Props) {
           {/* ── Sidebar ── */}
           <aside className="sidebar" aria-label="Contenido relacionado">
             <BannerAd slot="SIDEBAR" />
+            <AdSenseUnit slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE_SIDEBAR} className="ad-slot-article-sidebar" />
 
             <section>
               <h2 className="section-title blue">Más de La Rioja</h2>

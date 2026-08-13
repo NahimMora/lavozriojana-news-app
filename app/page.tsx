@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { AdSenseUnit } from '@/components/news/AdSenseUnit';
 import { BannerAd } from '@/components/news/BannerAd';
 import { BreakingNewsBar } from '@/components/news/BreakingNewsBar';
 import { MostRead } from '@/components/news/MostRead';
@@ -235,6 +236,11 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ── Espacio publicitario (AdSense) ──────────────────── */}
+      <div className="container">
+        <AdSenseUnit slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_HOME_TOP} className="ad-slot-home-top" />
+      </div>
+
       {/* ── Últimas noticias + sidebar ──────────────────────── */}
       {latestPosts.length > 0 && (
         <section className="section topline" style={{ marginTop: 22 }}>
@@ -290,6 +296,7 @@ export default async function HomePage() {
               </section>
 
               <BannerAd slot="SIDEBAR" />
+              <AdSenseUnit slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_HOME_SIDEBAR} className="ad-slot-home-sidebar" />
             </aside>
           </div>
         </section>
