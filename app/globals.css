@@ -375,19 +375,20 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 
 /* Video badge */
 .video-badge {
-  position: absolute; top: 8px; right: 8px; z-index: 2;
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  z-index: 2;
   display: flex; align-items: center; justify-content: center;
-  width: 28px; height: 28px; border-radius: 50%;
-  background: rgba(17,17,17,.62); backdrop-filter: blur(2px);
+  width: 56px; height: 56px; border-radius: 50%;
+  background: rgba(17,17,17,.66); backdrop-filter: blur(2px);
   color: #fff; pointer-events: none;
 }
-.video-badge svg { width: 15px; height: 15px; }
+.video-badge svg { width: 26px; height: 26px; }
 .post-card.compact .video-badge,
-.post-card.mini .video-badge { width: 20px; height: 20px; top: 5px; right: 5px; }
+.post-card.mini .video-badge { width: 32px; height: 32px; }
 .post-card.compact .video-badge svg,
-.post-card.mini .video-badge svg { width: 11px; height: 11px; }
-.post-card.side .video-badge { width: 22px; height: 22px; top: 5px; right: 5px; }
-.post-card.side .video-badge svg { width: 12px; height: 12px; }
+.post-card.mini .video-badge svg { width: 15px; height: 15px; }
+.post-card.side .video-badge { width: 34px; height: 34px; }
+.post-card.side .video-badge svg { width: 16px; height: 16px; }
 
 /* Category fallback */
 .category-fallback {
