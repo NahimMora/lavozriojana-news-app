@@ -373,6 +373,22 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .post-card:hover .post-media img { transform: scale(1.04); }
 .post-card:hover .post-title a   { color: var(--red); }
 
+/* Video badge */
+.video-badge {
+  position: absolute; top: 8px; right: 8px; z-index: 2;
+  display: flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: rgba(17,17,17,.62); backdrop-filter: blur(2px);
+  color: #fff; pointer-events: none;
+}
+.video-badge svg { width: 15px; height: 15px; }
+.post-card.compact .video-badge,
+.post-card.mini .video-badge { width: 20px; height: 20px; top: 5px; right: 5px; }
+.post-card.compact .video-badge svg,
+.post-card.mini .video-badge svg { width: 11px; height: 11px; }
+.post-card.side .video-badge { width: 22px; height: 22px; top: 5px; right: 5px; }
+.post-card.side .video-badge svg { width: 12px; height: 12px; }
+
 /* Category fallback */
 .category-fallback {
   position: relative; width: 100%; height: 100%;

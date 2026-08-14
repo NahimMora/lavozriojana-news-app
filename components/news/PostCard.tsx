@@ -35,6 +35,18 @@ function CardImage({
   );
 }
 
+function VideoBadge({ post }: { post: PublicPost }) {
+  if (!post.videoUrl) return null;
+
+  return (
+    <span className="video-badge" aria-label="Contiene video">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M9.5 8.2v7.6c0 .58.62.94 1.12.65l6.4-3.8a.75.75 0 0 0 0-1.3l-6.4-3.8a.75.75 0 0 0-1.12.65Z" fill="currentColor" />
+      </svg>
+    </span>
+  );
+}
+
 export function PostCard({
   post,
   variant = 'default',
@@ -78,6 +90,7 @@ export function PostCard({
             ) : (
               <CategoryFallback slug={post.category.slug} name={post.category.name} />
             )}
+            <VideoBadge post={post} />
           </Link>
           <div className="overlay-text">
             <Link className="overlay-kicker" href={`/categoria/${post.category.slug}`}>
@@ -105,6 +118,7 @@ export function PostCard({
           ) : (
             <CategoryFallback slug={post.category.slug} name={post.category.name} />
           )}
+          <VideoBadge post={post} />
         </Link>
         <div>
           <Link className="kicker" href={`/categoria/${post.category.slug}`}>
@@ -148,6 +162,7 @@ export function PostCard({
         ) : (
           <CategoryFallback slug={post.category.slug} name={post.category.name} />
         )}
+        <VideoBadge post={post} />
       </Link>
 
       <div>
