@@ -1,4 +1,4 @@
-import { BannerSlot, CommentStatus, LeadStatus, PostStatus } from '@prisma/client';
+import { BannerSlot, CommentStatus, ContactMessageStatus, LeadStatus, PostStatus, SourceType } from '@prisma/client';
 import type { Prisma } from '@prisma/client';
 import { z } from 'zod';
 
@@ -36,6 +36,12 @@ export const videoSchema = z.object({
   poster: z.string().url().max(500).optional().nullable()
 });
 
+export const postSourceSchema = z.object({
+  name: z.string().trim().min(2).max(180),
+  url: z.string().url().max(500).optional().nullable(),
+  type: z.nativeEnum(SourceType).default('MEDIO')
+});
+
 export const postCreateSchema = z.object({
   title: z.string().trim().min(8).max(240),
   slug: z.string().trim().min(3).max(220).optional(),
@@ -50,6 +56,7 @@ export const postCreateSchema = z.object({
   tags: z.array(z.string().trim().min(1).max(100)).max(20).optional(),
   sourceName: optionalText(180),
   sourceUrl: optionalUrl,
+  sources: z.array(postSourceSchema).max(10).optional(),
   mainImage: mainImageSchema.optional(),
   mainImageUrl: optionalUrl,
   mainImageWidth: z.number().int().positive().optional().nullable(),
@@ -85,11 +92,21 @@ export const categorySchema = z.object({
 
 export const categoryPatchSchema = categorySchema.partial();
 
+export const authorSocialLinkSchema = z.object({
+  platform: z.enum(['facebook', 'instagram', 'twitter', 'linkedin', 'website']),
+  url: z.string().url().max(500)
+});
+
 export const authorSchema = z.object({
   name: z.string().trim().min(2).max(160),
   slug: z.string().trim().min(2).max(180).optional(),
   bio: z.string().trim().max(3000).optional().nullable(),
   avatarUrl: optionalUrl,
+  role: optionalText(160),
+  specialty: optionalText(160),
+  email: z.string().trim().email().max(180).optional().nullable(),
+  socialLinks: z.array(authorSocialLinkSchema).max(6).optional().nullable(),
+  isInstitutional: z.boolean().optional(),
   isActive: z.boolean().optional()
 });
 
@@ -136,4 +153,20 @@ export const phoneLeadSchema = z.object({
 
 export const phoneLeadPatchSchema = z.object({
   status: leadStatusSchema
+});
+
+export const contactMessageStatusSchema = z
+  .enum(['new', 'read', 'archived', 'NEW', 'READ', 'ARCHIVED'])
+  .transform((value) => value.toUpperCase() as ContactMessageStatus);
+
+export const contactMessageSchema = z.object({
+  name: z.string().trim().min(2).max(160),
+  email: z.string().trim().email().max(200),
+  subject: z.string().trim().max(200).optional().nullable(),
+  message: z.string().trim().min(10).max(4000),
+  website: z.string().optional() // honeypot anti-spam
+});
+
+export const contactMessagePatchSchema = z.object({
+  status: contactMessageStatusSchema
 });

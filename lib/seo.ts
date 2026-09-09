@@ -1,4 +1,6 @@
+import type { Metadata } from 'next';
 import type { PublicPost } from '@/lib/posts';
+import { getStaticPage } from '@/lib/static-pages';
 import { absoluteUrl, DEFAULT_OG_IMAGE, SITE_NAME } from '@/lib/site';
 
 type SeoPost = PublicPost & {
@@ -23,4 +25,34 @@ export function postSocialImage(post: Pick<SeoPost, 'title' | 'category' | 'main
 
 export function postModifiedDate(post: Pick<SeoPost, 'updatedAt'>) {
   return post.updatedAt;
+}
+
+/**
+ * Metadata (title/description/canonical/OG) para páginas institucionales
+ * (/quienes-somos, /contacto, /politica-editorial, etc.) a partir de StaticPage.
+ * Evita el patrón anterior de `metadata = { title }` sin description ni canonical.
+ */
+export async function institutionalMetadata(slug: string, fallbackTitle: string): Promise<Metadata> {
+  const page = await getStaticPage(slug);
+  const title = page?.seoTitle || page?.title || fallbackTitle;
+  const description = page?.seoDescription || undefined;
+  const url = absoluteUrl(`/${slug}`);
+
+  return {
+    title: page?.title || fallbackTitle,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: 'website',
+      url,
+      siteName: SITE_NAME,
+      title,
+      description
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description
+    }
+  };
 }

@@ -4,20 +4,23 @@ import { absoluteUrl, SITE_NAME } from '@/lib/site';
 import { escapeXml } from '@/lib/xml';
 
 export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 export const revalidate = 300;
 
 export async function GET() {
   const now = new Date();
   const cutoff = new Date(now.getTime() - 48 * 60 * 60 * 1000);
-  const posts = await prisma.post.findMany({
-    where: {
-      status: PostStatus.PUBLISHED,
-      publishedAt: { gte: cutoff, lte: now }
-    },
-    select: { title: true, slug: true, publishedAt: true, updatedAt: true },
-    orderBy: { publishedAt: 'desc' },
-    take: 1000
-  });
+  const posts = await prisma.post
+    .findMany({
+      where: {
+        status: PostStatus.PUBLISHED,
+        publishedAt: { gte: cutoff, lte: now }
+      },
+      select: { title: true, slug: true, publishedAt: true, updatedAt: true },
+      orderBy: { publishedAt: 'desc' },
+      take: 1000
+    })
+    .catch(() => [] as Awaited<ReturnType<typeof prisma.post.findMany>>);
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">

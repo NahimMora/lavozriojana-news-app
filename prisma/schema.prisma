@@ -36,6 +36,23 @@ enum BannerSlot {
   SEARCH_TOP
 }
 
+enum SourceType {
+  OFICIAL
+  ORGANISMO_PUBLICO
+  MEDIO
+  COMUNICADO
+  ENTREVISTA
+  DOCUMENTO
+  REDES_SOCIALES
+  ELABORACION_PROPIA
+}
+
+enum ContactMessageStatus {
+  NEW
+  READ
+  ARCHIVED
+}
+
 model Category {
   id          Int      @id @default(autoincrement())
   name        String   @db.VarChar(120)
@@ -52,15 +69,26 @@ model Category {
 }
 
 model Author {
-  id        Int      @id @default(autoincrement())
-  name      String   @db.VarChar(160)
-  slug      String   @unique @db.VarChar(180)
-  bio       String?  @db.Text
-  avatarUrl String?  @db.VarChar(500)
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  posts     Post[]
+  id              Int      @id @default(autoincrement())
+  name            String   @db.VarChar(160)
+  slug            String   @unique @db.VarChar(180)
+  bio             String?  @db.Text
+  avatarUrl       String?  @db.VarChar(500)
+  /// Cargo editorial visible, ej. "Redacción", "Editor de Política".
+  role            String?  @db.VarChar(160)
+  /// Área de cobertura, ej. "Política provincial", "Policiales".
+  specialty       String?  @db.VarChar(160)
+  /// Email editorial de contacto, opcional (no es login ni dato privado).
+  email           String?  @db.VarChar(180)
+  /// [{ platform: "twitter" | "instagram" | ..., url: string }]
+  socialLinks     Json?
+  /// true = firma institucional ("Redacción La Voz Riojana", "Redacción Deportes", etc.).
+  /// false = persona física identificada. Afecta el @type usado en JSON-LD (Organization vs Person).
+  isInstitutional Boolean  @default(true)
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  posts           Post[]
 
   @@index([isActive])
   @@map("authors")
@@ -105,6 +133,7 @@ model Post {
   comments          Comment[]
   pageViews         PageView[]
   redirects         Redirect[]
+  sources           PostSource[]
 
   @@index([status, publishedAt])
   @@index([categoryId, publishedAt])
@@ -114,6 +143,23 @@ model Post {
   @@index([viewCount])
   @@fulltext([title, excerpt, contentText])
   @@map("posts")
+}
+
+/// Fuentes consultadas de una nota. sourceName/sourceUrl en Post se mantienen
+/// por compatibilidad con integraciones existentes (autopublicador externo);
+/// este modelo permite declarar varias fuentes tipadas por nota.
+model PostSource {
+  id        Int        @id @default(autoincrement())
+  postId    Int
+  name      String     @db.VarChar(180)
+  url       String?    @db.VarChar(500)
+  type      SourceType @default(MEDIO)
+  order     Int        @default(0)
+  createdAt DateTime   @default(now())
+  post      Post       @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([postId, order])
+  @@map("post_sources")
 }
 
 model Tag {
@@ -229,6 +275,23 @@ model StaticPage {
   updatedAt      DateTime @updatedAt
 
   @@map("static_pages")
+}
+
+/// Mensajes del formulario de contacto público (/contacto). Sin proveedor de email
+/// configurado todavía: se guardan acá y se revisan desde /admin-lite o la API privada.
+model ContactMessage {
+  id        Int                  @id @default(autoincrement())
+  name      String               @db.VarChar(160)
+  email     String               @db.VarChar(200)
+  subject   String?              @db.VarChar(200)
+  message   String               @db.Text
+  status    ContactMessageStatus @default(NEW)
+  ipHash    String?              @db.VarChar(128)
+  createdAt DateTime             @default(now())
+  updatedAt DateTime             @updatedAt
+
+  @@index([status, createdAt])
+  @@map("contact_messages")
 }
 
 model Redirect {

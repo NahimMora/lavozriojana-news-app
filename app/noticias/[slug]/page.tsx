@@ -5,12 +5,15 @@ import { AdSenseUnit } from '@/components/news/AdSenseUnit';
 import { BannerAd } from '@/components/news/BannerAd';
 import { ArticleBody, ArticleLead } from '@/components/news/ArticleBody';
 import { ArticleVideo } from '@/components/news/ArticleVideo';
+import { AuthorBox } from '@/components/news/AuthorBox';
 import { Breadcrumbs } from '@/components/news/Breadcrumbs';
 import { PostCard } from '@/components/news/PostCard';
 import { PostViewTracker } from '@/components/news/PostViewTracker';
 import { ShareLinks } from '@/components/news/ShareLinks';
+import { Sources } from '@/components/news/Sources';
 import { CommentForm } from '@/components/forms/CommentForm';
 import { InfiniteArticleFeed } from '@/components/news/InfiniteArticleFeed';
+import { authorProfileUrl } from '@/lib/author';
 import { estimateReadingMinutes, formatDate, formatDateTime } from '@/lib/format';
 import { absoluteUrl, SITE_LOGO_URL, SITE_NAME, SITE_URL } from '@/lib/site';
 import { postDocumentTitle, postModifiedDate, postSocialImage } from '@/lib/seo';
@@ -101,6 +104,13 @@ export default async function NewsPage({ params }: Props) {
     })
     .slice(0, 8);
 
+  const authorUrl = absoluteUrl(authorProfileUrl(post.author.slug));
+  const legacySourceItem = post.sourceName ? { name: post.sourceName, url: post.sourceUrl } : undefined;
+  const allSourceUrls = [
+    ...post.sources.map((source) => source.url).filter((url): url is string => !!url),
+    ...(legacySourceItem?.url ? [legacySourceItem.url] : [])
+  ];
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'NewsArticle',
@@ -113,7 +123,11 @@ export default async function NewsPage({ params }: Props) {
     inLanguage: 'es-AR',
     isAccessibleForFree: true,
     url: articleUrl,
-    author: { '@type': 'Person', name: post.author.name },
+    author: {
+      '@type': post.author.isInstitutional ? 'Organization' : 'Person',
+      name: post.author.name,
+      url: authorUrl
+    },
     publisher: {
       '@type': 'Organization',
       '@id': `${SITE_URL}#organization`,
@@ -123,6 +137,7 @@ export default async function NewsPage({ params }: Props) {
     mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
     articleSection: post.category.name,
     keywords: articleTags.map((tag) => tag.name),
+    ...(allSourceUrls.length ? { citation: allSourceUrls } : {}),
     ...(post.videoUrl
       ? {
           video: {
@@ -198,7 +213,9 @@ export default async function NewsPage({ params }: Props) {
               <ArticleLead html={articleParts.firstParagraphHtml} fallback={post.excerpt} />
 
               <div className="article-byline">
-                <span className="article-byline-author">Por {post.author.name}</span>
+                <span className="article-byline-author">
+                  Por <a href={authorProfileUrl(post.author.slug)}>{post.author.name}</a>
+                </span>
                 <span className="article-byline-sep">·</span>
                 <time className="article-byline-meta" dateTime={post.publishedAt?.toISOString()}>
                   {formatDate(post.publishedAt)}
@@ -265,6 +282,10 @@ export default async function NewsPage({ params }: Props) {
             <AdSenseUnit slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE_INLINE} className="ad-slot-article-inline" />
 
             <BannerAd slot="ARTICLE_AFTER_CONTENT" />
+
+            <Sources sources={post.sources} legacy={legacySourceItem} />
+
+            <AuthorBox author={post.author} />
 
             {/* Related articles */}
             {relatedOrMostRead.length > 0 && (

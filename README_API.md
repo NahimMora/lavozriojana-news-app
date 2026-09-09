@@ -95,6 +95,10 @@ curl -X POST "https://lavozriojana.com/api/private/posts" \
     "authorName": "Redacción La Voz Riojana",
     "sourceName": "Fuente opcional",
     "sourceUrl": "https://example.com",
+    "sources": [
+      { "name": "Ministerio de Gobierno de La Rioja", "url": "https://example.gob.ar/comunicado", "type": "ORGANISMO_PUBLICO" },
+      { "name": "Télam", "url": "https://example.com/nota", "type": "MEDIO" }
+    ],
     "tags": ["La Rioja", "Gobierno"],
     "video": {
       "url": "https://media.lavozriojana.com/noticias/videos/video.mp4",
@@ -127,6 +131,42 @@ curl -X POST "https://lavozriojana.com/api/private/posts" \
 El slug se genera automáticamente desde el título si no se envía.
 
 `video` es opcional. Si se envía, el video se sube previamente a R2 (mismo bucket que las imágenes, por ejemplo bajo `noticias/videos/`) y solo se manda la URL pública resultante; también se aceptan los campos planos `videoUrl` / `videoPoster` en vez del objeto `video`. Sin este campo, la noticia se publica normalmente sin reproductor.
+
+`sources` es un array opcional (máx. 10) que reemplaza en la nota la sección "Fuentes consultadas" mostrada al pie del artículo. Cada elemento admite:
+
+- `name` (obligatorio)
+- `url` (opcional; si se omite se muestra el nombre sin enlace)
+- `type`: uno de `OFICIAL`, `ORGANISMO_PUBLICO`, `MEDIO`, `COMUNICADO`, `ENTREVISTA`, `DOCUMENTO`, `REDES_SOCIALES`, `ELABORACION_PROPIA` (default `MEDIO`)
+
+`sourceName` / `sourceUrl` (campos planos, un solo valor) se mantienen por compatibilidad: si no se envía `sources`, se siguen guardando igual que antes y se muestran como fuente única si tampoco hay `sources` cargado.
+
+### Cajas de contenido editorial en `contentHtml`
+
+Además de `lr-lead`, `lr-key-points`, `lr-fact-box`, `lr-related-box`, `lr-source` y `lr-highlight` (ya soportados), `contentHtml` acepta estas clases para agregar valor editorial dentro de la nota (Fase 5 de la auditoría SEO/E-E-A-T):
+
+```html
+<div class="lr-context"><strong>Contexto</strong><p>Texto de contexto adicional.</p></div>
+<div class="lr-local-impact"><strong>Impacto en La Rioja</strong><p>Cómo afecta esto a la provincia.</p></div>
+<div class="lr-update"><strong>Actualización</strong><p>Qué cambió respecto a la publicación original.</p></div>
+```
+
+Cualquier clase con prefijo `lr-` pasa el sanitizador (`lib/sanitize.ts`); estas tres ya tienen estilo visual propio en `app/globals.css`.
+
+### Autores: perfil E-E-A-T
+
+`POST /api/private/authors` y `PATCH /api/private/authors/:id` aceptan ahora, además de `name`/`slug`/`bio`/`avatarUrl`/`isActive`:
+
+```json
+{
+  "role": "Editor de Política",
+  "specialty": "Política provincial",
+  "email": "nombre@lavozriojana.com",
+  "socialLinks": [{ "platform": "twitter", "url": "https://twitter.com/usuario" }],
+  "isInstitutional": false
+}
+```
+
+`isInstitutional` (default `true`) determina si el autor se marca como firma institucional ("Redacción ...", @type Organization en JSON-LD) o como persona física identificada (@type Person). Cada autor tiene un perfil público en `/autores/[slug]`.
 
 ### Listar noticias privadas
 

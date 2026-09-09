@@ -83,6 +83,24 @@ async function resolveAuthor(input: Pick<PostCreateInput, 'authorId' | 'authorSl
   });
 }
 
+async function replacePostSources(postId: number, sources?: PostCreateInput['sources']) {
+  if (!sources) return;
+
+  await prisma.postSource.deleteMany({ where: { postId } });
+
+  if (!sources.length) return;
+
+  await prisma.postSource.createMany({
+    data: sources.map((source, index) => ({
+      postId,
+      name: source.name,
+      url: source.url || null,
+      type: source.type,
+      order: index
+    }))
+  });
+}
+
 async function replacePostTags(postId: number, tags?: string[]) {
   if (!tags) return;
 
@@ -164,6 +182,7 @@ export async function createPost(input: PostCreateInput) {
   });
 
   await replacePostTags(post.id, input.tags);
+  await replacePostSources(post.id, input.sources);
 
   return prisma.post.findUniqueOrThrow({
     where: { id: post.id },
@@ -235,6 +254,7 @@ export async function updatePost(id: number, input: PostPatchInput) {
   }
 
   await replacePostTags(id, input.tags);
+  await replacePostSources(id, input.sources);
 
   return prisma.post.findUniqueOrThrow({
     where: { id: updated.id },

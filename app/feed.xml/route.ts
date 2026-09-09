@@ -1,26 +1,31 @@
-import { PostStatus } from '@prisma/client';
+import { PostStatus, type Prisma } from '@prisma/client';
 import { prisma } from '@/lib/prisma';
 import { absoluteUrl, SITE_NAME, SITE_SLOGAN, SITE_URL } from '@/lib/site';
 import { escapeXml, formatRssDate } from '@/lib/xml';
 
 export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 export const revalidate = 300;
 
+const feedPostSelect = {
+  title: true,
+  slug: true,
+  excerpt: true,
+  publishedAt: true,
+  updatedAt: true,
+  author: { select: { name: true } },
+  category: { select: { name: true } }
+} satisfies Prisma.PostSelect;
+
 export async function GET() {
-  const posts = await prisma.post.findMany({
-    where: { status: PostStatus.PUBLISHED, publishedAt: { lte: new Date() } },
-    select: {
-      title: true,
-      slug: true,
-      excerpt: true,
-      publishedAt: true,
-      updatedAt: true,
-      author: { select: { name: true } },
-      category: { select: { name: true } }
-    },
-    orderBy: { publishedAt: 'desc' },
-    take: 50
-  });
+  const posts: Prisma.PostGetPayload<{ select: typeof feedPostSelect }>[] = await prisma.post
+    .findMany({
+      where: { status: PostStatus.PUBLISHED, publishedAt: { lte: new Date() } },
+      select: feedPostSelect,
+      orderBy: { publishedAt: 'desc' },
+      take: 50
+    })
+    .catch(() => []);
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">

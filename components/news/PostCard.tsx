@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import type { PublicPost } from '@/lib/posts';
 import { formatDate } from '@/lib/format';
+import { authorProfileUrl } from '@/lib/author';
 
 function CategoryFallback({ slug, name }: { slug: string; name: string }) {
   return (
@@ -177,7 +178,7 @@ export function PostCard({
         )}
         {!isMini && (
           <div className="post-meta">
-            <span>Redacción</span>
+            <Link href={authorProfileUrl(post.author.slug)}>{post.author.name}</Link>
             <time dateTime={post.publishedAt?.toISOString()}>{formatDate(post.publishedAt)}</time>
           </div>
         )}

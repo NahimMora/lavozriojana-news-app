@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import { requireApiKey } from '@/lib/auth';
 import { jsonError, jsonOk, parseNumericId } from '@/lib/http';
 import { prisma } from '@/lib/prisma';
@@ -23,6 +24,13 @@ export async function PATCH(request: Request, { params }: Context) {
         ...(input.slug || input.name ? { slug: await ensureUniqueAuthorSlug(input.slug || input.name || '', id) } : {}),
         ...(input.bio !== undefined ? { bio: input.bio || null } : {}),
         ...(input.avatarUrl !== undefined ? { avatarUrl: input.avatarUrl || null } : {}),
+        ...(input.role !== undefined ? { role: input.role || null } : {}),
+        ...(input.specialty !== undefined ? { specialty: input.specialty || null } : {}),
+        ...(input.email !== undefined ? { email: input.email || null } : {}),
+        ...(input.socialLinks !== undefined
+          ? { socialLinks: (input.socialLinks as Prisma.InputJsonValue | null) ?? Prisma.JsonNull }
+          : {}),
+        ...(input.isInstitutional !== undefined ? { isInstitutional: input.isInstitutional } : {}),
         ...(input.isActive !== undefined ? { isActive: input.isActive } : {})
       }
     });

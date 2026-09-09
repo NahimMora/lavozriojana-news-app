@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { INITIAL_CATEGORIES, SITE_NAME, SITE_SLOGAN } from '@/lib/site';
 import { getCategoriesSafe } from '@/lib/posts';
 import { slugify } from '@/lib/slug';
+import { CookiePreferencesButton } from './CookiePreferencesButton';
 
 export async function Footer() {
   const dbCategories = await getCategoriesSafe();
@@ -65,10 +66,22 @@ export async function Footer() {
               <h3>Institucional</h3>
               <div className="footer-links">
                 <Link href="/quienes-somos">Quiénes somos</Link>
+                <Link href="/equipo">Equipo</Link>
                 <Link href="/contacto">Contacto</Link>
                 <Link href="/publicidad">Publicidad</Link>
+              </div>
+            </div>
+
+            {/* Legal */}
+            <div>
+              <h3>Legal</h3>
+              <div className="footer-links">
+                <Link href="/politica-editorial">Política editorial</Link>
+                <Link href="/politica-de-correcciones">Correcciones</Link>
+                <Link href="/politica-de-uso-de-ia">Uso de IA</Link>
                 <Link href="/politica-de-privacidad">Privacidad</Link>
                 <Link href="/terminos-y-condiciones">Términos</Link>
+                <CookiePreferencesButton />
               </div>
             </div>
           </div>

@@ -3,22 +3,27 @@ import { prisma } from '@/lib/prisma';
 import { absoluteUrl, SITE_NAME, SITE_SLOGAN, SITE_URL } from '@/lib/site';
 
 export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 export const revalidate = 300;
 
 export async function GET() {
   const [categories, posts] = await Promise.all([
-    prisma.category.findMany({
-      where: { isActive: true },
-      select: { name: true, slug: true },
-      orderBy: { name: 'asc' },
-      take: 50
-    }),
-    prisma.post.findMany({
-      where: { status: PostStatus.PUBLISHED, publishedAt: { lte: new Date() } },
-      select: { title: true, slug: true, excerpt: true, publishedAt: true },
-      orderBy: { publishedAt: 'desc' },
-      take: 25
-    })
+    prisma.category
+      .findMany({
+        where: { isActive: true },
+        select: { name: true, slug: true },
+        orderBy: { name: 'asc' },
+        take: 50
+      })
+      .catch(() => [] as Awaited<ReturnType<typeof prisma.category.findMany>>),
+    prisma.post
+      .findMany({
+        where: { status: PostStatus.PUBLISHED, publishedAt: { lte: new Date() } },
+        select: { title: true, slug: true, excerpt: true, publishedAt: true },
+        orderBy: { publishedAt: 'desc' },
+        take: 25
+      })
+      .catch(() => [] as Awaited<ReturnType<typeof prisma.post.findMany>>)
   ]);
 
   const oneLine = (text: string) => text.replace(/\s+/g, ' ').trim();

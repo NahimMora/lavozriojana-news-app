@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import { requireApiKey } from '@/lib/auth';
 import { getPagination, jsonError, jsonOk } from '@/lib/http';
 import { prisma } from '@/lib/prisma';
@@ -29,6 +30,11 @@ export async function POST(request: Request) {
         slug: input.slug ? await ensureUniqueAuthorSlug(input.slug) : await ensureUniqueAuthorSlug(input.name),
         bio: input.bio || null,
         avatarUrl: input.avatarUrl || null,
+        role: input.role || null,
+        specialty: input.specialty || null,
+        email: input.email || null,
+        socialLinks: (input.socialLinks as Prisma.InputJsonValue | null) ?? Prisma.JsonNull,
+        isInstitutional: input.isInstitutional ?? true,
         isActive: input.isActive ?? true
       }
     });

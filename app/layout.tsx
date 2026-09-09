@@ -4,6 +4,7 @@ import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { BackToTopButton } from '@/components/layout/BackToTopButton';
+import { CookieConsent } from '@/components/layout/CookieConsent';
 import { DEFAULT_OG_IMAGE, SITE_LOGO_URL, SITE_NAME, SITE_SLOGAN, SITE_URL } from '@/lib/site';
 import { ADSENSE_CLIENT_ID } from '@/lib/adsense';
 import { GA_MEASUREMENT_ID } from '@/lib/gtag';
@@ -70,6 +71,16 @@ const organizationJsonLd = {
   name: SITE_NAME,
   url: SITE_URL,
   logo: SITE_LOGO_URL,
+  email: 'contacto@lavozriojana.com',
+  areaServed: {
+    '@type': 'AdministrativeArea',
+    name: 'La Rioja, Argentina'
+  },
+  founder: {
+    '@type': 'Person',
+    name: 'Fernando Nahim Mora'
+  },
+  ethicsPolicy: `${SITE_URL}/politica-editorial`,
   sameAs: ['https://facebook.com/lavozriojana', 'https://instagram.com/lavozriojana']
 };
 
@@ -102,6 +113,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
+            window.gtag = gtag;
+            /*
+             * Consent Mode v2: por defecto denegamos analítica y publicidad hasta que
+             * el usuario decida en el banner de cookies (components/layout/CookieConsent.tsx).
+             * 'wait_for_update' evita que se dispare un evento antes de leer la decisión guardada.
+             */
+            gtag('consent', 'default', {
+              analytics_storage: 'denied',
+              ad_storage: 'denied',
+              ad_user_data: 'denied',
+              ad_personalization: 'denied',
+              wait_for_update: 500
+            });
             gtag('js', new Date());
             gtag('config', '${GA_MEASUREMENT_ID}');
           `}
@@ -124,6 +148,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Footer />
         </div>
         <BackToTopButton />
+        <CookieConsent />
       </body>
     </html>
   );

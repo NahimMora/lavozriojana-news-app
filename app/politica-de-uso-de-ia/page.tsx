@@ -5,9 +5,9 @@ import { institutionalMetadata } from '@/lib/seo';
 export const revalidate = 3600;
 
 export async function generateMetadata(): Promise<Metadata> {
-  return institutionalMetadata('publicidad', 'Publicidad');
+  return institutionalMetadata('politica-de-uso-de-ia', 'Política de uso de inteligencia artificial');
 }
 
-export default function AdvertisingPage() {
-  return <InstitutionalPage slug="publicidad" />;
+export default function AIUsePolicyPage() {
+  return <InstitutionalPage slug="politica-de-uso-de-ia" />;
 }

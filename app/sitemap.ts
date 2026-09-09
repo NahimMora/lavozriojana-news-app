@@ -12,6 +12,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/contacto',
     '/publicidad',
     '/quienes-somos',
+    '/equipo',
+    '/politica-editorial',
+    '/politica-de-correcciones',
+    '/politica-de-uso-de-ia',
     '/politica-de-privacidad',
     '/terminos-y-condiciones'
   ].map((path) => ({
@@ -22,7 +26,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   try {
-    const [posts, categories] = await Promise.all([
+    const [posts, categories, authors] = await Promise.all([
       prisma.post.findMany({
         where: { status: PostStatus.PUBLISHED, publishedAt: { lte: new Date() } },
         select: { slug: true, updatedAt: true },
@@ -30,6 +34,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         take: 5000
       }),
       prisma.category.findMany({
+        where: { isActive: true },
+        select: { slug: true, updatedAt: true }
+      }),
+      prisma.author.findMany({
         where: { isActive: true },
         select: { slug: true, updatedAt: true }
       })
@@ -42,6 +50,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: category.updatedAt,
         changeFrequency: 'daily' as const,
         priority: 0.7
+      })),
+      ...authors.map((author) => ({
+        url: absoluteUrl(`/autores/${author.slug}`),
+        lastModified: author.updatedAt,
+        changeFrequency: 'weekly' as const,
+        priority: 0.4
       })),
       ...posts.map((post) => ({
         url: absoluteUrl(`/noticias/${post.slug}`),

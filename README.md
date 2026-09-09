@@ -184,3 +184,25 @@ npm run start
 ```
 
 En un despliegue conectado a GitHub, hacer push a la rama configurada y reiniciar/redeploy desde Hostinger si no está automatizado.
+
+**Importante:** después de un push que agregue migraciones nuevas (ver `prisma/migrations/`), `npm run prisma:deploy` es obligatorio antes de que el sitio funcione con normalidad — el código nuevo espera columnas/tablas que solo existen después de aplicar la migración.
+
+## Páginas institucionales y equipo
+
+Contenido de `/quienes-somos`, `/equipo`, `/contacto`, `/publicidad` y las páginas legales vive en la tabla `static_pages` y en las fichas de `authors`. Para (re)cargar el contenido de referencia de este repo:
+
+```bash
+npm run institutional:upsert   # contenido de las páginas institucionales/legales
+npm run team:upsert            # ficha institucional + responsable editorial
+```
+
+Ambos scripts son upsert (no destructivos): se pueden correr las veces que haga falta.
+
+## Auditoría de calidad de contenido
+
+```bash
+npm run content-audit            # tabla en consola
+npm run content-audit -- --csv > reporte.csv
+```
+
+Reporte de solo lectura: no borra ni modifica notas.

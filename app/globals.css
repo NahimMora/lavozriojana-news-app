@@ -800,10 +800,14 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .lr-article figcaption { margin-top:6px; color:var(--muted); font-family:var(--font-sans); font-size:.79rem; }
 .lr-lead   { color:var(--ink-2); font-size:1.1rem!important; font-style:italic; }
 .lr-source { color:var(--muted); font-family:var(--font-sans); font-size:.875rem!important; margin-top:18px; }
-.lr-key-points, .lr-fact-box, .lr-related-box {
+.lr-key-points, .lr-fact-box, .lr-related-box, .lr-context, .lr-local-impact, .lr-update {
   margin:26px 0; border:1px solid #c8e0ea; border-left:4px solid var(--blue);
   background:var(--blue-pale); padding:13px 15px; font-family:var(--font-sans);
   border-radius:0 var(--r-xs) var(--r-xs) 0;
+}
+/* "Impacto en La Rioja" y "Actualización" usan el acento rojo en vez del azul editorial. */
+.lr-local-impact, .lr-update {
+  border-color: var(--red-pale); border-left-color: var(--red); background: var(--red-pale);
 }
 .lr-article .lr-key-points,
 .lr-article .lr-key-points li {
@@ -813,6 +817,13 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .lr-key-points > strong:first-child, .lr-fact-box > strong:first-child, .lr-related-box > strong:first-child {
   display:none;
 }
+/* lr-context / lr-local-impact / lr-update son cajas nuevas (sin contenido existente que dependa
+   de ocultar el <strong> inicial): a diferencia de las anteriores, sí mostramos su etiqueta. */
+.lr-context > strong:first-child, .lr-local-impact > strong:first-child, .lr-update > strong:first-child {
+  display:block; margin-bottom:6px; font-size:.7rem; font-weight:900; letter-spacing:.06em; text-transform:uppercase;
+  color: var(--blue-dark);
+}
+.lr-local-impact > strong:first-child, .lr-update > strong:first-child { color: var(--red-deep); }
 .lr-key-points:has(> span),
 .lr-fact-box:has(> span),
 .lr-related-box:has(> span) {
@@ -1127,7 +1138,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .hero-right-item { padding: 13px 15px; }
   .hero-right-item:first-child { border-top: 0; }
 
-  .footer-grid { grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 32px; }
+  .footer-grid { grid-template-columns: 1.3fr 0.8fr 0.8fr 1fr 1fr; gap: 28px; }
   .admin-grid  { grid-template-columns: repeat(3, minmax(0,1fr)); }
 }
 
@@ -1205,3 +1216,78 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .breaking-label { padding: 0 10px; font-size: .58rem; }
   .breaking-items a { font-size: .76rem; padding: 0 12px; }
 }
+
+/* ─── Fuentes consultadas ────────────────────────────── */
+.sources-box { margin: 26px 0; padding: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-sm); }
+.sources-list { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 8px; }
+.sources-list li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; font-size: .87rem; }
+.sources-list a { color: var(--blue); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.sources-list a:hover { color: var(--blue-dark); }
+.sources-type {
+  font-size: .66rem; font-weight: 900; text-transform: uppercase; letter-spacing: .05em;
+  color: var(--muted); border: 1px solid var(--border-2); border-radius: var(--r-pill); padding: 2px 9px;
+}
+
+/* ─── Autor: caja al pie de la nota ──────────────────── */
+.author-box {
+  display: flex; gap: 14px; align-items: flex-start; margin: 26px 0;
+  padding: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-sm);
+}
+.author-box-avatar {
+  flex-shrink: 0; width: 56px; height: 56px; border-radius: 50%; overflow: hidden;
+  background: var(--blue-pale); display: flex; align-items: center; justify-content: center;
+}
+.author-box-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.author-box-initials { font-weight: 900; color: var(--blue-dark); font-size: 1.1rem; }
+.author-box-body { min-width: 0; }
+.author-box-kicker { margin: 0; font-size: .66rem; font-weight: 900; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
+.author-box-name { display: inline-block; margin-top: 2px; font-weight: 800; font-size: 1rem; }
+.author-box-name:hover { color: var(--red); }
+.author-box-role { margin: 2px 0 0; font-size: .82rem; color: var(--muted); font-weight: 700; }
+.author-box-bio { margin: 8px 0 0; font-size: .88rem; line-height: 1.55; color: var(--ink-2); }
+.author-box-links { display: flex; flex-wrap: wrap; gap: 10px 14px; margin-top: 10px; }
+.author-box-links a { font-size: .8rem; font-weight: 700; color: var(--blue); text-decoration: underline; text-underline-offset: 3px; }
+.author-box-links a:hover { color: var(--blue-dark); }
+
+/* ─── Perfil de autor (/autores/[slug]) ──────────────── */
+.author-profile-header { display: flex; gap: 18px; align-items: flex-start; padding: 6px 0 22px; border-bottom: 1px solid var(--border); }
+.author-profile-avatar { width: 88px; height: 88px; }
+.author-profile-avatar .author-box-initials { font-size: 1.6rem; }
+
+/* ─── Equipo (/equipo) ───────────────────────────────── */
+.team-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 22px; }
+.team-card {
+  display: flex; gap: 12px; align-items: center; padding: 14px; background: var(--surface);
+  border: 1px solid var(--border); border-radius: var(--r-sm); transition: border-color 130ms, box-shadow 130ms;
+}
+.team-card:hover { border-color: var(--red); box-shadow: var(--shadow-sm); }
+.team-card-name { margin: 0; font-weight: 800; font-size: .95rem; }
+.team-card-role { margin: 2px 0 0; font-size: .8rem; color: var(--blue-dark); font-weight: 700; }
+
+@media (min-width: 700px) {
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1024px) {
+  .team-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ─── Cookie consent banner ──────────────────────────── */
+.cookie-consent {
+  position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 80; max-width: 560px; margin: 0 auto;
+  background: var(--ink); color: rgba(255,255,255,.88); border-radius: var(--r); box-shadow: var(--shadow-lg);
+  padding: 16px 18px;
+}
+.cookie-consent p { margin: 0 0 10px; font-size: .85rem; line-height: 1.55; }
+.cookie-consent a { text-decoration: underline; color: #fff; }
+.cookie-consent-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.cookie-consent-actions button {
+  border: 1.5px solid rgba(255,255,255,.25); background: transparent; color: #fff;
+  font-weight: 700; font-size: .82rem; padding: 8px 14px; border-radius: var(--r-xs); cursor: pointer;
+  transition: background 130ms, border-color 130ms;
+}
+.cookie-consent-actions button:hover { border-color: #fff; }
+.cookie-consent-actions .cookie-accept-all { background: var(--red); border-color: var(--red); }
+.cookie-consent-actions .cookie-accept-all:hover { background: var(--red-deep); }
+.cookie-consent-prefs { display: grid; gap: 8px; margin: 10px 0 14px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,.12); }
+.cookie-consent-prefs label { display: flex; align-items: center; gap: 8px; font-size: .82rem; }
+.cookie-prefs-trigger { background: none; border: none; padding: 0; margin-top: 4px; color: rgba(255,255,255,.7); font-size: .78rem; text-decoration: underline; cursor: pointer; }

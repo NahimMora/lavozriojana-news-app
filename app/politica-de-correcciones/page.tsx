@@ -5,9 +5,9 @@ import { institutionalMetadata } from '@/lib/seo';
 export const revalidate = 3600;
 
 export async function generateMetadata(): Promise<Metadata> {
-  return institutionalMetadata('publicidad', 'Publicidad');
+  return institutionalMetadata('politica-de-correcciones', 'Política de correcciones');
 }
 
-export default function AdvertisingPage() {
-  return <InstitutionalPage slug="publicidad" />;
+export default function CorrectionsPolicyPage() {
+  return <InstitutionalPage slug="politica-de-correcciones" />;
 }

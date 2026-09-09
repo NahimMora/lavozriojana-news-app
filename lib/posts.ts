@@ -9,6 +9,9 @@ export const publicPostInclude = {
     include: {
       tag: true
     }
+  },
+  sources: {
+    orderBy: { order: 'asc' }
   }
 } satisfies Prisma.PostInclude;
 
@@ -171,6 +174,49 @@ export async function getRelatedPosts(post: PublicPost, limit = 4) {
     orderBy: [{ publishedAt: 'desc' }],
     take: limit
   });
+}
+
+export async function getActiveAuthorsSafe() {
+  if (!isDatabaseConfigured()) return [];
+
+  try {
+    return await prisma.author.findMany({
+      where: { isActive: true },
+      orderBy: { name: 'asc' }
+    });
+  } catch {
+    return [];
+  }
+}
+
+export async function getAuthorBySlug(slug: string) {
+  if (!isDatabaseConfigured()) return null;
+
+  return prisma.author.findFirst({
+    where: { slug, isActive: true }
+  });
+}
+
+export async function getPostsByAuthor(authorId: number, page: number, perPage: number) {
+  if (!isDatabaseConfigured()) return { posts: [], total: 0 };
+
+  const where = {
+    ...publicPostWhere,
+    authorId
+  } satisfies Prisma.PostWhereInput;
+
+  const [posts, total] = await Promise.all([
+    prisma.post.findMany({
+      where,
+      include: publicPostInclude,
+      orderBy: [{ publishedAt: 'desc' }],
+      skip: (page - 1) * perPage,
+      take: perPage
+    }),
+    prisma.post.count({ where })
+  ]).catch(() => [[], 0] as [PublicPost[], number]);
+
+  return { posts, total };
 }
 
 export async function searchPosts(query: string, page: number, perPage: number) {
