@@ -122,7 +122,7 @@ curl -X POST "https://lavozriojana.com/api/private/posts" \
     "excerpt": "Bajada clara y breve de la noticia para portada y SEO.",
     "contentHtml": "<p class=\"lr-lead\">Contenido principal.</p><h2>Subtítulo</h2><p>Texto de la nota.</p>",
     "categorySlug": "politica",
-    "authorName": "Redacción La Voz Riojana",
+    "authorName": "Fernando Nahim Mora",
     "tags": ["La Rioja"],
     "status": "published",
     "publishedAt": "2026-06-29T12:00:00.000Z"

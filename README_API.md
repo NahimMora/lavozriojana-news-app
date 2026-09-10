@@ -81,6 +81,8 @@ curl -X POST "https://lavozriojana.com/api/phone-leads" \
 
 ## Posts privados
 
+**Política de firma de autor (vigente desde 2026-09):** todas las notas nuevas deben publicarse con `"authorName": "Fernando Nahim Mora"` (responsable editorial real de La Voz Riojana), sin importar la categoría. Ya no se usa un `authorName` distinto por sección (`"Redacción Política"`, `"Redacción Deportes"`, etc.) — ese esquema institucional por sección fue discontinuado y las notas históricas que lo usaban fueron reasignadas a Fernando Nahim Mora. Si se omite `authorName`/`authorSlug`/`authorId`, el sistema asigna Fernando Nahim Mora por defecto igual, pero conviene enviarlo siempre explícito.
+
 ### Crear noticia
 
 ```bash
@@ -92,7 +94,7 @@ curl -X POST "https://lavozriojana.com/api/private/posts" \
     "excerpt": "Bajada o resumen claro para portada, SEO y redes.",
     "contentHtml": "<p class=\"lr-lead\">Primer párrafo destacado.</p><div class=\"lr-key-points\"><strong>Claves</strong><ul><li>Punto uno</li><li>Punto dos</li></ul></div><h2>Subtítulo</h2><p>Contenido de la noticia.</p>",
     "categorySlug": "politica",
-    "authorName": "Redacción La Voz Riojana",
+    "authorName": "Fernando Nahim Mora",
     "sourceName": "Fuente opcional",
     "sourceUrl": "https://example.com",
     "sources": [

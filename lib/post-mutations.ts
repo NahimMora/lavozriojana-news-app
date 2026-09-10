@@ -73,12 +73,18 @@ async function resolveAuthor(input: Pick<PostCreateInput, 'authorId' | 'authorSl
     });
   }
 
+  /*
+   * Sin autor explícito: Fernando Nahim Mora es el responsable editorial y firma
+   * real de las notas de La Voz Riojana (ver /politica-editorial y /equipo).
+   */
   return prisma.author.upsert({
-    where: { slug: 'redaccion-la-voz-riojana' },
-    update: { name: 'Redacción La Voz Riojana', isActive: true },
+    where: { slug: 'fernando-nahim-mora' },
+    update: { name: 'Fernando Nahim Mora', isActive: true },
     create: {
-      name: 'Redacción La Voz Riojana',
-      slug: 'redaccion-la-voz-riojana'
+      name: 'Fernando Nahim Mora',
+      slug: 'fernando-nahim-mora',
+      role: 'Director periodístico y responsable editorial',
+      isInstitutional: false
     }
   });
 }

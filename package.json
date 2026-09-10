@@ -17,6 +17,7 @@
     "db:studio": "prisma studio",
     "institutional:upsert": "node prisma/upsert-institutional-pages.js",
     "team:upsert": "node prisma/upsert-team.js",
+    "merge-authors": "node prisma/merge-authors-into-fernando.js",
     "content-audit": "node scripts/content-quality-audit.js"
   },
   "dependencies": {
