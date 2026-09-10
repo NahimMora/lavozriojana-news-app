@@ -176,6 +176,33 @@ export async function getRelatedPosts(post: PublicPost, limit = 4) {
   });
 }
 
+/**
+ * "Seguí esta historia" (docs/EDITORIAL_CONTEXT_PROGRESS.md, repo del
+ * autopublicador). storyKey lo asigna el Story Engine externo; acá sólo se
+ * consulta. El llamador decide si mostrar el módulo (regla: al menos 2
+ * publicaciones además de la actual, Parte 12 del plan de contexto editorial).
+ */
+export async function getStoryTimeline(storyKey: string, excludePostId: number, limit = 5) {
+  if (!isDatabaseConfigured() || !storyKey) return [];
+
+  return prisma.post.findMany({
+    where: {
+      storyKey,
+      status: PostStatus.PUBLISHED,
+      publishedAt: { lte: new Date() },
+      id: { not: excludePostId }
+    },
+    select: {
+      id: true,
+      slug: true,
+      title: true,
+      publishedAt: true
+    },
+    orderBy: [{ publishedAt: 'asc' }],
+    take: limit
+  });
+}
+
 export async function getActiveAuthorsSafe() {
   if (!isDatabaseConfigured()) return [];
 

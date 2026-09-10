@@ -5,19 +5,21 @@ import { AdSenseUnit } from '@/components/news/AdSenseUnit';
 import { BannerAd } from '@/components/news/BannerAd';
 import { ArticleBody, ArticleLead } from '@/components/news/ArticleBody';
 import { ArticleVideo } from '@/components/news/ArticleVideo';
+import { ArchiveContextNote, parseArchiveContext } from '@/components/news/ArchiveContextNote';
 import { AuthorBox } from '@/components/news/AuthorBox';
 import { Breadcrumbs } from '@/components/news/Breadcrumbs';
 import { PostCard } from '@/components/news/PostCard';
 import { PostViewTracker } from '@/components/news/PostViewTracker';
 import { ShareLinks } from '@/components/news/ShareLinks';
 import { Sources } from '@/components/news/Sources';
+import { StoryTimeline } from '@/components/news/StoryTimeline';
 import { CommentForm } from '@/components/forms/CommentForm';
 import { InfiniteArticleFeed } from '@/components/news/InfiniteArticleFeed';
 import { authorProfileUrl } from '@/lib/author';
 import { estimateReadingMinutes, formatDate, formatDateTime } from '@/lib/format';
 import { absoluteUrl, SITE_LOGO_URL, SITE_NAME, SITE_URL } from '@/lib/site';
 import { postDocumentTitle, postModifiedDate, postSocialImage } from '@/lib/seo';
-import { getPostBySlug, getRelatedPosts, publicPostInclude } from '@/lib/posts';
+import { getPostBySlug, getRelatedPosts, getStoryTimeline, publicPostInclude } from '@/lib/posts';
 import { prisma } from '@/lib/prisma';
 import { splitArticleHtmlAfterParagraphs, splitFirstArticleParagraph } from '@/lib/article-html';
 
@@ -72,7 +74,7 @@ export default async function NewsPage({ params }: Props) {
     notFound();
   }
 
-  const [related, mostRead] = await Promise.all([
+  const [related, mostRead, storyTimeline] = await Promise.all([
     getRelatedPosts(post, 7).catch(() => []),
     prisma.post
       .findMany({
@@ -81,8 +83,13 @@ export default async function NewsPage({ params }: Props) {
         orderBy: [{ viewCount: 'desc' }, { publishedAt: 'desc' }],
         take: 7
       })
-      .catch(() => [])
+      .catch(() => []),
+    getStoryTimeline(post.storyKey ?? '', post.id).catch(() => [])
   ]);
+
+  // "Seguí esta historia" y "En contexto" son mutuamente excluyentes (Parte
+  // 38): el timeline gana cuando existe (≥2 notas previas relacionadas).
+  const archiveContextEntries = storyTimeline.length < 2 ? parseArchiveContext(post.metadata) : [];
 
   const readingMinutes = estimateReadingMinutes(post.contentText);
   const articleUrl = absoluteUrl(`/noticias/${post.slug}`);
@@ -284,6 +291,9 @@ export default async function NewsPage({ params }: Props) {
             <BannerAd slot="ARTICLE_AFTER_CONTENT" />
 
             <Sources sources={post.sources} legacy={legacySourceItem} />
+
+            <StoryTimeline items={storyTimeline} />
+            {archiveContextEntries.length > 0 && <ArchiveContextNote entries={archiveContextEntries} />}
 
             <AuthorBox author={post.author} />
 

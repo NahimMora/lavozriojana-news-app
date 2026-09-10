@@ -183,7 +183,8 @@ export async function createPost(input: PostCreateInput) {
       isFeatured: input.isFeatured,
       isBreaking: input.isBreaking,
       editorialPriority: input.editorialPriority,
-      metadata: input.metadata || undefined
+      metadata: input.metadata || undefined,
+      storyKey: input.storyKey || null
     }
   });
 
@@ -247,7 +248,8 @@ export async function updatePost(id: number, input: PostPatchInput) {
       ...(input.isFeatured !== undefined ? { isFeatured: input.isFeatured } : {}),
       ...(input.isBreaking !== undefined ? { isBreaking: input.isBreaking } : {}),
       ...(input.editorialPriority !== undefined ? { editorialPriority: input.editorialPriority } : {}),
-      ...(input.metadata !== undefined ? { metadata: input.metadata || undefined } : {})
+      ...(input.metadata !== undefined ? { metadata: input.metadata || undefined } : {}),
+      ...(input.storyKey !== undefined ? { storyKey: input.storyKey || null } : {})
     }
   });
 
