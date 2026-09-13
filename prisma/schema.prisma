@@ -124,6 +124,11 @@ model Post {
   isBreaking        Boolean      @default(false)
   editorialPriority Int          @default(0)
   metadata          Json?
+  /// Historia longitudinal asignada por el Story Engine del autopublicador
+  /// (docs/EDITORIAL_CONTEXT_PROGRESS.md). Nullable: la inmensa mayoria de
+  /// notas no pertenece a ninguna historia. Se usa para armar el timeline
+  /// ("Segui esta historia") consultando otras notas con el mismo valor.
+  storyKey          String?      @db.VarChar(160)
   viewCount         Int          @default(0)
   createdAt         DateTime     @default(now())
   updatedAt         DateTime     @updatedAt
@@ -141,6 +146,7 @@ model Post {
   @@index([isFeatured, status, publishedAt])
   @@index([isBreaking, status, publishedAt])
   @@index([viewCount])
+  @@index([storyKey, publishedAt])
   @@fulltext([title, excerpt, contentText])
   @@map("posts")
 }

@@ -77,7 +77,18 @@ export const postCreateSchema = z.object({
   isFeatured: z.boolean().default(false),
   isBreaking: z.boolean().default(false),
   editorialPriority: z.number().int().min(0).max(1000).default(0),
-  metadata: metadataSchema
+  metadata: metadataSchema,
+  // Historia longitudinal asignada por el Story Engine del autopublicador
+  // (ver docs/EDITORIAL_CONTEXT_PROGRESS.md en el repo del autopublicador).
+  // Opcional: la inmensa mayoria de notas no pertenece a ninguna historia.
+  storyKey: z
+    .string()
+    .trim()
+    .min(1)
+    .max(160)
+    .regex(/^[a-z0-9:_-]+$/i, 'storyKey solo admite letras, numeros, ":", "_" y "-"')
+    .optional()
+    .nullable()
 });
 
 export const postPatchSchema = postCreateSchema.partial();
