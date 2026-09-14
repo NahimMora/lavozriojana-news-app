@@ -5,7 +5,7 @@
   "description": "Medio digital profesional La Voz Riojana para lavozriojana.com.",
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
+    "build": "prisma migrate deploy && prisma generate && next build",
     "start": "next start -p ${PORT:-3000}",
     "start:win": "next start -p 3000",
     "lint": "next lint",
