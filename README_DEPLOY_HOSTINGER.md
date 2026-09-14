@@ -2,6 +2,15 @@
 
 Guía para desplegar `La Voz Riojana` en Hostinger Business/Cloud con MySQL.
 
+> **Nota (2026-09-13)**: esta guía describe el flujo manual de "Node.js Web App"
+> con build command configurable (sección 3). El deploy real en uso es el
+> **auto-deploy por Git** de Hostinger (`hbuilds/`), que corre siempre y solo
+> `npm install && npm run build` — no tiene campo de build command. Por eso el
+> script `build` de `package.json` ya incluye `prisma migrate deploy` (ver
+> [README_INCIDENTE_2026-09-13_HOME_VACIA.md](./README_INCIDENTE_2026-09-13_HOME_VACIA.md)).
+> Si en algún momento se usa el flujo manual de esta guía, `npm run
+> prisma:deploy` en el build command de abajo queda redundante pero inofensivo.
+
 ## 1. Subir a GitHub
 
 ```bash
@@ -27,6 +36,11 @@ En Hostinger:
 ```env
 DATABASE_URL="mysql://USER:PASSWORD@HOST:3306/DATABASE"
 ```
+
+> Si la app no puede alcanzar la base por TCP (`Can't reach database server at
+> 127.0.0.1:3306`) aunque una shell SSH sí conecta, usar el socket Unix de MySQL
+> en vez de TCP: `mysql://USER:PASSWORD@localhost/DATABASE?socket=/var/lib/mysql/mysql.sock`.
+> Ver [README_INCIDENTE_2026-09-13_HOME_VACIA.md](./README_INCIDENTE_2026-09-13_HOME_VACIA.md).
 
 ## 3. Configurar Node.js Web App
 
