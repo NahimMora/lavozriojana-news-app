@@ -111,14 +111,21 @@ export function PostCard({
 
   const showExcerpt = (isLarge || isFeatured || variant === 'default') && !!post.excerpt;
 
+  /* El tamaño real renderizado varía mucho por variante — si sizes queda
+     corto, Next.js sirve una imagen más chica que el contenedor y el
+     navegador la estira (se ve pixelada). */
+  const mediaSizes = isHorizontal
+    ? '(min-width: 768px) 160px, 100vw'
+    : isCompact
+    ? '68px'
+    : isLarge || isFeatured
+    ? '(min-width: 768px) 58vw, 100vw'
+    : '(min-width: 1024px) 32vw, (min-width: 560px) 47vw, 100vw';
+
   return (
     <article className={cardClass}>
       <Link href={`/noticias/${post.slug}`} className="post-media" aria-label={post.title}>
-        <CardImage
-          post={post}
-          priority={priority}
-          sizes={isHorizontal ? '(min-width: 768px) 160px, 100vw' : isCompact ? '68px' : '33vw'}
-        />
+        <CardImage post={post} priority={priority} sizes={mediaSizes} />
         <VideoBadge post={post} />
       </Link>
 

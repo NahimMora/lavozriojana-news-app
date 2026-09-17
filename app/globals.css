@@ -144,17 +144,22 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .masthead-center { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; }
 .masthead-right { display: flex; align-items: center; justify-content: flex-end; gap: 8px; }
 
-/* Utility bar — fecha + redes, arriba del masthead */
+/* Utility bar — fecha + clima + redes, arriba del masthead */
 .masthead-utility { background: var(--ink); }
 .masthead-utility-inner {
   display: flex; align-items: center; justify-content: space-between;
-  height: 32px; font-size: .71rem; font-weight: 600;
+  height: 30px; font-size: .71rem; font-weight: 500;
 }
-.masthead-date { color: rgba(255,255,255,.78); }
-.masthead-social { display: flex; align-items: center; gap: 16px; }
+.masthead-date-group { display: flex; align-items: center; gap: 14px; }
+.masthead-date { color: rgba(255,255,255,.7); }
+.masthead-weather {
+  display: inline-flex; align-items: center; gap: 5px;
+  color: rgba(255,255,255,.7); padding-left: 14px; border-left: 1px solid rgba(255,255,255,.16);
+}
+.masthead-weather svg { color: rgba(255,255,255,.5); flex-shrink: 0; }
+.masthead-social { display: flex; align-items: center; gap: 14px; }
 .masthead-social a {
-  color: rgba(255,255,255,.66); font-size: .66rem; font-weight: 800;
-  letter-spacing: .06em; text-transform: uppercase; transition: color 130ms;
+  display: flex; color: rgba(255,255,255,.55); transition: color 130ms;
 }
 .masthead-social a:hover { color: #fff; }
 
@@ -650,9 +655,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 
 /* ─── Grids ──────────────────────────────────────────── */
 .editorial-grid { display:grid; grid-template-columns:1fr; gap:18px; }
-/* La primera card (variant="featured") lidera la grilla en 2+ columnas,
-   en vez de un mosaico parejo de recuadros del mismo peso. */
-.editorial-grid > .post-card:first-child:has(.post-title.featured) { grid-column: 1 / -1; }
 .category-grid  { display:grid; grid-template-columns:1fr; gap:14px; }
 .news-layout    { display:grid; grid-template-columns:1fr; gap:28px; align-items:start; }
 .sidebar        { display:grid; gap:18px; align-content:start; }
@@ -1149,7 +1151,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .editorial-grid  { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .category-grid   { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .editorial-2col  { grid-template-columns: 1.5fr 1fr; }
-  .editorial-grid > .post-card:first-child:has(.post-title.featured) .post-media { aspect-ratio: 21/9; }
 }
 
 @media (min-width: 768px) {
