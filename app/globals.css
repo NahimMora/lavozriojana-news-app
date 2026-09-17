@@ -252,8 +252,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .nav-strip::-webkit-scrollbar { display: none; }
 
 .nav-list {
-  display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
-  gap: 2px; padding: 5px 0; margin: 0; list-style: none;
+  display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+  gap: 2px; padding: 5px 0; margin: 0; list-style: none; min-width: max-content;
 }
 .nav-list a {
   display: inline-flex; align-items: center; height: 30px; padding: 0 11px;
@@ -371,7 +371,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   background: #fff; animation: pulse-dot 1.4s ease-in-out infinite;
 }
 .latest-list { display: flex; flex-direction: column; flex: 1; gap: 0; }
-.latest-list .post-card.list { flex: 1; align-items: center; min-height: 0; }
+/* Los items NO deben repartirse el alto en partes iguales: un titulo de
+   3 lineas (ej. categoria "Espectaculos", muy larga) desborda esa porcion
+   fija y se superpone con el item siguiente. Que cada uno ocupe su alto
+   natural. */
 
 /* ─── Post cards ─────────────────────────────────────── */
 .post-card { display: grid; gap: 8px; min-width: 0; }
@@ -460,6 +463,38 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .category-ultimo-momento { background: linear-gradient(145deg,#820010,#b8001a); }
 
 /* Text */
+/* Los titulos llegan en MAYUSCULA SOSTENIDA desde el autopublicador.
+   Mostrarlos en minuscula + mayuscula inicial es mucho mas legible que
+   'gritar' en cada card; los kickers/badges de categoria SI quedan en
+   mayuscula (son etiquetas cortas, no titulares). */
+.post-title,
+.overlay-title,
+.sidebar-hi-title,
+.rank-title,
+.article-title,
+.lo-title,
+.inline-rel-title,
+.story-timeline-title {
+  text-transform: lowercase;
+}
+.post-title::first-letter,
+.overlay-title::first-letter,
+.sidebar-hi-title::first-letter,
+.rank-title::first-letter,
+.article-title::first-letter,
+.lo-title::first-letter,
+.inline-rel-title::first-letter,
+.story-timeline-title::first-letter,
+.post-title a::first-letter,
+.overlay-title a::first-letter,
+.sidebar-hi-title a::first-letter,
+.rank-title a::first-letter,
+.article-title a::first-letter,
+.lo-title a::first-letter,
+.inline-rel-title a::first-letter,
+.story-timeline-title a::first-letter {
+  text-transform: uppercase;
+}
 .post-title { margin: 3px 0 0; color: var(--ink); font-size: 1rem; font-weight: 800; line-height: 1.22; }
 .post-title a { transition: color 130ms; }
 .post-title.large    { font-family:var(--font-serif); font-size:clamp(1.6rem,3.5vw,2.8rem); font-weight:900; line-height:1.05; letter-spacing:-0.018em; }
@@ -887,16 +922,23 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   }
   .cats-rank-right section { flex: 1; display: flex; flex-direction: column; }
   .cats-rank-right .rank-list { flex: 1; display: flex; flex-direction: column; }
-  .cats-rank-right .rank-list li { flex: 1; }
+  /* Cada <li> conserva su alto natural (ver .latest-list mas arriba: forzar
+     flex:1 por item hace que los titulos largos se superpongan). */
 }
 
 /* ─── Editorial slices ───────────────────────────────── */
-.lo-ultimo-list { display: grid; gap: 0; }
+.lo-ultimo-list { display: grid; grid-template-columns: 1fr; gap: 0; }
 .lo-ultimo-item {
   display: grid; grid-template-columns: 90px 1fr; column-gap: 12px; align-items: start;
   padding: 9px 0; border-bottom: 1px solid var(--border);
 }
 .lo-ultimo-item:last-child { border-bottom: 0; }
+@media (min-width: 640px) {
+  .lo-ultimo-list { grid-template-columns: repeat(2, 1fr); column-gap: 24px; }
+}
+@media (min-width: 1024px) {
+  .lo-ultimo-list { grid-template-columns: repeat(3, 1fr); }
+}
 .lo-kicker {
   display: block; font-size: .62rem; font-weight: 900; letter-spacing: .09em; text-transform: uppercase;
   color: var(--blue); padding-top: 2px; transition: color 130ms;
@@ -1036,9 +1078,24 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .hidden-field { position:absolute; left:-9999px; }
 
 /* ─── Pagination ─────────────────────────────────────── */
-.pagination { display:flex; flex-wrap:wrap; gap:6px; margin-top:18px; }
-.pagination a, .pagination span { border:1.5px solid var(--border-2); background:var(--surface); padding:6px 11px; border-radius:var(--r-xs); font-size:.83rem; font-weight:700; transition:border-color 130ms, color 130ms; }
-.pagination a:hover { border-color:var(--red); color:var(--red); }
+.pagination {
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;
+  gap: 14px; margin: 32px 0 56px; padding-top: 20px; border-top: 1px solid var(--border);
+}
+.pagination-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 1.5px solid var(--border-2); background: var(--surface); color: var(--ink-2);
+  padding: 9px 16px; border-radius: var(--r-pill);
+  font-size: .83rem; font-weight: 700;
+  transition: border-color 130ms, color 130ms, background 130ms;
+}
+a.pagination-btn:hover { border-color: var(--red); color: var(--red); background: var(--red-pale); }
+span.pagination-btn[aria-disabled] { color: var(--muted-2); opacity: .5; cursor: not-allowed; }
+.pagination-count { font-size: .82rem; color: var(--muted); font-weight: 600; order: 1; flex: 1 0 100%; text-align: center; }
+.pagination-count strong { color: var(--ink); font-weight: 900; }
+@media (min-width: 480px) {
+  .pagination-count { order: 0; flex: 0 1 auto; text-align: left; }
+}
 
 /* ─── Back to top ────────────────────────────────────── */
 .back-to-top {
@@ -1126,6 +1183,12 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .footer-links { display:grid; gap:7px; }
 .footer-links a { font-size: .84rem; color: rgba(255,255,255,.5); transition: color 130ms; }
 .footer-links a:hover { color: #fff; }
+.footer-cookie-btn {
+  display: block; width: 100%; text-align: left;
+  background: none; border: 0; padding: 0; margin: 0; font: inherit;
+  font-size: .84rem; color: rgba(255,255,255,.5); cursor: pointer; transition: color 130ms;
+}
+.footer-cookie-btn:hover { color: #fff; }
 .footer-brand-block .footer-logo { height: 38px; width: auto; object-fit: contain; filter: brightness(0) invert(1); opacity: .85; }
 .footer-brand-desc { margin: 11px 0 0; font-size: .84rem; color: rgba(255,255,255,.65); line-height: 1.6; max-width: 230px; }
 .footer-social { display: flex; gap: 7px; margin-top: 14px; }

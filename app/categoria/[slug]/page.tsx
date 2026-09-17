@@ -48,7 +48,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
 
 export default async function CategoryPage({ params, searchParams }: Props) {
   const page = Math.max(1, Number(searchParams.page || 1));
-  const perPage = 12;
+  const perPage = 13; /* 1 nota destacada + 12 en grilla de 3 columnas (4 filas completas) */
 
   const category = await prisma.category
     .findUnique({ where: { slug: params.slug } })

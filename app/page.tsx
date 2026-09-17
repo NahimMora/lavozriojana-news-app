@@ -64,7 +64,7 @@ function LoUltimoSlice({ posts }: { posts: PublicPost[] }) {
           <h2 className="section-title blue" style={{ whiteSpace: 'nowrap' }}>Titulares del día</h2>
         </div>
         <div className="lo-ultimo-list">
-          {posts.slice(0, 6).map((post) => (
+          {posts.slice(0, 9).map((post) => (
             <div className="lo-ultimo-item" key={post.id}>
               <Link className="lo-kicker" href={`/categoria/${post.category.slug}`}>
                 {post.category.name}
@@ -152,20 +152,21 @@ export default async function HomePage() {
   /* Featured disponibles para el sidebar (antes de consumir latest) */
   const featuredForSidebar = data.featured.filter((p) => !seen.has(p.id));
 
-  /* Últimas noticias (sección principal) */
-  const latestPosts = data.latest.filter((p) => !seen.has(p.id)).slice(0, 9);
+  /* Últimas noticias (sección principal): 2 en el lead + 9 en grilla de 3
+     columnas (filas completas, sin huecos al final) */
+  const latestPosts = data.latest.filter((p) => !seen.has(p.id)).slice(0, 11);
   latestPosts.forEach((p) => seen.add(p.id));
 
-  /* Sidebar: featured sobrantes + latest no usados en la grilla, hasta 10 */
+  /* Sidebar: featured sobrantes + latest no usados en la grilla, hasta 12 */
   const sidebarHighlights = [
     ...featuredForSidebar,
     ...data.latest.filter((p) => !seen.has(p.id)),
   ]
     .filter((p, i, arr) => arr.findIndex((x) => x.id === p.id) === i)
-    .slice(0, 10);
+    .slice(0, 12);
 
   /* "Lo último" — pool de titulares compact */
-  const loUltimoPool = data.latest.filter((p) => !seen.has(p.id)).slice(0, 6);
+  const loUltimoPool = data.latest.filter((p) => !seen.has(p.id)).slice(0, 9);
   loUltimoPool.forEach((p) => seen.add(p.id));
 
   /* "En foco" — nota grande + listado */
