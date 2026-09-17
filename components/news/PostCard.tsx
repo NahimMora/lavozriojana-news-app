@@ -4,14 +4,31 @@ import { formatDate } from '@/lib/format';
 import { authorProfileUrl } from '@/lib/author';
 import { CardImage } from './PostCardMedia';
 
+const playIconPath = 'M9.5 8.2v7.6c0 .58.62.94 1.12.65l6.4-3.8a.75.75 0 0 0 0-1.3l-6.4-3.8a.75.75 0 0 0-1.12.65Z';
+
 function VideoBadge({ post }: { post: PublicPost }) {
   if (!post.videoUrl) return null;
 
   return (
     <span className="video-badge" aria-label="Contiene video">
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M9.5 8.2v7.6c0 .58.62.94 1.12.65l6.4-3.8a.75.75 0 0 0 0-1.3l-6.4-3.8a.75.75 0 0 0-1.12.65Z" fill="currentColor" />
+        <path d={playIconPath} fill="currentColor" />
       </svg>
+    </span>
+  );
+}
+
+/** Chip "Video" en la esquina, visible antes de pasar el mouse — en cards
+ * chicas (compact/mini/side) el circulo central ya alcanza. */
+function VideoChip({ post }: { post: PublicPost }) {
+  if (!post.videoUrl) return null;
+
+  return (
+    <span className="video-chip" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d={playIconPath} fill="currentColor" />
+      </svg>
+      Video
     </span>
   );
 }
@@ -127,6 +144,7 @@ export function PostCard({
       <Link href={`/noticias/${post.slug}`} className="post-media" aria-label={post.title}>
         <CardImage post={post} priority={priority} sizes={mediaSizes} />
         <VideoBadge post={post} />
+        {!isCompact && !isMini && <VideoChip post={post} />}
       </Link>
 
       <div>
