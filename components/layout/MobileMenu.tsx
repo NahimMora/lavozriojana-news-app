@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
+import { CategoryNavLink } from './CategoryNavLink';
 
 const IconMenu = () => (
   <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor" aria-hidden="true">
@@ -40,9 +40,9 @@ export function MobileMenu({ categories }: { categories: Array<{ name: string; s
           <div className="mobile-menu-backdrop" onClick={() => setOpen(false)} aria-hidden="true" />
           <nav className="mobile-drawer" aria-label="Categorías">
             {categories.map((cat) => (
-              <Link href={`/categoria/${cat.slug}`} key={cat.slug} onClick={() => setOpen(false)}>
+              <CategoryNavLink href={`/categoria/${cat.slug}`} key={cat.slug} onClick={() => setOpen(false)}>
                 {cat.name}
-              </Link>
+              </CategoryNavLink>
             ))}
           </nav>
         </>

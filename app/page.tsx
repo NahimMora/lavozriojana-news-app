@@ -30,8 +30,8 @@ function CategorySection({
       </div>
     ) : (
       <div className="editorial-grid">
-        {posts.slice(0, 3).map((post) => (
-          <PostCard post={post} key={post.id} />
+        {posts.slice(0, 3).map((post, i) => (
+          <PostCard post={post} variant={i === 0 ? 'featured' : 'default'} key={post.id} />
         ))}
       </div>
     );
@@ -248,8 +248,8 @@ export default async function HomePage() {
             <div>
               <h2 className="section-title">Últimas noticias</h2>
               <div className="editorial-grid">
-                {latestPosts.map((post) => (
-                  <PostCard post={post} key={post.id} />
+                {latestPosts.map((post, i) => (
+                  <PostCard post={post} variant={i === 0 ? 'featured' : 'default'} key={post.id} />
                 ))}
               </div>
               <BannerAd slot="HOME_MIDDLE" />

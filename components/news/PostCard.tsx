@@ -1,40 +1,8 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import type { PublicPost } from '@/lib/posts';
 import { formatDate } from '@/lib/format';
 import { authorProfileUrl } from '@/lib/author';
-
-function CategoryFallback({ slug, name }: { slug: string; name: string }) {
-  return (
-    <span className={`category-fallback category-${slug}`}>
-      <span className="cf-badge">{name}</span>
-      <span className="cf-brand">La Voz Riojana</span>
-    </span>
-  );
-}
-
-function CardImage({
-  post,
-  priority = false,
-  sizes
-}: {
-  post: PublicPost;
-  priority?: boolean;
-  sizes: string;
-}) {
-  if (!post.mainImageUrl) return null;
-
-  return (
-    <Image
-      src={post.mainImageUrl}
-      alt={post.mainImageAlt || post.title}
-      fill
-      sizes={sizes}
-      priority={priority}
-      style={{ objectFit: 'cover' }}
-    />
-  );
-}
+import { CardImage } from './PostCardMedia';
 
 function VideoBadge({ post }: { post: PublicPost }) {
   if (!post.videoUrl) return null;
@@ -86,11 +54,7 @@ export function PostCard({
       <article className="post-card overlay">
         <div className="overlay-wrap">
           <Link href={`/noticias/${post.slug}`} className="post-media" aria-label={post.title}>
-            {post.mainImageUrl ? (
-              <CardImage post={post} priority={priority} sizes="(min-width: 900px) 55vw, 100vw" />
-            ) : (
-              <CategoryFallback slug={post.category.slug} name={post.category.name} />
-            )}
+            <CardImage post={post} priority={priority} sizes="(min-width: 900px) 55vw, 100vw" />
             <VideoBadge post={post} />
           </Link>
           <div className="overlay-text">
@@ -114,11 +78,7 @@ export function PostCard({
     return (
       <article className="post-card side">
         <Link href={`/noticias/${post.slug}`} className="post-media" aria-label={post.title}>
-          {post.mainImageUrl ? (
-            <CardImage post={post} sizes="112px" />
-          ) : (
-            <CategoryFallback slug={post.category.slug} name={post.category.name} />
-          )}
+          <CardImage post={post} sizes="112px" />
           <VideoBadge post={post} />
         </Link>
         <div>
@@ -154,15 +114,11 @@ export function PostCard({
   return (
     <article className={cardClass}>
       <Link href={`/noticias/${post.slug}`} className="post-media" aria-label={post.title}>
-        {post.mainImageUrl ? (
-          <CardImage
-            post={post}
-            priority={priority}
-            sizes={isHorizontal ? '(min-width: 768px) 160px, 100vw' : isCompact ? '68px' : '33vw'}
-          />
-        ) : (
-          <CategoryFallback slug={post.category.slug} name={post.category.name} />
-        )}
+        <CardImage
+          post={post}
+          priority={priority}
+          sizes={isHorizontal ? '(min-width: 768px) 160px, 100vw' : isCompact ? '68px' : '33vw'}
+        />
         <VideoBadge post={post} />
       </Link>
 

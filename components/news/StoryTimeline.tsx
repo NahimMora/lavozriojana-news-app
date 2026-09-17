@@ -1,4 +1,4 @@
-import { formatDate } from '@/lib/format';
+import { formatDateShort } from '@/lib/format';
 
 type TimelineItem = {
   id: number;
@@ -23,7 +23,7 @@ export function StoryTimeline({ items }: { items: TimelineItem[] }) {
         {items.map((item) => (
           <li className="story-timeline-item" key={item.id}>
             <time className="story-timeline-date" dateTime={item.publishedAt?.toISOString()}>
-              {formatDate(item.publishedAt)}
+              {formatDateShort(item.publishedAt)}
             </time>
             <a className="story-timeline-title" href={`/noticias/${item.slug}`}>
               {item.title}

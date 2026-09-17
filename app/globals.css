@@ -141,8 +141,29 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .site-header.is-shrunk .masthead { padding: 4px 0; }
 
 .masthead-left  { display: flex; align-items: center; gap: 8px; }
-.masthead-center { display: flex; justify-content: center; }
+.masthead-center { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; }
 .masthead-right { display: flex; align-items: center; justify-content: flex-end; gap: 8px; }
+
+/* Utility bar — fecha + redes, arriba del masthead */
+.masthead-utility { background: var(--ink); }
+.masthead-utility-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 32px; font-size: .71rem; font-weight: 600;
+}
+.masthead-date { color: rgba(255,255,255,.78); }
+.masthead-social { display: flex; align-items: center; gap: 16px; }
+.masthead-social a {
+  color: rgba(255,255,255,.66); font-size: .66rem; font-weight: 800;
+  letter-spacing: .06em; text-transform: uppercase; transition: color 130ms;
+}
+.masthead-social a:hover { color: #fff; }
+
+/* Tagline bajo el logo */
+.masthead-tagline {
+  margin: 0; color: var(--muted); font-size: .72rem; font-weight: 600;
+  font-style: italic; text-align: center; white-space: nowrap;
+}
+.site-header.is-shrunk .masthead-tagline { display: none; }
 
 /* Logo */
 .header-logo {
@@ -236,6 +257,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   transition: background 130ms, color 130ms;
 }
 .nav-list a:hover { background: var(--red-pale); color: var(--red); }
+.nav-list a[data-active] { background: var(--red-pale); color: var(--red); }
 
 /* Mobile menu */
 .mobile-menu { display: none; position: relative; }
@@ -247,7 +269,11 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 .mobile-menu-toggle:hover { border-color: var(--red); }
 
-.mobile-menu-backdrop { position: fixed; inset: 0; z-index: 59; background: transparent; }
+.mobile-menu-backdrop {
+  position: fixed; inset: 0; z-index: 59;
+  background: rgba(17,24,39,.45);
+  animation: fade-in 150ms ease;
+}
 
 .mobile-drawer {
   position: absolute; left: 0; top: calc(100% + 8px);
@@ -261,6 +287,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   color: var(--ink-2); text-transform: uppercase; transition: background 120ms, color 120ms;
 }
 .mobile-drawer a:hover { background: var(--red-pale); color: var(--red); }
+.mobile-drawer a[data-active] { background: var(--red-pale); color: var(--red); }
 
 /* ─── Breaking bar ───────────────────────────────────── */
 .breaking-bar { background: var(--red-mid); color: #fff; overflow: hidden; }
@@ -362,14 +389,14 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .post-media {
   position: relative; display: block; overflow: hidden;
   background: var(--surface-2); aspect-ratio: 16/9;
-  border-radius: var(--r-sm); flex-shrink: 0;
+  border-radius: var(--r-sm); border: 1px solid var(--border); flex-shrink: 0;
 }
 .post-card.compact .post-media    { aspect-ratio: unset; height: 54px; width: 68px; border-radius: var(--r-xs); }
 .post-card.mini .post-media       { aspect-ratio: 4/3; border-radius: var(--r-xs); }
 .post-card.horizontal .post-media { aspect-ratio: 4/3; width: 160px; border-radius: var(--r-xs); }
 .post-card.side .post-media       { aspect-ratio: 4/3; width: 112px; border-radius: var(--r-xs); }
 
-.post-media img { width: 100%; height: 100%; object-fit: cover; transition: transform 240ms ease; }
+.post-media img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; transition: transform 240ms ease; }
 .post-card:hover .post-media img { transform: scale(1.04); }
 .post-card:hover .post-title a   { color: var(--red); }
 
@@ -460,6 +487,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .post-card.overlay .post-media {
   aspect-ratio: 16/9;
   border-radius: 0;
+  border: 0;
   margin: 0;
   display: block;
 }
@@ -622,6 +650,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 
 /* ─── Grids ──────────────────────────────────────────── */
 .editorial-grid { display:grid; grid-template-columns:1fr; gap:18px; }
+/* La primera card (variant="featured") lidera la grilla en 2+ columnas,
+   en vez de un mosaico parejo de recuadros del mismo peso. */
+.editorial-grid > .post-card:first-child:has(.post-title.featured) { grid-column: 1 / -1; }
 .category-grid  { display:grid; grid-template-columns:1fr; gap:14px; }
 .news-layout    { display:grid; grid-template-columns:1fr; gap:28px; align-items:start; }
 .sidebar        { display:grid; gap:18px; align-content:start; }
@@ -1118,6 +1149,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .editorial-grid  { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .category-grid   { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .editorial-2col  { grid-template-columns: 1.5fr 1fr; }
+  .editorial-grid > .post-card:first-child:has(.post-title.featured) .post-media { aspect-ratio: 21/9; }
 }
 
 @media (min-width: 768px) {
@@ -1208,6 +1240,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .back-to-top { bottom: 16px; right: 16px; }
   .header-logo { height: 68px; }
   .site-header.is-shrunk .header-logo { height: 36px; }
+  .masthead-utility { display: none; }
+  .masthead-tagline { display: none; }
 }
 
 @media (max-width: 400px) {
@@ -1232,7 +1266,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .story-timeline-box,
 .context-note-box { margin: 26px 0; padding: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-sm); }
 .story-timeline-list { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 12px; }
-.story-timeline-item { display: grid; grid-template-columns: 84px 1fr; gap: 10px; align-items: baseline; }
+.story-timeline-item { display: flex; flex-direction: column; gap: 3px; }
 .story-timeline-item:not(:first-child) { padding-top: 12px; border-top: 1px solid var(--border-2); }
 .story-timeline-date { font-size: .72rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
 .story-timeline-title { color: var(--ink); font-weight: 700; text-decoration: none; }
