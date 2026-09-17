@@ -761,6 +761,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
    de la featured (mucho mas alta) y con el fondo blanco de la card queda
    un bloque vacio enorme debajo del contenido real. */
 .editorial-2col { display:grid; grid-template-columns:1fr; gap:14px; align-items:start; }
+/* Varias cards compact apiladas junto a la featured — asi la columna se
+   acerca al alto de la featured en vez de un unico card corto dejando
+   fondo de pagina vacio debajo. */
+.editorial-2col-list { display:flex; flex-direction:column; gap:12px; min-width:0; }
 
 /* ─── Category page hero ─────────────────────────────── */
 .cat-hero { padding: 26px 0 22px; color: #fff; }

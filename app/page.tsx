@@ -152,9 +152,11 @@ export default async function HomePage() {
   /* Featured disponibles para el sidebar (antes de consumir latest) */
   const featuredForSidebar = data.featured.filter((p) => !seen.has(p.id));
 
-  /* Últimas noticias (sección principal): 2 en el lead + 9 en grilla de 3
-     columnas (filas completas, sin huecos al final) */
-  const latestPosts = data.latest.filter((p) => !seen.has(p.id)).slice(0, 11);
+  /* Últimas noticias (sección principal): 1 featured + 3 compact en el
+     lead (para que la columna de al lado llegue a la altura de la
+     featured sin dejar hueco de fondo, pero sin pasarla) + 9 en grilla
+     de 3 columnas (filas completas, sin huecos al final) */
+  const latestPosts = data.latest.filter((p) => !seen.has(p.id)).slice(0, 13);
   latestPosts.forEach((p) => seen.add(p.id));
 
   /* Sidebar: featured sobrantes + latest no usados en la grilla, hasta 16 —
@@ -253,11 +255,15 @@ export default async function HomePage() {
               {latestPosts.length >= 2 && (
                 <div className="editorial-2col" style={{ marginBottom: 14 }}>
                   <PostCard post={latestPosts[0]} variant="featured" autoplayInView />
-                  <PostCard post={latestPosts[1]} variant="compact" autoplayInView />
+                  <div className="editorial-2col-list">
+                    {latestPosts.slice(1, 4).map((post) => (
+                      <PostCard post={post} variant="compact" key={post.id} autoplayInView />
+                    ))}
+                  </div>
                 </div>
               )}
               <div className="editorial-grid">
-                {latestPosts.slice(2).map((post) => (
+                {latestPosts.slice(4).map((post) => (
                   <PostCard post={post} key={post.id} autoplayInView />
                 ))}
               </div>
