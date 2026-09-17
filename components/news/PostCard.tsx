@@ -36,11 +36,15 @@ function VideoChip({ post }: { post: PublicPost }) {
 export function PostCard({
   post,
   variant = 'default',
-  priority = false
+  priority = false,
+  autoplayInView = false
 }: {
   post: PublicPost;
   variant?: 'default' | 'compact' | 'large' | 'featured' | 'horizontal' | 'mini' | 'list' | 'overlay' | 'side';
   priority?: boolean;
+  /** Avance de video sin hover, apenas la card entra en pantalla — solo
+   * pensado para el home (ver app/page.tsx). */
+  autoplayInView?: boolean;
 }) {
   const isCompact    = variant === 'compact';
   const isHorizontal = variant === 'horizontal';
@@ -71,7 +75,7 @@ export function PostCard({
       <article className="post-card overlay">
         <div className="overlay-wrap">
           <Link href={`/noticias/${post.slug}`} className="post-media" aria-label={post.title}>
-            <CardImage post={post} priority={priority} sizes="(min-width: 900px) 55vw, 100vw" />
+            <CardImage post={post} priority={priority} sizes="(min-width: 900px) 55vw, 100vw" autoplayInView={autoplayInView} />
             <VideoBadge post={post} />
           </Link>
           <div className="overlay-text">
@@ -142,7 +146,7 @@ export function PostCard({
   return (
     <article className={cardClass}>
       <Link href={`/noticias/${post.slug}`} className="post-media" aria-label={post.title}>
-        <CardImage post={post} priority={priority} sizes={mediaSizes} />
+        <CardImage post={post} priority={priority} sizes={mediaSizes} autoplayInView={autoplayInView} />
         <VideoBadge post={post} />
         {!isCompact && !isMini && <VideoChip post={post} />}
       </Link>

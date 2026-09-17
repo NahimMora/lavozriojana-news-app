@@ -90,7 +90,7 @@ export async function getHomeData() {
         where,
         include: publicPostInclude,
         orderBy: [{ publishedAt: 'desc' }],
-        take: 48
+        take: 65
       }),
       prisma.post.findMany({
         where,

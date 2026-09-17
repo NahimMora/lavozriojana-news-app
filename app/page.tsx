@@ -22,16 +22,16 @@ function CategorySection({
 
   const body =
     posts.length === 1 ? (
-      <PostCard post={posts[0]} variant="horizontal" />
+      <PostCard post={posts[0]} variant="horizontal" autoplayInView />
     ) : posts.length === 2 ? (
       <div className="editorial-2col">
-        <PostCard post={posts[0]} variant="featured" />
-        <PostCard post={posts[1]} variant="compact" />
+        <PostCard post={posts[0]} variant="featured" autoplayInView />
+        <PostCard post={posts[1]} variant="compact" autoplayInView />
       </div>
     ) : (
       <div className="editorial-grid">
         {posts.slice(0, 3).map((post) => (
-          <PostCard post={post} key={post.id} />
+          <PostCard post={post} key={post.id} autoplayInView />
         ))}
       </div>
     );
@@ -90,7 +90,7 @@ function EnFocoSlice({ posts }: { posts: PublicPost[] }) {
           <h2 className="section-title">En foco</h2>
         </div>
         <div className="en-foco-layout">
-          <PostCard post={main} variant="overlay" />
+          <PostCard post={main} variant="overlay" autoplayInView />
           <div className="en-foco-sidebar">
             {rest.slice(0, 4).map((post) => (
               <div className="en-foco-item" key={post.id}>
@@ -157,13 +157,15 @@ export default async function HomePage() {
   const latestPosts = data.latest.filter((p) => !seen.has(p.id)).slice(0, 11);
   latestPosts.forEach((p) => seen.add(p.id));
 
-  /* Sidebar: featured sobrantes + latest no usados en la grilla, hasta 12 */
+  /* Sidebar: featured sobrantes + latest no usados en la grilla, hasta 16 —
+     mas alto que el alto natural de "Ultimas noticias" para que no quede
+     espacio vacio en el medio de la columna. */
   const sidebarHighlights = [
     ...featuredForSidebar,
     ...data.latest.filter((p) => !seen.has(p.id)),
   ]
     .filter((p, i, arr) => arr.findIndex((x) => x.id === p.id) === i)
-    .slice(0, 12);
+    .slice(0, 16);
 
   /* "Lo último" — pool de titulares compact */
   const loUltimoPool = data.latest.filter((p) => !seen.has(p.id)).slice(0, 9);
@@ -193,14 +195,14 @@ export default async function HomePage() {
               {/* IZQUIERDA: nota principal + 2 sub-cards */}
               <div className="hero-left">
                 <div className="hero-main-slot">
-                  <PostCard post={mainPost} variant="overlay" priority />
+                  <PostCard post={mainPost} variant="overlay" priority autoplayInView />
                 </div>
 
                 {subCards.length > 0 && (
                   <div className="hero-sub-row">
                     {subCards.map((post) => (
                       <div className="hero-sub-card" key={post.id}>
-                        <PostCard post={post} variant="overlay" priority />
+                        <PostCard post={post} variant="overlay" priority autoplayInView />
                       </div>
                     ))}
                   </div>
@@ -211,7 +213,7 @@ export default async function HomePage() {
               <div className="hero-right">
                 {featured1 && (
                   <div className="hero-right-item">
-                    <PostCard post={featured1} variant="overlay" priority />
+                    <PostCard post={featured1} variant="overlay" priority autoplayInView />
                   </div>
                 )}
 
@@ -250,13 +252,13 @@ export default async function HomePage() {
               <h2 className="section-title">Últimas noticias</h2>
               {latestPosts.length >= 2 && (
                 <div className="editorial-2col" style={{ marginBottom: 14 }}>
-                  <PostCard post={latestPosts[0]} variant="featured" />
-                  <PostCard post={latestPosts[1]} variant="compact" />
+                  <PostCard post={latestPosts[0]} variant="featured" autoplayInView />
+                  <PostCard post={latestPosts[1]} variant="compact" autoplayInView />
                 </div>
               )}
               <div className="editorial-grid">
                 {latestPosts.slice(2).map((post) => (
-                  <PostCard post={post} key={post.id} />
+                  <PostCard post={post} key={post.id} autoplayInView />
                 ))}
               </div>
               <BannerAd slot="HOME_MIDDLE" />

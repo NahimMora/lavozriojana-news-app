@@ -432,15 +432,18 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .post-card:hover .post-media img { transform: scale(1.04); }
 .post-card:hover .post-title a   { color: var(--red); }
 
-/* Avance de video: silencioso, solo arranca con hover real (mouse/trackpad) */
+/* Avance de video: silencioso — en el home arranca solo al entrar en
+   pantalla (IntersectionObserver, ver PostCardMedia.tsx); en el resto de
+   los lugares, con hover real. En ambos casos la visibilidad la maneja
+   JS via la clase .is-active, no un simple :hover, para que sea la misma
+   señal que dispara play()/pause(). */
 .post-video-preview {
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
   opacity: 0; transition: opacity 200ms ease; pointer-events: none;
 }
-@media (hover: hover) {
-  .post-media-frame:hover .post-video-preview { opacity: 1; }
-  .post-media-frame:hover ~ .video-badge { opacity: 0; }
-}
+.post-video-preview.is-active { opacity: 1; }
+.post-media-frame[data-playing] ~ .video-badge,
+.post-media-frame[data-playing] ~ .video-chip { opacity: 0; }
 
 /* Video badge */
 .video-badge {
@@ -470,9 +473,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   pointer-events: none;
 }
 .video-chip svg { width: 10px; height: 10px; }
-@media (hover: hover) {
-  .post-media-frame:hover ~ .video-chip { opacity: 0; }
-}
 
 /* Category fallback */
 .category-fallback {
@@ -738,8 +738,11 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .rank-title:hover { color: var(--red); }
 
 /* ─── Grids ──────────────────────────────────────────── */
-.editorial-grid { display:grid; grid-template-columns:1fr; gap:18px; }
-.category-grid  { display:grid; grid-template-columns:1fr; gap:14px; }
+/* align-items:start — sin esto, una card con excerpt mas largo (una linea
+   de mas) estira a sus vecinas en la misma fila y deja un hueco vacio
+   abajo (visible ahora que las cards tienen fondo blanco propio). */
+.editorial-grid { display:grid; grid-template-columns:1fr; gap:18px; align-items:start; }
+.category-grid  { display:grid; grid-template-columns:1fr; gap:14px; align-items:start; }
 .news-layout    { display:grid; grid-template-columns:1fr; gap:28px; align-items:start; }
 .sidebar        { display:grid; gap:18px; align-content:start; }
 .sidebar-social { padding-top: 18px; border-top: 1px solid var(--border); }
@@ -754,7 +757,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 .cat-block-more:hover { color: var(--red); }
 
-.editorial-2col { display:grid; grid-template-columns:1fr; gap:14px; }
+/* align-items:start — si no, el grid estira la card compact a la altura
+   de la featured (mucho mas alta) y con el fondo blanco de la card queda
+   un bloque vacio enorme debajo del contenido real. */
+.editorial-2col { display:grid; grid-template-columns:1fr; gap:14px; align-items:start; }
 
 /* ─── Category page hero ─────────────────────────────── */
 .cat-hero { padding: 26px 0 22px; color: #fff; }
