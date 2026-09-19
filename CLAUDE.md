@@ -52,8 +52,8 @@ es de solo lectura.
 ## Segundo Cerebro (gestión de conocimiento)
 
 Este repo está trackeado por el "Segundo Cerebro" personal (app aparte,
-`AutoPublicadores/2doCerebro`) bajo el proyecto **LVR** (La Voz Riojana),
-módulo **Web**.
+`AutoPublicadores/2doCerebro`, https://ops.moraapps.com) bajo el proyecto
+**LVR** (La Voz Riojana), módulo **Web**.
 
 - **Documentación**: `README.md`, `README_API.md`,
   `README_DEPLOY_HOSTINGER.md`, `README_INCIDENTE_*.md` y este archivo se
@@ -65,3 +65,42 @@ módulo **Web**.
 - **IDs**: si un ítem del Segundo Cerebro ya existe para lo que estás
   resolviendo (formato `LVR-BUG-0007`), referencialo en el commit:
   `fix: ... [LVR-BUG-0007]`.
+
+### Cómo consultar/actualizar (API)
+
+Si el usuario pregunta algo como "¿qué bugs/ideas/incidentes anoté acá?"
+(o equivalente), consultá antes de responder — no asumas que no hay nada
+pendiente sin chequear:
+
+```bash
+curl -s https://ops.moraapps.com/api/shortcuts \
+  -H "Authorization: Bearer $SEGUNDO_CEREBRO_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"action":"list_items","projectCode":"LVR","moduleSlug":"web"}'
+```
+
+Resolviste algo que ya estaba anotado ahí (id visible en la respuesta
+anterior, o porque el usuario te lo dijo): marcalo resuelto en vez de
+dejarlo como pendiente fantasma:
+
+```bash
+curl -s https://ops.moraapps.com/api/shortcuts \
+  -H "Authorization: Bearer $SEGUNDO_CEREBRO_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"action":"resolve_item","publicId":"LVR-BUG-0007"}'
+```
+
+Para la captura de un bug/idea nuevo mencionada arriba, usá `mode:
+"interpret"` con `projectCode`/`moduleSlug` fijos en vez de dejar que la
+IA adivine el proyecto (ya lo sabés, estás parado en este repo):
+
+```bash
+curl -s https://ops.moraapps.com/api/shortcuts \
+  -H "Authorization: Bearer $SEGUNDO_CEREBRO_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"action":"capture","content":"texto libre","mode":"interpret","projectCode":"LVR","moduleSlug":"web"}'
+```
+
+`SEGUNDO_CEREBRO_TOKEN` vive en `.env` (gitignored, nunca commitear su
+valor). Si no está seteado, avisá que esta integración no está disponible
+en vez de fallar en silencio.
