@@ -2,6 +2,8 @@
 
 Fecha: 23 de octubre de 2026. Rama: `design/editorial-premium-local`. Base: `186ebff`.
 
+Los ajustes posteriores de densidad, titulares, cabecera y ticker están documentados en [EDITORIAL_COMPACT.md](EDITORIAL_COMPACT.md), con nuevas capturas y pruebas.
+
 Implementación preparada y validada localmente. Durante la fase de rediseño no se hizo commit, push, PR, merge ni deploy. Posteriormente, el usuario autorizó primero el push de la rama de diseño y luego su integración y publicación en `main`. El primer build productivo falló por falta de procesos disponibles; la corrección se documenta en [el incidente de Hostinger](../README_INCIDENTE_2026-10-23_BUILD_PROCESOS.md). Las limitaciones de validación detalladas abajo continúan vigentes salvo las comprobaciones productivas que se realicen después del despliegue.
 
 El repositorio estaba limpio al comenzar. Se leyeron `CLAUDE.md`, `README_DEPLOY_HOSTINGER.md` y `README_INCIDENTE_2026-09-13_HOME_VACIA.md` antes de ejecutar la aplicación.

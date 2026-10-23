@@ -1,3 +1,5 @@
+import { formatHeadline } from '@/lib/headline';
+
 export type ArchiveContextEntry = {
   postId?: string;
   title?: string;
@@ -34,7 +36,7 @@ export function ArchiveContextNote({ entries }: { entries: ArchiveContextEntry[]
           <li className="context-note-item" key={entry.postId || index}>
             <p>{entry.snippet}</p>
             {entry.url && entry.title && (
-              <a href={entry.url}>{entry.title}</a>
+              <a href={entry.url}>{formatHeadline(entry.title, entry.snippet)}</a>
             )}
           </li>
         ))}

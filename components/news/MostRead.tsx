@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { PublicPost } from '@/lib/posts';
+import { formatHeadline } from '@/lib/headline';
 
 export function MostRead({ posts }: { posts: PublicPost[] }) {
   if (!posts.length) return null;
@@ -18,7 +19,7 @@ export function MostRead({ posts }: { posts: PublicPost[] }) {
                 {post.category.name}
               </Link>
               <Link href={`/noticias/${post.slug}`} className="rank-title">
-                {post.title}
+                {formatHeadline(post.title, post.excerpt)}
               </Link>
             </div>
           </li>

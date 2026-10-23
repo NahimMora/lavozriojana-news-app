@@ -3,6 +3,7 @@ import type { PublicPost } from '@/lib/posts';
 import { formatDate } from '@/lib/format';
 import { authorProfileUrl } from '@/lib/author';
 import { CardImage } from './PostCardMedia';
+import { formatHeadline } from '@/lib/headline';
 
 const playIconPath = 'M9.5 8.2v7.6c0 .58.62.94 1.12.65l6.4-3.8a.75.75 0 0 0 0-1.3l-6.4-3.8a.75.75 0 0 0-1.12.65Z';
 
@@ -57,6 +58,7 @@ export function PostCard({
   const isOverlay    = variant === 'overlay';
   const isSide       = variant === 'side';
   const isLead       = variant === 'lead';
+  const headline = formatHeadline(post.title, post.excerpt);
   // Only media fields cross the Server/Client boundary, never article HTML.
   const mediaPost = { title: post.title, mainImageUrl: post.mainImageUrl, mainImageAlt: post.mainImageAlt, videoUrl: post.videoUrl, category: post.category };
 
@@ -68,7 +70,7 @@ export function PostCard({
           {post.category.name}
         </Link>
         <Link href={`/noticias/${post.slug}`} className="post-title list-title">
-          {post.title}
+          {headline}
         </Link>
       </article>
     );
@@ -88,7 +90,7 @@ export function PostCard({
               {post.category.name}
             </Link>
             <h2 className="overlay-title">
-              <Link href={`/noticias/${post.slug}`}>{post.title}</Link>
+              <Link href={`/noticias/${post.slug}`}>{headline}</Link>
             </h2>
             {post.excerpt && (
               <p className="overlay-excerpt">{post.excerpt}</p>
@@ -112,7 +114,7 @@ export function PostCard({
             {post.category.name}
           </Link>
           <h2 className="post-title" style={{ fontSize: '.84rem', marginTop: 3 }}>
-            <Link href={`/noticias/${post.slug}`}>{post.title}</Link>
+            <Link href={`/noticias/${post.slug}`}>{headline}</Link>
           </h2>
           <div className="post-meta">
             <time dateTime={post.publishedAt?.toISOString()}>{formatDate(post.publishedAt)}</time>
@@ -126,6 +128,8 @@ export function PostCard({
   const cardClass = [
     'post-card',
     isLead       ? 'lead'       : '',
+    isFeatured   ? 'featured'   : '',
+    isLarge      ? 'large'      : '',
     isCompact    ? 'compact'    : '',
     isHorizontal ? 'horizontal' : '',
     isMini       ? 'mini'       : '',
@@ -160,12 +164,12 @@ export function PostCard({
         {!isCompact && !isMini && <VideoChip post={post} />}
       </Link>
 
-      <div>
+      <div className="post-card-copy">
         <Link className="kicker" href={`/categoria/${post.category.slug}`}>
           {post.category.name}
         </Link>
         <h2 className={titleClass}>
-          <Link href={`/noticias/${post.slug}`}>{post.title}</Link>
+          <Link href={`/noticias/${post.slug}`}>{headline}</Link>
         </h2>
         {showExcerpt && (
           <p className={`post-excerpt${isFeatured ? ' short' : ''}`}>{post.excerpt}</p>
