@@ -186,7 +186,7 @@ export default async function NewsPage({ params }: Props) {
 
   return (
     <>
-      <article>
+      <article className="news-article">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
 
@@ -335,7 +335,7 @@ export default async function NewsPage({ params }: Props) {
             <AdSenseUnit slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE_SIDEBAR} className="ad-slot-article-sidebar" />
 
             <section>
-              <h2 className="section-title blue">Más de La Rioja</h2>
+              <h2 className="section-title blue">Seguí informado</h2>
               <div className="sidebar-hi-list" style={{ marginTop: 10 }}>
                 {sidebarItems.map((item) => (
                   <article key={item.id} className="sidebar-hi-item">
@@ -368,7 +368,7 @@ export default async function NewsPage({ params }: Props) {
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
                   Facebook
                 </a>
-                <a href="https://instagram.com/lavozriojana" target="_blank" rel="noopener noreferrer">
+                <a href="https://instagram.com/lavozriojana.ok" target="_blank" rel="noopener noreferrer">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/></svg>
                   Instagram
                 </a>

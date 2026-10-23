@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
+import localFont from 'next/font/local';
 import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
@@ -8,6 +9,24 @@ import { CookieConsent } from '@/components/layout/CookieConsent';
 import { DEFAULT_OG_IMAGE, SITE_LOGO_URL, SITE_NAME, SITE_SLOGAN, SITE_URL } from '@/lib/site';
 import { ADSENSE_CLIENT_ID } from '@/lib/adsense';
 import { GA_MEASUREMENT_ID } from '@/lib/gtag';
+
+const archivo = localFont({
+  src: '../public/fonts/archivo-latin.woff2',
+  variable: '--font-archivo',
+  display: 'swap',
+  weight: '400 900',
+  fallback: ['Arial']
+});
+const sourceSerif = localFont({
+  src: [
+    { path: '../public/fonts/source-serif-4-latin.woff2', weight: '400 900', style: 'normal' },
+    { path: '../public/fonts/source-serif-4-italic-latin.woff2', weight: '400 900', style: 'italic' }
+  ],
+  variable: '--font-source-serif',
+  display: 'swap',
+  preload: false,
+  fallback: ['Georgia']
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -61,7 +80,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#0b4ea2'
+  themeColor: '#8a1024'
 };
 
 const organizationJsonLd = {
@@ -81,7 +100,7 @@ const organizationJsonLd = {
     name: 'Fernando Nahim Mora'
   },
   ethicsPolicy: `${SITE_URL}/politica-editorial`,
-  sameAs: ['https://facebook.com/lavozriojana', 'https://instagram.com/lavozriojana']
+  sameAs: ['https://facebook.com/lavozriojana', 'https://instagram.com/lavozriojana.ok']
 };
 
 const websiteJsonLd = {
@@ -101,7 +120,7 @@ const websiteJsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es-AR">
+    <html lang="es-AR" className={`${archivo.variable} ${sourceSerif.variable}`}>
       <head>
         {/* Google tag (gtag.js) */}
         <Script
@@ -140,11 +159,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
+        <a className="skip-link" href="#contenido">Saltar al contenido</a>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
         <div className="site-shell">
           <Header />
-          <main className="site-main">{children}</main>
+          <main id="contenido" className="site-main" tabIndex={-1}>{children}</main>
           <Footer />
         </div>
         <BackToTopButton />

@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { OverlayDialog } from './OverlayDialog';
 
 const IconSearch = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
@@ -25,21 +26,8 @@ export function SearchOverlay() {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
-
-  useEffect(() => {
-    if (open) {
-      setTimeout(() => inputRef.current?.focus(), 50);
-    }
-  }, [open]);
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false);
-    };
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, []);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -54,6 +42,7 @@ export function SearchOverlay() {
     <>
       {/* Toggle button */}
       <button
+        ref={toggleRef}
         className="search-toggle-btn"
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? 'Cerrar buscador' : 'Abrir buscador'}
@@ -65,22 +54,14 @@ export function SearchOverlay() {
 
       {/* Overlay panel */}
       {open && (
-        <>
-          {/* Backdrop */}
-          <div
-            className="search-backdrop"
-            onClick={() => setOpen(false)}
-            aria-hidden="true"
-          />
-
-          {/* Search panel */}
-          <div className="search-overlay-panel" role="search">
-            <div className="container">
-              <form onSubmit={handleSubmit} className="search-overlay-form">
+        <OverlayDialog title="Buscar noticias" className="search-dialog" returnFocusRef={toggleRef} onClose={() => setOpen(false)}>
+              <form onSubmit={handleSubmit} className="search-overlay-form" role="search">
                 <IconSearch />
                 <input
                   ref={inputRef}
                   type="search"
+                  name="q"
+                  data-dialog-focus
                   value={value}
                   onChange={(e) => setValue(e.target.value)}
                   placeholder="Buscar noticias, temas, categorías…"
@@ -102,9 +83,7 @@ export function SearchOverlay() {
                   Buscar
                 </button>
               </form>
-            </div>
-          </div>
-        </>
+        </OverlayDialog>
       )}
     </>
   );

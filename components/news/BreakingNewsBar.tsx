@@ -13,23 +13,15 @@ export function BreakingNewsBar({ posts }: { posts: PublicPost[] }) {
           Último momento
         </span>
         <div className="breaking-ticker">
-          <div className="breaking-track" aria-live="polite">
-            {[0, 1].map((copy) => (
-              <div className="breaking-items" key={copy} aria-hidden={copy === 1}>
-                {posts.map((post) => (
-                  <Link
-                    href={`/noticias/${post.slug}`}
-                    key={`${copy}-${post.id}`}
-                    tabIndex={copy === 1 ? -1 : undefined}
-                  >
-                    <time dateTime={post.publishedAt?.toISOString()}>
-                      {formatTime(post.publishedAt)}
-                    </time>
-                    <span>{post.title}</span>
-                  </Link>
-                ))}
-              </div>
-            ))}
+          <div className="breaking-track">
+            <div className="breaking-items">
+              {posts.map((post) => (
+                <Link href={`/noticias/${post.slug}`} key={post.id}>
+                  <time dateTime={post.publishedAt?.toISOString()}>{formatTime(post.publishedAt)}</time>
+                  <span>{post.title}</span>
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </div>

@@ -1,0 +1,19 @@
+{
+  "environment": "Next dev; isolated fixtures; third-party scripts disabled",
+  "rows": [
+    {
+      "name": "before",
+      "htmlBytes": 583774,
+      "gzipBytes": 32295,
+      "articleHtmlOccurrences": 714,
+      "imagePreloads": 5
+    },
+    {
+      "name": "after",
+      "htmlBytes": 302860,
+      "gzipBytes": 24084,
+      "articleHtmlOccurrences": 0,
+      "imagePreloads": 2
+    }
+  ]
+}

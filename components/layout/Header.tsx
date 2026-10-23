@@ -65,7 +65,7 @@ export async function Header() {
             <div className="masthead-social" aria-label="Redes sociales">
               <a href="https://facebook.com/lavozriojana" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><IconFacebook /></a>
               <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer" aria-label="X"><IconX /></a>
-              <a href="https://instagram.com/lavozriojana" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><IconInstagram /></a>
+              <a href="https://instagram.com/lavozriojana.ok" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><IconInstagram /></a>
             </div>
           </div>
         </div>
@@ -76,20 +76,22 @@ export async function Header() {
           {/* LEFT — mobile hamburger only */}
           <div className="masthead-left">
             <MobileMenu categories={categories} />
+            <span className="masthead-edition">La Rioja, Argentina<br /><strong>Periodismo con mirada local</strong></span>
           </div>
 
           {/* CENTER — logo + tagline */}
           <div className="masthead-center">
-            <Link href="/" aria-label={`Inicio · ${SITE_NAME}`}>
+            <Link href="/" className="masthead-brand" aria-label={`Inicio · ${SITE_NAME}`}>
               <Image
                 src="/logo.png"
                 alt={SITE_NAME}
                 width={128}
                 height={128}
-                sizes="120px"
+                sizes="(min-width: 768px) 56px, 40px"
                 priority
                 className="header-logo"
               />
+              <span className="masthead-wordmark" aria-hidden="true">La Voz <span>Riojana</span></span>
             </Link>
             <p className="masthead-tagline">{SITE_SLOGAN}</p>
           </div>

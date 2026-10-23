@@ -20,16 +20,16 @@ export async function Footer() {
 
             {/* Brand */}
             <div className="footer-brand-block">
-              <Link href="/" aria-label={`Inicio · ${SITE_NAME}`}>
+              <Link href="/" className="footer-brand-link" aria-label={`Inicio · ${SITE_NAME}`}>
                 <Image
                   src="/logo.png"
                   alt={SITE_NAME}
                   width={80}
                   height={80}
-                  sizes="40px"
+                  sizes="64px"
                   className="footer-logo"
-                  style={{ height: '38px', width: 'auto' }}
                 />
+                <span className="footer-wordmark">La Voz<br />Riojana</span>
               </Link>
               <p className="footer-brand-desc">
                 Noticias de La Rioja con foco local, actualidad y cobertura provincial.
@@ -37,7 +37,7 @@ export async function Footer() {
               <div className="footer-social" aria-label="Redes sociales">
                 <a href="https://facebook.com/lavozriojana"  target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook">FB</a>
                 <a href="https://twitter.com/"                target="_blank" rel="noopener noreferrer" aria-label="X / Twitter" title="X">X</a>
-                <a href="https://instagram.com/lavozriojana" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="IG">IG</a>
+                <a href="https://instagram.com/lavozriojana.ok" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="IG">IG</a>
               </div>
             </div>
 

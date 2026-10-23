@@ -37,10 +37,12 @@ export function PostCard({
   post,
   variant = 'default',
   priority = false,
-  autoplayInView = false
+  autoplayInView = false,
+  imageSizes
 }: {
   post: PublicPost;
-  variant?: 'default' | 'compact' | 'large' | 'featured' | 'horizontal' | 'mini' | 'list' | 'overlay' | 'side';
+  variant?: 'default' | 'lead' | 'compact' | 'large' | 'featured' | 'horizontal' | 'mini' | 'list' | 'overlay' | 'side';
+  imageSizes?: string;
   priority?: boolean;
   /** Avance de video sin hover, apenas la card entra en pantalla — solo
    * pensado para el home (ver app/page.tsx). */
@@ -54,6 +56,9 @@ export function PostCard({
   const isList       = variant === 'list';
   const isOverlay    = variant === 'overlay';
   const isSide       = variant === 'side';
+  const isLead       = variant === 'lead';
+  // Only media fields cross the Server/Client boundary, never article HTML.
+  const mediaPost = { title: post.title, mainImageUrl: post.mainImageUrl, mainImageAlt: post.mainImageAlt, videoUrl: post.videoUrl, category: post.category };
 
   /* ── List (AHORA) ──────────────────────────── */
   if (isList) {
@@ -75,7 +80,7 @@ export function PostCard({
       <article className="post-card overlay">
         <div className="overlay-wrap">
           <Link href={`/noticias/${post.slug}`} className="post-media" aria-label={post.title}>
-            <CardImage post={post} priority={priority} sizes="(min-width: 900px) 55vw, 100vw" autoplayInView={autoplayInView} />
+            <CardImage post={mediaPost} priority={priority} sizes={imageSizes || '(min-width: 1280px) 720px, (min-width: 768px) 58vw, 100vw'} autoplayInView={autoplayInView} />
             <VideoBadge post={post} />
           </Link>
           <div className="overlay-text">
@@ -99,7 +104,7 @@ export function PostCard({
     return (
       <article className="post-card side">
         <Link href={`/noticias/${post.slug}`} className="post-media" aria-label={post.title}>
-          <CardImage post={post} sizes="112px" />
+          <CardImage post={mediaPost} sizes="112px" />
           <VideoBadge post={post} />
         </Link>
         <div>
@@ -120,33 +125,37 @@ export function PostCard({
   /* ── Standard variants ─────────────────────── */
   const cardClass = [
     'post-card',
+    isLead       ? 'lead'       : '',
     isCompact    ? 'compact'    : '',
     isHorizontal ? 'horizontal' : '',
     isMini       ? 'mini'       : '',
   ].filter(Boolean).join(' ');
 
-  const titleClass = isLarge   ? 'post-title large'
+  const titleClass = isLead    ? 'post-title lead-title'
+    : isLarge   ? 'post-title large'
     : isFeatured ? 'post-title featured'
     : isMini     ? 'post-title mini-title'
     : 'post-title';
 
-  const showExcerpt = (isLarge || isFeatured || variant === 'default') && !!post.excerpt;
+  const showExcerpt = (isLead || isLarge || isFeatured || isHorizontal || variant === 'default') && !!post.excerpt;
 
   /* El tamaño real renderizado varía mucho por variante — si sizes queda
      corto, Next.js sirve una imagen más chica que el contenedor y el
      navegador la estira (se ve pixelada). */
-  const mediaSizes = isHorizontal
-    ? '(min-width: 768px) 160px, 100vw'
+  const mediaSizes = imageSizes || (isLead
+    ? '(min-width: 1280px) 860px, (min-width: 768px) 65vw, 100vw'
+    : isHorizontal
+    ? '(min-width: 1280px) 620px, (min-width: 768px) 45vw, 100vw'
     : isCompact
-    ? '68px'
+    ? '(min-width: 768px) 96px, 104px'
     : isLarge || isFeatured
     ? '(min-width: 768px) 58vw, 100vw'
-    : '(min-width: 1024px) 32vw, (min-width: 560px) 47vw, 100vw';
+    : '(min-width: 1280px) 400px, (min-width: 900px) 25vw, (min-width: 560px) 47vw, 100vw');
 
   return (
     <article className={cardClass}>
       <Link href={`/noticias/${post.slug}`} className="post-media" aria-label={post.title}>
-        <CardImage post={post} priority={priority} sizes={mediaSizes} autoplayInView={autoplayInView} />
+        <CardImage post={mediaPost} priority={priority} sizes={mediaSizes} autoplayInView={autoplayInView} />
         <VideoBadge post={post} />
         {!isCompact && !isMini && <VideoChip post={post} />}
       </Link>

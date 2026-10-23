@@ -15,3 +15,4 @@ prisma/*.db
 public/uploads
 .npm-cache
 tsconfig.tsbuildinfo
+.playwright-mcp/

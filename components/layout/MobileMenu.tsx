@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { CategoryNavLink } from './CategoryNavLink';
+import { OverlayDialog } from './OverlayDialog';
 
 const IconMenu = () => (
   <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor" aria-hidden="true">
@@ -22,10 +23,12 @@ const IconX = () => (
 
 export function MobileMenu({ categories }: { categories: Array<{ name: string; slug: string }> }) {
   const [open, setOpen] = useState(false);
+  const toggleRef = useRef<HTMLButtonElement>(null);
 
   return (
     <div className="mobile-menu">
       <button
+        ref={toggleRef}
         type="button"
         className="mobile-menu-toggle"
         onClick={() => setOpen((v) => !v)}
@@ -36,16 +39,17 @@ export function MobileMenu({ categories }: { categories: Array<{ name: string; s
       </button>
 
       {open && (
-        <>
-          <div className="mobile-menu-backdrop" onClick={() => setOpen(false)} aria-hidden="true" />
+        <OverlayDialog title="Secciones" className="mobile-menu-dialog" returnFocusRef={toggleRef} onClose={() => setOpen(false)}>
           <nav className="mobile-drawer" aria-label="Categorías">
+            <CategoryNavLink href="/" onClick={() => setOpen(false)}>Portada</CategoryNavLink>
             {categories.map((cat) => (
               <CategoryNavLink href={`/categoria/${cat.slug}`} key={cat.slug} onClick={() => setOpen(false)}>
                 {cat.name}
               </CategoryNavLink>
             ))}
           </nav>
-        </>
+          <a className="mobile-social-link" href="https://instagram.com/lavozriojana.ok" target="_blank" rel="noopener noreferrer">Instagram · @lavozriojana.ok</a>
+        </OverlayDialog>
       )}
     </div>
   );

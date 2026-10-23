@@ -11,18 +11,18 @@ const config: Config = {
       colors: {
         rioja: {
           50: '#fff5f6',
-          100: '#ffe5e8',
+          100: 'var(--red-pale)',
           300: '#e27a86',
-          500: '#b7293e',
-          700: '#8c1d2c',
-          900: '#5b101b'
+          500: 'var(--red-mid)',
+          700: 'var(--red)',
+          900: 'var(--red-deep)'
         },
         cielo: {
-          100: '#e4f6fb',
-          500: '#219ec3',
-          700: '#0e7490'
+          100: 'var(--blue-pale)',
+          500: 'var(--blue)',
+          700: 'var(--blue-dark)'
         },
-        tinta: '#25272b'
+        tinta: 'var(--ink)'
       },
       boxShadow: {
         soft: '0 12px 35px rgba(16, 24, 40, 0.08)'

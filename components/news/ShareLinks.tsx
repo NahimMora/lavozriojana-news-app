@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { absoluteUrl } from '@/lib/site';
 
 const IconWA = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -37,7 +38,7 @@ const IconCheck = () => (
 export function ShareLinks({ title, path }: { title: string; path: string }) {
   const [copied, setCopied] = useState(false);
 
-  const url          = typeof window !== 'undefined' ? `${window.location.origin}${path}` : path;
+  const url          = absoluteUrl(path);
   const encodedUrl   = encodeURIComponent(url);
   const encodedTitle = encodeURIComponent(title);
 
@@ -60,18 +61,18 @@ export function ShareLinks({ title, path }: { title: string; path: string }) {
         <IconWA /> WhatsApp
       </a>
 
-      <a className="share-button"
+      <a className="share-button share-button-social"
         href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`}
         target="_blank" rel="noopener noreferrer"
         aria-label="Compartir en Facebook">
-        <IconFB /> Facebook
+        <IconFB /> <span>Facebook</span>
       </a>
 
-      <a className="share-button"
+      <a className="share-button share-button-social"
         href={`https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`}
         target="_blank" rel="noopener noreferrer"
         aria-label="Compartir en X">
-        <IconX /> X
+        <IconX /> <span>X</span>
       </a>
 
       <button
@@ -82,6 +83,7 @@ export function ShareLinks({ title, path }: { title: string; path: string }) {
         {copied ? <IconCheck /> : <IconLink />}
         {copied ? 'Copiado' : 'Copiar enlace'}
       </button>
+      <span className="sr-only" role="status">{copied ? 'Enlace copiado' : ''}</span>
     </div>
   );
 }

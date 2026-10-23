@@ -34,7 +34,7 @@ export function CardImage({
   sizes,
   autoplayInView = false
 }: {
-  post: PublicPost;
+  post: Pick<PublicPost, 'mainImageUrl' | 'mainImageAlt' | 'title' | 'videoUrl' | 'category'>;
   priority?: boolean;
   sizes: string;
   autoplayInView?: boolean;

@@ -107,7 +107,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
       {/* Colored category hero */}
       <div className={`cat-hero category-${cssSlug}`}>
         <div className="container">
-          <span className="cf-badge">{category.name}</span>
+          <span className="cat-hero-label">Secciones / La Voz Riojana</span>
           <h1>{category.name}</h1>
           {category.description && <p>{category.description}</p>}
         </div>
@@ -127,8 +127,8 @@ export default async function CategoryPage({ params, searchParams }: Props) {
               <>
                 {/* First post: large horizontal card */}
                 {posts[0] && (
-                  <div style={{ marginBottom: 20 }}>
-                    <PostCard post={posts[0]} variant="horizontal" priority />
+                  <div className="category-lead">
+                    <PostCard post={posts[0]} variant="lead" priority />
                   </div>
                 )}
 

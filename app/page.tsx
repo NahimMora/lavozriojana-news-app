@@ -84,13 +84,13 @@ function EnFocoSlice({ posts }: { posts: PublicPost[] }) {
   if (posts.length < 2) return null;
   const [main, ...rest] = posts;
   return (
-    <div className="cat-block">
+    <div className="cat-block en-foco-block">
       <div className="container">
         <div className="cat-block-head">
           <h2 className="section-title">En foco</h2>
         </div>
         <div className="en-foco-layout">
-          <PostCard post={main} variant="overlay" autoplayInView />
+          <PostCard post={main} variant="featured" autoplayInView />
           <div className="en-foco-sidebar">
             {rest.slice(0, 4).map((post) => (
               <div className="en-foco-item" key={post.id}>
@@ -135,8 +135,12 @@ export default async function HomePage() {
 
   /* Pool deduplicado de featured + latest */
   const heroPool: typeof data.latest = [];
+  const heroPoolSeen = new Set(seen);
   for (const p of [...data.featured, ...data.latest]) {
-    if (!seen.has(p.id)) heroPool.push(p);
+    if (!heroPoolSeen.has(p.id)) {
+      heroPool.push(p);
+      heroPoolSeen.add(p.id);
+    }
   }
 
   /* Posiciones del hero */
@@ -190,21 +194,22 @@ export default async function HomePage() {
       <h1 className="sr-only">La Voz Riojana</h1>
 
       {/* ── Hero editorial ─────────────────────────────────── */}
-      <section style={{ padding: '18px 0 0' }}>
+      <section className="home-opening" aria-label="Noticias destacadas">
         <div className="container">
+          <div className="home-edition-line"><span>La actualidad, desde La Rioja</span><span>Edición digital</span></div>
           {mainPost ? (
             <div className="home-hero-grid">
               {/* IZQUIERDA: nota principal + 2 sub-cards */}
               <div className="hero-left">
                 <div className="hero-main-slot">
-                  <PostCard post={mainPost} variant="overlay" priority autoplayInView />
+                  <PostCard post={mainPost} variant="lead" priority autoplayInView />
                 </div>
 
                 {subCards.length > 0 && (
                   <div className="hero-sub-row">
                     {subCards.map((post) => (
                       <div className="hero-sub-card" key={post.id}>
-                        <PostCard post={post} variant="overlay" priority autoplayInView />
+                        <PostCard post={post} variant="featured" imageSizes="(min-width: 1280px) 410px, (min-width: 768px) 30vw, 100vw" autoplayInView />
                       </div>
                     ))}
                   </div>
@@ -215,7 +220,7 @@ export default async function HomePage() {
               <div className="hero-right">
                 {featured1 && (
                   <div className="hero-right-item">
-                    <PostCard post={featured1} variant="overlay" priority autoplayInView />
+                    <PostCard post={featured1} variant="featured" imageSizes="(min-width: 1280px) 320px, (min-width: 768px) 28vw, 100vw" autoplayInView />
                   </div>
                 )}
 
@@ -248,11 +253,11 @@ export default async function HomePage() {
 
       {/* ── Últimas noticias + sidebar ──────────────────────── */}
       {latestPosts.length > 0 && (
-        <section className="section topline" style={{ marginTop: 22 }}>
+        <section className="section topline home-latest">
           <div className="container news-layout">
             <div>
               <h2 className="section-title">Últimas noticias</h2>
-              {latestPosts.length >= 2 && (
+              {latestPosts.length > 0 && (
                 <div className="editorial-2col" style={{ marginBottom: 14 }}>
                   <PostCard post={latestPosts[0]} variant="featured" autoplayInView />
                   <div className="editorial-2col-list">
@@ -303,7 +308,7 @@ export default async function HomePage() {
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
                     Facebook
                   </a>
-                  <a href="https://instagram.com/lavozriojana" target="_blank" rel="noopener noreferrer">
+                  <a href="https://instagram.com/lavozriojana.ok" target="_blank" rel="noopener noreferrer">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/></svg>
                     Instagram
                   </a>
@@ -370,6 +375,9 @@ export default async function HomePage() {
         );
         return nodes;
       })}
+      {catBlocks.length < 6 && data.mostRead.length > 0 && (
+        <div className="container section topline"><MostRead posts={data.mostRead} /></div>
+      )}
     </>
   );
 }
