@@ -1,5 +1,7 @@
 # Densidad editorial — segunda iteración
 
+> Integración posterior de feeds (servicios, alertas, Instagram, cronologías): ver [FEED_INTEGRATION.md](FEED_INTEGRATION.md).
+
 Fecha: 23 de octubre de 2026. Rama local: `design/editorial-density-v2`, base `d803824`. Sin commit, push, merge ni deploy.
 
 Continúa [el rediseño editorial](EDITORIAL_REDESIGN.md). Un primer intento de compactación (`e0fe079`) se revirtió el mismo día. Esta versión no lo retoma: aquel achicaba la nota principal, recortaba *Ahora* a una línea a mitad de palabra y recuperaba nombres solo desde la bajada.

@@ -1,0 +1,894 @@
+{
+  "label": "after",
+  "origin": "http://127.0.0.1:3101",
+  "results": [
+    {
+      "name": "home",
+      "width": 360,
+      "notices": {
+        "top": 98,
+        "height": 72
+      },
+      "ticker": {
+        "top": 170,
+        "height": 57
+      },
+      "strip": {
+        "top": 1469,
+        "height": 148
+      },
+      "videos": {
+        "top": 1617,
+        "height": 470
+      },
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 262,
+        "height": 87
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo",
+      "width": 360,
+      "notices": {
+        "top": 98,
+        "height": 125
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 337,
+        "height": 106
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo-actualizacion",
+      "width": 360,
+      "notices": {
+        "top": 98,
+        "height": 125
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": {
+        "top": 856,
+        "height": 137
+      },
+      "timeline": null,
+      "firstHeadline": {
+        "top": 337,
+        "height": 106
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo-cronologia",
+      "width": 360,
+      "notices": {
+        "top": 98,
+        "height": 125
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": {
+        "top": 3056,
+        "height": 508
+      },
+      "firstHeadline": {
+        "top": 337,
+        "height": 106
+      },
+      "overflow": false
+    },
+    {
+      "name": "categoria",
+      "width": 360,
+      "notices": {
+        "top": 98,
+        "height": 125
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 364,
+        "height": 82
+      },
+      "overflow": false
+    },
+    {
+      "name": "servicios",
+      "width": 360,
+      "notices": {
+        "top": 98,
+        "height": 53
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 207,
+        "height": 33
+      },
+      "overflow": false
+    },
+    {
+      "name": "videos",
+      "width": 360,
+      "notices": {
+        "top": 98,
+        "height": 125
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": {
+        "top": 223,
+        "height": 886
+      },
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": null,
+      "overflow": false
+    },
+    {
+      "name": "home",
+      "width": 390,
+      "notices": {
+        "top": 98,
+        "height": 72
+      },
+      "ticker": {
+        "top": 170,
+        "height": 57
+      },
+      "strip": {
+        "top": 1438,
+        "height": 148
+      },
+      "videos": {
+        "top": 1586,
+        "height": 492
+      },
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 262,
+        "height": 58
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo",
+      "width": 390,
+      "notices": {
+        "top": 98,
+        "height": 125
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 337,
+        "height": 106
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo-actualizacion",
+      "width": 390,
+      "notices": {
+        "top": 98,
+        "height": 125
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": {
+        "top": 830,
+        "height": 137
+      },
+      "timeline": null,
+      "firstHeadline": {
+        "top": 337,
+        "height": 106
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo-cronologia",
+      "width": 390,
+      "notices": {
+        "top": 98,
+        "height": 125
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": {
+        "top": 2923,
+        "height": 488
+      },
+      "firstHeadline": {
+        "top": 337,
+        "height": 106
+      },
+      "overflow": false
+    },
+    {
+      "name": "categoria",
+      "width": 390,
+      "notices": {
+        "top": 98,
+        "height": 125
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 364,
+        "height": 55
+      },
+      "overflow": false
+    },
+    {
+      "name": "servicios",
+      "width": 390,
+      "notices": {
+        "top": 98,
+        "height": 53
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 207,
+        "height": 33
+      },
+      "overflow": false
+    },
+    {
+      "name": "videos",
+      "width": 390,
+      "notices": {
+        "top": 98,
+        "height": 125
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": {
+        "top": 223,
+        "height": 869
+      },
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": null,
+      "overflow": false
+    },
+    {
+      "name": "home",
+      "width": 768,
+      "notices": {
+        "top": 160,
+        "height": 56
+      },
+      "ticker": {
+        "top": 216,
+        "height": 41
+      },
+      "strip": {
+        "top": 1165,
+        "height": 198
+      },
+      "videos": {
+        "top": 1363,
+        "height": 523
+      },
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 298,
+        "height": 96
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo",
+      "width": 768,
+      "notices": {
+        "top": 160,
+        "height": 97
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 371,
+        "height": 76
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo-actualizacion",
+      "width": 768,
+      "notices": {
+        "top": 160,
+        "height": 97
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": {
+        "top": 699,
+        "height": 117
+      },
+      "timeline": null,
+      "firstHeadline": {
+        "top": 371,
+        "height": 76
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo-cronologia",
+      "width": 768,
+      "notices": {
+        "top": 160,
+        "height": 97
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": {
+        "top": 2704,
+        "height": 365
+      },
+      "firstHeadline": {
+        "top": 371,
+        "height": 76
+      },
+      "overflow": false
+    },
+    {
+      "name": "categoria",
+      "width": 768,
+      "notices": {
+        "top": 160,
+        "height": 97
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 397,
+        "height": 88
+      },
+      "overflow": false
+    },
+    {
+      "name": "servicios",
+      "width": 768,
+      "notices": {
+        "top": 160,
+        "height": 41
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 257,
+        "height": 33
+      },
+      "overflow": false
+    },
+    {
+      "name": "videos",
+      "width": 768,
+      "notices": {
+        "top": 160,
+        "height": 97
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": {
+        "top": 257,
+        "height": 660
+      },
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": null,
+      "overflow": false
+    },
+    {
+      "name": "home",
+      "width": 1024,
+      "notices": {
+        "top": 160,
+        "height": 47
+      },
+      "ticker": {
+        "top": 207,
+        "height": 41
+      },
+      "strip": {
+        "top": 865,
+        "height": 94
+      },
+      "videos": {
+        "top": 959,
+        "height": 523
+      },
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 289,
+        "height": 96
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo",
+      "width": 1024,
+      "notices": {
+        "top": 160,
+        "height": 88
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 362,
+        "height": 81
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo-actualizacion",
+      "width": 1024,
+      "notices": {
+        "top": 160,
+        "height": 88
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": {
+        "top": 724,
+        "height": 117
+      },
+      "timeline": null,
+      "firstHeadline": {
+        "top": 362,
+        "height": 81
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo-cronologia",
+      "width": 1024,
+      "notices": {
+        "top": 160,
+        "height": 88
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": {
+        "top": 2662,
+        "height": 408
+      },
+      "firstHeadline": {
+        "top": 362,
+        "height": 81
+      },
+      "overflow": false
+    },
+    {
+      "name": "categoria",
+      "width": 1024,
+      "notices": {
+        "top": 160,
+        "height": 88
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 376,
+        "height": 88
+      },
+      "overflow": false
+    },
+    {
+      "name": "servicios",
+      "width": 1024,
+      "notices": {
+        "top": 160,
+        "height": 41
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 275,
+        "height": 35
+      },
+      "overflow": false
+    },
+    {
+      "name": "videos",
+      "width": 1024,
+      "notices": {
+        "top": 160,
+        "height": 88
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": {
+        "top": 248,
+        "height": 669
+      },
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": null,
+      "overflow": false
+    },
+    {
+      "name": "home",
+      "width": 1280,
+      "notices": {
+        "top": 160,
+        "height": 47
+      },
+      "ticker": {
+        "top": 207,
+        "height": 41
+      },
+      "strip": {
+        "top": 881,
+        "height": 76
+      },
+      "videos": {
+        "top": 957,
+        "height": 510
+      },
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 289,
+        "height": 76
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo",
+      "width": 1280,
+      "notices": {
+        "top": 160,
+        "height": 88
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 362,
+        "height": 101
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo-actualizacion",
+      "width": 1280,
+      "notices": {
+        "top": 160,
+        "height": 88
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": {
+        "top": 727,
+        "height": 96
+      },
+      "timeline": null,
+      "firstHeadline": {
+        "top": 362,
+        "height": 101
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo-cronologia",
+      "width": 1280,
+      "notices": {
+        "top": 160,
+        "height": 88
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": {
+        "top": 2848,
+        "height": 365
+      },
+      "firstHeadline": {
+        "top": 362,
+        "height": 101
+      },
+      "overflow": false
+    },
+    {
+      "name": "categoria",
+      "width": 1280,
+      "notices": {
+        "top": 160,
+        "height": 88
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 425,
+        "height": 100
+      },
+      "overflow": false
+    },
+    {
+      "name": "servicios",
+      "width": 1280,
+      "notices": {
+        "top": 160,
+        "height": 41
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 267,
+        "height": 44
+      },
+      "overflow": false
+    },
+    {
+      "name": "videos",
+      "width": 1280,
+      "notices": {
+        "top": 160,
+        "height": 88
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": {
+        "top": 248,
+        "height": 676
+      },
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": null,
+      "overflow": false
+    },
+    {
+      "name": "home",
+      "width": 1440,
+      "notices": {
+        "top": 160,
+        "height": 47
+      },
+      "ticker": {
+        "top": 207,
+        "height": 41
+      },
+      "strip": {
+        "top": 894,
+        "height": 76
+      },
+      "videos": {
+        "top": 971,
+        "height": 526
+      },
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 289,
+        "height": 86
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo",
+      "width": 1440,
+      "notices": {
+        "top": 160,
+        "height": 88
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 362,
+        "height": 114
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo-actualizacion",
+      "width": 1440,
+      "notices": {
+        "top": 160,
+        "height": 88
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": {
+        "top": 740,
+        "height": 96
+      },
+      "timeline": null,
+      "firstHeadline": {
+        "top": 362,
+        "height": 114
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo-cronologia",
+      "width": 1440,
+      "notices": {
+        "top": 160,
+        "height": 88
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": {
+        "top": 2903,
+        "height": 365
+      },
+      "firstHeadline": {
+        "top": 362,
+        "height": 114
+      },
+      "overflow": false
+    },
+    {
+      "name": "categoria",
+      "width": 1440,
+      "notices": {
+        "top": 160,
+        "height": 88
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 431,
+        "height": 112
+      },
+      "overflow": false
+    },
+    {
+      "name": "servicios",
+      "width": 1440,
+      "notices": {
+        "top": 160,
+        "height": 41
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 266,
+        "height": 45
+      },
+      "overflow": false
+    },
+    {
+      "name": "videos",
+      "width": 1440,
+      "notices": {
+        "top": 160,
+        "height": 88
+      },
+      "ticker": null,
+      "strip": null,
+      "videos": {
+        "top": 248,
+        "height": 676
+      },
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": null,
+      "overflow": false
+    }
+  ]
+}

@@ -37,6 +37,22 @@ export function formatDateTime(date: Date | string | null | undefined) {
   }).format(new Date(date));
 }
 
+/** "21 oct 2026, 13:05": 24 h, as in the wire lists. */
+export function formatDateTime24(date: Date | string | null | undefined) {
+  if (!date) return '';
+  return new Intl.DateTimeFormat('es-AR', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hourCycle: 'h23',
+    timeZone: 'America/Argentina/La_Rioja'
+  })
+    .format(new Date(date))
+    .replace('.', '');
+}
+
 export function formatTime(date: Date | string | null | undefined) {
   if (!date) return '';
   return new Intl.DateTimeFormat('es-AR', {

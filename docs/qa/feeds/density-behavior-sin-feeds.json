@@ -1,0 +1,291 @@
+{
+  "origin": "http://127.0.0.1:3102",
+  "checks": [
+    {
+      "name": "ticker anima con contenido suficiente",
+      "ok": true,
+      "detail": {
+        "animated": true,
+        "animation": "ticker",
+        "copies": 2,
+        "hiddenCopy": "true",
+        "tabbable": 3,
+        "links": 6,
+        "duration": "25s"
+      }
+    },
+    {
+      "name": "ticker: copia oculta a lectores y fuera del tab",
+      "ok": true,
+      "detail": {
+        "animated": true,
+        "animation": "ticker",
+        "copies": 2,
+        "hiddenCopy": "true",
+        "tabbable": 3,
+        "links": 6,
+        "duration": "25s"
+      }
+    },
+    {
+      "name": "ticker se desplaza",
+      "ok": true,
+      "detail": {
+        "a": -53.0966,
+        "b": -86.7873
+      }
+    },
+    {
+      "name": "botón pausa detiene el ticker",
+      "ok": true,
+      "detail": {
+        "c": -90.1308,
+        "d": -90.1308
+      }
+    },
+    {
+      "name": "hover pausa el ticker",
+      "ok": true,
+      "detail": {
+        "e": -91.648,
+        "f": -91.648
+      }
+    },
+    {
+      "name": "foco de teclado: enlace visible y ticker detenido",
+      "ok": true,
+      "detail": {
+        "inTicker": true,
+        "visible": true,
+        "animation": "none"
+      }
+    },
+    {
+      "name": "movimiento reducido: ticker quieto, sin copia ni botón",
+      "ok": true,
+      "detail": {
+        "animation": "none",
+        "copyDisplay": "none",
+        "toggle": "none"
+      }
+    },
+    {
+      "name": "cabecera 390: se compacta sin mover el contenido",
+      "ok": true,
+      "detail": {
+        "before": {
+          "header": 98,
+          "docTop": 948.453125
+        },
+        "after": {
+          "header": 50,
+          "docTop": 948.453125,
+          "shrunk": true
+        }
+      }
+    },
+    {
+      "name": "cabecera 390: histéresis estable",
+      "ok": true,
+      "detail": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "cabecera 390: vuelve a su altura arriba",
+      "ok": true,
+      "detail": {
+        "top": 98,
+        "initial": 98
+      }
+    },
+    {
+      "name": "buscador operativo con la cabecera compacta",
+      "ok": true
+    },
+    {
+      "name": "menú operativo con la cabecera compacta",
+      "ok": true
+    },
+    {
+      "name": "cabecera 1280: se compacta sin mover el contenido",
+      "ok": true,
+      "detail": {
+        "before": {
+          "header": 160,
+          "docTop": 221
+        },
+        "after": {
+          "header": 97,
+          "docTop": 221,
+          "shrunk": true
+        }
+      }
+    },
+    {
+      "name": "cabecera 1280: histéresis estable",
+      "ok": true,
+      "detail": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "cabecera 1280: vuelve a su altura arriba",
+      "ok": true,
+      "detail": {
+        "top": 160,
+        "initial": 160
+      }
+    },
+    {
+      "name": "Ahora móvil: 5 visibles y despliega el resto",
+      "ok": true,
+      "detail": {
+        "first": 5,
+        "expanded": 9
+      }
+    },
+    {
+      "name": "titulares recortados conservan el texto completo en el DOM",
+      "ok": true,
+      "detail": {
+        "clipped": 12
+      }
+    },
+    {
+      "name": "foco visible en titulares recortados",
+      "ok": true,
+      "detail": {
+        "outline": "solid",
+        "parentOverflow": "visible"
+      }
+    },
+    {
+      "name": "390: tarjetas equivalentes con la misma altura por fila",
+      "ok": true,
+      "detail": {
+        "maxRowSpread": 0,
+        "misaligned": 0,
+        "overlaps": 0,
+        "tiny": [],
+        "overflow": false
+      }
+    },
+    {
+      "name": "390: sin superposiciones, desbordes ni textos < 11 px",
+      "ok": true,
+      "detail": {
+        "maxRowSpread": 0,
+        "misaligned": 0,
+        "overlaps": 0,
+        "tiny": [],
+        "overflow": false
+      }
+    },
+    {
+      "name": "1440: tarjetas equivalentes con la misma altura por fila",
+      "ok": true,
+      "detail": {
+        "maxRowSpread": 0,
+        "misaligned": 0,
+        "overlaps": 0,
+        "tiny": [],
+        "overflow": false
+      }
+    },
+    {
+      "name": "1440: sin superposiciones, desbordes ni textos < 11 px",
+      "ok": true,
+      "detail": {
+        "maxRowSpread": 0,
+        "misaligned": 0,
+        "overlaps": 0,
+        "tiny": [],
+        "overflow": false
+      }
+    },
+    {
+      "name": "Seguí informado 1440x900: acompaña la nota sin salirse de la ventana",
+      "ok": true,
+      "detail": {
+        "mid": [
+          {
+            "top": 110,
+            "bottom": 638,
+            "header": 97,
+            "article": 2582
+          },
+          {
+            "top": 110,
+            "bottom": 638,
+            "header": 97,
+            "article": 1782
+          }
+        ],
+        "end": {
+          "top": -84,
+          "bottom": 444,
+          "header": 97,
+          "article": 484
+        }
+      }
+    },
+    {
+      "name": "Seguí informado 1024x768: acompaña la nota sin salirse de la ventana",
+      "ok": true,
+      "detail": {
+        "mid": [
+          {
+            "top": 110,
+            "bottom": 638,
+            "header": 97,
+            "article": 2274
+          },
+          {
+            "top": 110,
+            "bottom": 638,
+            "header": 97,
+            "article": 1474
+          }
+        ],
+        "end": {
+          "top": -248,
+          "bottom": 280,
+          "header": 97,
+          "article": 320
+        }
+      }
+    },
+    {
+      "name": "publicidad propia cuadrada (1:1)",
+      "ok": true,
+      "detail": {
+        "frames": [
+          0,
+          0
+        ],
+        "gap": 48
+      }
+    },
+    {
+      "name": "categoría: aire antes del pie",
+      "ok": true,
+      "detail": {
+        "frames": [
+          0,
+          0
+        ],
+        "gap": 48
+      }
+    }
+  ],
+  "errors": []
+}

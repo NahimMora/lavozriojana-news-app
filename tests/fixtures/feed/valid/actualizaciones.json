@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "actualizado": "2026-10-23T16:00:00-03:00",
+  "items": [
+    {
+      "nota": { "titulo": "Nota original de prueba", "url": "https://lavozriojana.com/noticias/noticia-de-prueba-30", "publicada": "2026-10-21T10:00:00-03:00" },
+      "actualiza": { "titulo": "Primera actualización de prueba", "url": "https://lavozriojana.com/noticias/noticia-de-prueba-10" },
+      "novedad": "Detuvieron a dos sospechosos"
+    },
+    {
+      "nota": { "titulo": "Nota original de prueba", "url": "https://lavozriojana.com/noticias/noticia-de-prueba-30", "publicada": "2026-10-21T10:00:00-03:00" },
+      "actualiza": { "titulo": "Segunda actualización de prueba", "url": "https://lavozriojana.com/noticias/noticia-de-prueba-2" },
+      "novedad": "Imputaron a los cinco detenidos"
+    },
+    {
+      "nota": { "titulo": "Primera actualización de prueba", "url": "https://lavozriojana.com/noticias/noticia-de-prueba-10" },
+      "actualiza": { "titulo": "Actualización encadenada de prueba", "url": "https://www.lavozriojana.com/noticias/noticia-de-prueba-3/?utm_source=ig" },
+      "novedad": "Declaró el testigo principal"
+    },
+    {
+      "nota": { "titulo": "Autorreferencia", "url": "https://lavozriojana.com/noticias/noticia-de-prueba-12" },
+      "actualiza": { "titulo": "Autorreferencia", "url": "https://lavozriojana.com/noticias/noticia-de-prueba-12/" },
+      "novedad": "No debe mostrarse"
+    },
+    {
+      "nota": { "titulo": "Nota más nueva", "url": "https://lavozriojana.com/noticias/noticia-de-prueba-4" },
+      "actualiza": { "titulo": "Nota más vieja", "url": "https://lavozriojana.com/noticias/noticia-de-prueba-50" },
+      "novedad": "Relación invertida: la actualización es anterior"
+    },
+    {
+      "nota": { "titulo": "URL externa", "url": "https://otro-medio.com/noticias/x" },
+      "actualiza": { "titulo": "No válida", "url": "https://lavozriojana.com/noticias/noticia-de-prueba-7" },
+      "novedad": "Se descarta"
+    }
+  ]
+}

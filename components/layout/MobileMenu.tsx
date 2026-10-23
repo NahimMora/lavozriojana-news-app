@@ -48,6 +48,10 @@ export function MobileMenu({ categories }: { categories: Array<{ name: string; s
               </CategoryNavLink>
             ))}
           </nav>
+          <nav className="mobile-drawer mobile-drawer-extra" aria-label="Servicios del sitio">
+            <CategoryNavLink href="/servicios" onClick={() => setOpen(false)}>Servicios</CategoryNavLink>
+            <CategoryNavLink href="/videos" onClick={() => setOpen(false)}>Videos</CategoryNavLink>
+          </nav>
           <a className="mobile-social-link" href="https://instagram.com/lavozriojana.ok" target="_blank" rel="noopener noreferrer">Instagram · @lavozriojana.ok</a>
         </OverlayDialog>
       )}

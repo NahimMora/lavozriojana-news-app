@@ -6,6 +6,7 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { BackToTopButton } from '@/components/layout/BackToTopButton';
 import { CookieConsent } from '@/components/layout/CookieConsent';
+import { SiteNotices } from '@/components/feed/SiteNotices';
 import { DEFAULT_OG_IMAGE, SITE_LOGO_URL, SITE_NAME, SITE_SLOGAN, SITE_URL } from '@/lib/site';
 import { ADSENSE_CLIENT_ID } from '@/lib/adsense';
 import { GA_MEASUREMENT_ID } from '@/lib/gtag';
@@ -164,7 +165,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
         <div className="site-shell">
           <Header />
-          <main id="contenido" className="site-main" tabIndex={-1}>{children}</main>
+          <main id="contenido" className="site-main" tabIndex={-1}>
+            <SiteNotices />
+            {children}
+          </main>
           <Footer />
         </div>
         <BackToTopButton />

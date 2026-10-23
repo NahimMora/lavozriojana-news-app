@@ -1,3 +1,5 @@
+import { safeExternalUrl } from '@/lib/feed-url';
+
 export type ArchiveContextEntry = {
   postId?: string;
   title?: string;
@@ -9,13 +11,23 @@ function isArchiveContextEntry(value: unknown): value is ArchiveContextEntry {
   return typeof value === 'object' && value !== null;
 }
 
+/** Internal path or http(s) URL; anything else (javascript:, data:…) is dropped. */
+function safeHref(url: unknown) {
+  if (typeof url !== 'string') return undefined;
+  if (/^\/(?!\/)/.test(url)) return url;
+  return safeExternalUrl(url) ?? undefined;
+}
+
 /** Lee post.metadata.archiveContext (JSON libre) de forma defensiva: el
  * autopublicador es un sistema externo y su forma exacta puede variar. */
 export function parseArchiveContext(metadata: unknown): ArchiveContextEntry[] {
   if (!metadata || typeof metadata !== 'object') return [];
   const raw = (metadata as Record<string, unknown>).archiveContext;
   if (!Array.isArray(raw)) return [];
-  return raw.filter(isArchiveContextEntry).filter((entry) => entry.title && entry.snippet);
+  return raw
+    .filter(isArchiveContextEntry)
+    .filter((entry) => typeof entry.title === 'string' && typeof entry.snippet === 'string' && entry.title && entry.snippet)
+    .map((entry) => ({ ...entry, url: safeHref(entry.url) }));
 }
 
 /**

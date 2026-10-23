@@ -1,0 +1,714 @@
+{
+  "label": "absent",
+  "origin": "http://127.0.0.1:3102",
+  "results": [
+    {
+      "name": "home",
+      "width": 360,
+      "notices": null,
+      "ticker": {
+        "top": 98,
+        "height": 41
+      },
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 174,
+        "height": 87
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo",
+      "width": 360,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 212,
+        "height": 106
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo-actualizacion",
+      "width": 360,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 212,
+        "height": 106
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo-cronologia",
+      "width": 360,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": {
+        "top": 2931,
+        "height": 338
+      },
+      "firstHeadline": {
+        "top": 212,
+        "height": 106
+      },
+      "overflow": false
+    },
+    {
+      "name": "categoria",
+      "width": 360,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 240,
+        "height": 82
+      },
+      "overflow": false
+    },
+    {
+      "name": "servicios",
+      "width": 360,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 154,
+        "height": 33
+      },
+      "overflow": false
+    },
+    {
+      "name": "videos",
+      "width": 360,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": {
+        "top": 98,
+        "height": 316
+      },
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": null,
+      "overflow": false
+    },
+    {
+      "name": "home",
+      "width": 390,
+      "notices": null,
+      "ticker": {
+        "top": 98,
+        "height": 41
+      },
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 174,
+        "height": 58
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo",
+      "width": 390,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 212,
+        "height": 106
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo-actualizacion",
+      "width": 390,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 212,
+        "height": 106
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo-cronologia",
+      "width": 390,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": {
+        "top": 2798,
+        "height": 338
+      },
+      "firstHeadline": {
+        "top": 212,
+        "height": 106
+      },
+      "overflow": false
+    },
+    {
+      "name": "categoria",
+      "width": 390,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 240,
+        "height": 55
+      },
+      "overflow": false
+    },
+    {
+      "name": "servicios",
+      "width": 390,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 154,
+        "height": 33
+      },
+      "overflow": false
+    },
+    {
+      "name": "videos",
+      "width": 390,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": {
+        "top": 98,
+        "height": 316
+      },
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": null,
+      "overflow": false
+    },
+    {
+      "name": "home",
+      "width": 768,
+      "notices": null,
+      "ticker": {
+        "top": 160,
+        "height": 41
+      },
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 242,
+        "height": 96
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo",
+      "width": 768,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 274,
+        "height": 76
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo-actualizacion",
+      "width": 768,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 274,
+        "height": 76
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo-cronologia",
+      "width": 768,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": {
+        "top": 2608,
+        "height": 237
+      },
+      "firstHeadline": {
+        "top": 274,
+        "height": 76
+      },
+      "overflow": false
+    },
+    {
+      "name": "categoria",
+      "width": 768,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 301,
+        "height": 88
+      },
+      "overflow": false
+    },
+    {
+      "name": "servicios",
+      "width": 768,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 216,
+        "height": 33
+      },
+      "overflow": false
+    },
+    {
+      "name": "videos",
+      "width": 768,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": {
+        "top": 160,
+        "height": 292
+      },
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": null,
+      "overflow": false
+    },
+    {
+      "name": "home",
+      "width": 1024,
+      "notices": null,
+      "ticker": {
+        "top": 160,
+        "height": 41
+      },
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 242,
+        "height": 96
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo",
+      "width": 1024,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 274,
+        "height": 81
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo-actualizacion",
+      "width": 1024,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 274,
+        "height": 81
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo-cronologia",
+      "width": 1024,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": {
+        "top": 2574,
+        "height": 280
+      },
+      "firstHeadline": {
+        "top": 274,
+        "height": 81
+      },
+      "overflow": false
+    },
+    {
+      "name": "categoria",
+      "width": 1024,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 288,
+        "height": 88
+      },
+      "overflow": false
+    },
+    {
+      "name": "servicios",
+      "width": 1024,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 216,
+        "height": 35
+      },
+      "overflow": false
+    },
+    {
+      "name": "videos",
+      "width": 1024,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": {
+        "top": 160,
+        "height": 301
+      },
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": null,
+      "overflow": false
+    },
+    {
+      "name": "home",
+      "width": 1280,
+      "notices": null,
+      "ticker": {
+        "top": 160,
+        "height": 41
+      },
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 242,
+        "height": 76
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo",
+      "width": 1280,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 274,
+        "height": 101
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo-actualizacion",
+      "width": 1280,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 274,
+        "height": 101
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo-cronologia",
+      "width": 1280,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": {
+        "top": 2760,
+        "height": 237
+      },
+      "firstHeadline": {
+        "top": 274,
+        "height": 101
+      },
+      "overflow": false
+    },
+    {
+      "name": "categoria",
+      "width": 1280,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 337,
+        "height": 100
+      },
+      "overflow": false
+    },
+    {
+      "name": "servicios",
+      "width": 1280,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 216,
+        "height": 44
+      },
+      "overflow": false
+    },
+    {
+      "name": "videos",
+      "width": 1280,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": {
+        "top": 160,
+        "height": 308
+      },
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": null,
+      "overflow": false
+    },
+    {
+      "name": "home",
+      "width": 1440,
+      "notices": null,
+      "ticker": {
+        "top": 160,
+        "height": 41
+      },
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 242,
+        "height": 86
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo",
+      "width": 1440,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 274,
+        "height": 114
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo-actualizacion",
+      "width": 1440,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 274,
+        "height": 114
+      },
+      "overflow": false
+    },
+    {
+      "name": "articulo-cronologia",
+      "width": 1440,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": {
+        "top": 2815,
+        "height": 237
+      },
+      "firstHeadline": {
+        "top": 274,
+        "height": 114
+      },
+      "overflow": false
+    },
+    {
+      "name": "categoria",
+      "width": 1440,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 343,
+        "height": 112
+      },
+      "overflow": false
+    },
+    {
+      "name": "servicios",
+      "width": 1440,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": null,
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": {
+        "top": 216,
+        "height": 45
+      },
+      "overflow": false
+    },
+    {
+      "name": "videos",
+      "width": 1440,
+      "notices": null,
+      "ticker": null,
+      "strip": null,
+      "videos": {
+        "top": 160,
+        "height": 308
+      },
+      "articleVideo": null,
+      "update": null,
+      "timeline": null,
+      "firstHeadline": null,
+      "overflow": false
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 import { Prisma, PostStatus } from '@prisma/client';
 import { isDatabaseConfigured, prisma } from '@/lib/prisma';
+import { EVENT_STORY_KEY } from '@/lib/feed-types';
 import { INITIAL_CATEGORIES } from '@/lib/site';
 
 export const publicPostInclude = {
@@ -177,13 +178,13 @@ export async function getRelatedPosts(post: PublicPost, limit = 4) {
 }
 
 /**
- * "Seguí esta historia" (docs/EDITORIAL_CONTEXT_PROGRESS.md, repo del
- * autopublicador). storyKey lo asigna el Story Engine externo; acá sólo se
- * consulta. El llamador decide si mostrar el módulo (regla: al menos 2
- * publicaciones además de la actual, Parte 12 del plan de contexto editorial).
+ * "Seguí esta historia": other publications of the same event. storyKey is
+ * assigned by the external Story Engine; only keys with the `event:` prefix
+ * identify one verified event. Older keys (`story:` and others) grouped
+ * unrelated facts, so they are not read here at all (docs/FEED_INTEGRATION.md).
  */
-export async function getStoryTimeline(storyKey: string, excludePostId: number, limit = 5) {
-  if (!isDatabaseConfigured() || !storyKey) return [];
+export async function getStoryTimeline(storyKey: string, excludePostId: number, limit = 20) {
+  if (!isDatabaseConfigured() || !EVENT_STORY_KEY.test(storyKey)) return [];
 
   return prisma.post.findMany({
     where: {
@@ -196,7 +197,9 @@ export async function getStoryTimeline(storyKey: string, excludePostId: number, 
       id: true,
       slug: true,
       title: true,
-      publishedAt: true
+      excerpt: true,
+      publishedAt: true,
+      storyKey: true
     },
     orderBy: [{ publishedAt: 'asc' }],
     take: limit
