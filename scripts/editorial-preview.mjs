@@ -32,7 +32,7 @@ Object.assign(env, { NODE_ENV: buildOnly ? 'production' : 'development', NEXT_TE
 if (buildOnly) {
   const configPath = path.join(preview, 'next.config.mjs');
   const config = await readFile(configPath, 'utf8');
-  await writeFile(configPath, config.replace('export default nextConfig;', 'nextConfig.experimental = { ...nextConfig.experimental, cpus: 2 };\nexport default nextConfig;'));
+  await writeFile(configPath, config.replace('export default nextConfig;', 'nextConfig.experimental = { ...nextConfig.experimental, cpus: nextConfig.experimental?.cpus || 2 };\nexport default nextConfig;'));
 }
 console.log(`Vista aislada: http://localhost:${port}\nCopia temporal: ${preview}\nSin base de datos ni credenciales. Ctrl+C para cerrar.`);
 const args = buildOnly ? ['build'] : ['dev', '-H', '127.0.0.1', '-p', port];

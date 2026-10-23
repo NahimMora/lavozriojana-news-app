@@ -2,7 +2,7 @@
 
 Fecha: 23 de octubre de 2026. Rama: `design/editorial-premium-local`. Base: `186ebff`.
 
-Implementación preparada y validada localmente. Durante la fase de rediseño no se hizo commit, push, PR, merge ni deploy. Posteriormente, el usuario autorizó commitear y pushear todos los cambios: el destino es la rama `design/editorial-premium-local` en `origin`, sin merge a `main`. Las limitaciones de validación detalladas abajo continúan vigentes.
+Implementación preparada y validada localmente. Durante la fase de rediseño no se hizo commit, push, PR, merge ni deploy. Posteriormente, el usuario autorizó primero el push de la rama de diseño y luego su integración y publicación en `main`. El primer build productivo falló por falta de procesos disponibles; la corrección se documenta en [el incidente de Hostinger](../README_INCIDENTE_2026-10-23_BUILD_PROCESOS.md). Las limitaciones de validación detalladas abajo continúan vigentes salvo las comprobaciones productivas que se realicen después del despliegue.
 
 El repositorio estaba limpio al comenzar. Se leyeron `CLAUDE.md`, `README_DEPLOY_HOSTINGER.md` y `README_INCIDENTE_2026-09-13_HOME_VACIA.md` antes de ejecutar la aplicación.
 
@@ -40,7 +40,7 @@ node scripts/editorial-preview.mjs 3108 --single
 node scripts/editorial-preview.mjs 3109 --build
 ```
 
-`--build` ejecuta directamente el compilador de Next en una copia aislada con fixtures; no ejecuta `npm run build` ni migraciones. Limita los trabajadores a dos solamente en la configuración temporal. No valida MySQL ni el flujo de despliegue real.
+`--build` ejecuta directamente el compilador de Next en una copia aislada con fixtures; no ejecuta `npm run build` ni migraciones. Respeta el límite de trabajadores configurado por el proyecto y usa dos como alternativa si no existe un límite. No valida MySQL ni el flujo de despliegue real.
 
 ## Problemas detectados y decisiones
 
@@ -141,7 +141,7 @@ Soporte local:
 - `scripts/editorial-preview.mjs`, `scripts/editorial-visual-qa.js`, `scripts/fixtures/`.
 - Este informe y `docs/qa/editorial/`, con galería, resultados y capturas.
 
-Permanecen sin cambios `package.json`, el lockfile, `next.config.mjs`, Prisma, `lib/posts.ts`, `lib/prisma.ts`, los endpoints y la sanitización. No se ejecutaron migraciones ni se abrió una base de producción. No se realizó ninguna acción de escritura en sistemas externos.
+Permanecen sin cambios `package.json`, el lockfile, Prisma, `lib/posts.ts`, `lib/prisma.ts`, los endpoints y la sanitización. Durante el rediseño local no se ejecutaron migraciones ni se abrió una base de producción. Después de la autorización para publicar, el auto-deploy ejecutó el script existente y confirmó que no había migraciones pendientes. La única modificación posterior de `next.config.mjs` limita los trabajadores del build para evitar el error de procesos de Hostinger.
 
 ## Limitaciones y pendientes
 

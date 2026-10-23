@@ -3,6 +3,11 @@ const nextConfig = {
   output: 'standalone',
   poweredByHeader: false,
   reactStrictMode: true,
+  // Hostinger exposes the host CPU count, which can exhaust the account's
+  // process allowance during static generation (EAGAIN). Build sequentially.
+  experimental: {
+    cpus: 1
+  },
   images: {
     remotePatterns: [
       {
