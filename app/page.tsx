@@ -1,12 +1,21 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { AdSenseUnit } from '@/components/news/AdSenseUnit';
-import { BannerAd } from '@/components/news/BannerAd';
+import { AhoraMore } from '@/components/news/AhoraMore';
+import { BannerSquare } from '@/components/news/BannerAd';
 import { BreakingNewsBar } from '@/components/news/BreakingNewsBar';
 import { MostRead } from '@/components/news/MostRead';
 import { PostCard } from '@/components/news/PostCard';
 import { getHomeData } from '@/lib/posts';
 import type { PublicPost } from '@/lib/posts';
+import { getActiveBanner } from '@/lib/banners';
+import { formatHeadline } from '@/lib/headline';
+
+const headlineOf = (post: PublicPost) => formatHeadline(post.title, post.excerpt, post.contentText);
+/* Mobile shows the first entries of "Ahora"; the rest unfold in place. */
+const AHORA_MOBILE_VISIBLE = 5;
+/* Cell of the latest grid the middle ad takes: end of the second row. */
+const MIDDLE_AD_CELL = 5;
 
 export const runtime = 'nodejs';
 export const revalidate = 60;
@@ -19,19 +28,25 @@ function CategorySection({
   embedded?: boolean;
 }) {
   const { category, posts } = block;
+  /* Full-width blocks show the four fetched notes in one row; next to the
+     ranking (embedded) the row is narrower and keeps three. */
+  const shown = posts.slice(0, embedded ? 3 : 4);
+  /* On phones the first note keeps its photo; the rest become rows. */
+  const leadSizes = '(min-width: 1024px) 420px, (min-width: 560px) 47vw, 100vw';
 
   const body =
-    posts.length === 1 ? (
-      <PostCard post={posts[0]} variant="horizontal" autoplayInView />
-    ) : posts.length === 2 ? (
-      <div className="editorial-2col">
-        <PostCard post={posts[0]} variant="featured" autoplayInView />
-        <PostCard post={posts[1]} variant="compact" autoplayInView />
+    shown.length === 1 ? (
+      <PostCard post={shown[0]} variant="horizontal" autoplayInView />
+    ) : shown.length === 2 ? (
+      <div className="editorial-pair">
+        {shown.map((post) => (
+          <PostCard post={post} variant="horizontal" key={post.id} autoplayInView />
+        ))}
       </div>
     ) : (
-      <div className="editorial-grid">
-        {posts.slice(0, 3).map((post) => (
-          <PostCard post={post} key={post.id} autoplayInView />
+      <div className={`editorial-grid lead-first${shown.length === 4 ? ' cols-4' : ''}`}>
+        {shown.map((post, i) => (
+          <PostCard post={post} key={post.id} imageSizes={i === 0 ? leadSizes : undefined} autoplayInView />
         ))}
       </div>
     );
@@ -49,7 +64,7 @@ function CategorySection({
   );
 
   return (
-    <div className="cat-block">
+    <div className="cat-block cat-section">
       {embedded ? inner : <div className="container">{inner}</div>}
     </div>
   );
@@ -58,21 +73,21 @@ function CategorySection({
 function LoUltimoSlice({ posts }: { posts: PublicPost[] }) {
   if (posts.length < 3) return null;
   return (
-    <div className="cat-block">
+    <div className="cat-block lo-ultimo-block">
       <div className="container">
         <div className="cat-block-head">
-          <h2 className="section-title blue" style={{ whiteSpace: 'nowrap' }}>Titulares del día</h2>
+          <h2 className="section-title blue">Titulares del día</h2>
         </div>
         <div className="lo-ultimo-list">
-          {posts.slice(0, 9).map((post) => (
-            <div className="lo-ultimo-item" key={post.id}>
+          {posts.slice(0, 8).map((post) => (
+            <article className="lo-ultimo-item" key={post.id}>
               <Link className="lo-kicker" href={`/categoria/${post.category.slug}`}>
                 {post.category.name}
               </Link>
-              <Link className="lo-title" href={`/noticias/${post.slug}`}>
-                {post.title}
-              </Link>
-            </div>
+              <h3 className="lo-title">
+                <Link href={`/noticias/${post.slug}`}>{headlineOf(post)}</Link>
+              </h3>
+            </article>
           ))}
         </div>
       </div>
@@ -90,17 +105,17 @@ function EnFocoSlice({ posts }: { posts: PublicPost[] }) {
           <h2 className="section-title">En foco</h2>
         </div>
         <div className="en-foco-layout">
-          <PostCard post={main} variant="featured" autoplayInView />
+          <PostCard post={main} variant="horizontal" imageSizes="(min-width: 1024px) 400px, (min-width: 768px) 45vw, 100vw" autoplayInView />
           <div className="en-foco-sidebar">
             {rest.slice(0, 4).map((post) => (
-              <div className="en-foco-item" key={post.id}>
+              <article className="en-foco-item" key={post.id}>
                 <Link className="kicker" href={`/categoria/${post.category.slug}`}>
                   {post.category.name}
                 </Link>
-                <h3 className="post-title">
-                  <Link href={`/noticias/${post.slug}`}>{post.title}</Link>
+                <h3 className="en-foco-title">
+                  <Link href={`/noticias/${post.slug}`}>{headlineOf(post)}</Link>
                 </h3>
-              </div>
+              </article>
             ))}
           </div>
         </div>
@@ -120,11 +135,20 @@ export default async function HomePage() {
     categoryBlocks: []
   };
 
+  /* Square ads that change the layout around them: the middle one takes the
+     place of a card in the latest grid and the sidebar one shortens
+     Destacados, so the page needs to know beforehand whether they are filled.
+     Fetched in parallel with the home data. */
+  const bannersPromise = Promise.all([
+    getActiveBanner('HOME_MIDDLE').catch(() => null),
+    getActiveBanner('SIDEBAR').catch(() => null)
+  ]);
   try {
     data = await getHomeData();
   } catch {
     /* base de datos vacía o inicio en frío */
   }
+  const [middleBanner, sideBanner] = await bannersPromise;
 
   /* ── Pool management: cada post se usa una sola vez ─── */
   type PostId = (typeof data.latest)[0]['id'];
@@ -143,38 +167,38 @@ export default async function HomePage() {
     }
   }
 
-  /* Posiciones del hero */
-  const subCards  = heroPool.slice(0, 2);
-  const featured1 = heroPool[2];
+  /* Posiciones del hero: principal | 1 destacada + 2 compactas | Ahora */
+  const secondary = heroPool.slice(0, 3);
   const listItems = heroPool.slice(3, 12); /* AHORA: hasta 9 items */
 
   /* Marcar como vistos */
-  for (const p of [...subCards, ...(featured1 ? [featured1] : []), ...listItems]) {
+  for (const p of [...secondary, ...listItems]) {
     seen.add(p.id);
   }
 
   /* Featured disponibles para el sidebar (antes de consumir latest) */
   const featuredForSidebar = data.featured.filter((p) => !seen.has(p.id));
 
-  /* Últimas noticias (sección principal): 1 featured + 3 compact en el
-     lead (para que la columna de al lado llegue a la altura de la
-     featured sin dejar hueco de fondo, pero sin pasarla) + 9 en grilla
-     de 3 columnas (filas completas, sin huecos al final) */
-  const latestPosts = data.latest.filter((p) => !seen.has(p.id)).slice(0, 13);
+  /* Últimas noticias (sección principal): 1 featured + 4 compact, que
+     igualan su alto, + 9 celdas en grilla de 3 columnas (filas completas):
+     9 notas, u 8 y la publicidad cuadrada cuando HOME_MIDDLE está activa. */
+  const latestPosts = data.latest.filter((p) => !seen.has(p.id)).slice(0, middleBanner?.imageUrl ? 13 : 14);
   latestPosts.forEach((p) => seen.add(p.id));
 
-  /* Sidebar: featured sobrantes + latest no usados en la grilla, hasta 16 —
-     mas alto que el alto natural de "Ultimas noticias" para que no quede
-     espacio vacio en el medio de la columna. */
+  /* Destacados: featured sobrantes + latest sin usar. Se marcan como vistos
+     para que "Titulares del día" y "En foco" no repitan las mismas notas.
+     12 con la publicidad lateral activa y 14 sin ella, para que el lateral
+     termine a la altura de la grilla. */
   const sidebarHighlights = [
     ...featuredForSidebar,
     ...data.latest.filter((p) => !seen.has(p.id)),
   ]
     .filter((p, i, arr) => arr.findIndex((x) => x.id === p.id) === i)
-    .slice(0, 16);
+    .slice(0, sideBanner?.imageUrl ? 12 : 14);
+  sidebarHighlights.forEach((p) => seen.add(p.id));
 
   /* "Lo último" — pool de titulares compact */
-  const loUltimoPool = data.latest.filter((p) => !seen.has(p.id)).slice(0, 9);
+  const loUltimoPool = data.latest.filter((p) => !seen.has(p.id)).slice(0, 8);
   loUltimoPool.forEach((p) => seen.add(p.id));
 
   /* "En foco" — nota grande + listado */
@@ -188,6 +212,8 @@ export default async function HomePage() {
   /* Category blocks con posts */
   const catBlocks = data.categoryBlocks.filter((b) => b.posts.length > 0);
 
+  const middleAd = <BannerSquare key="home-middle-ad" banner={middleBanner} slot="HOME_MIDDLE" className="grid-ad" />;
+
   return (
     <>
       <BreakingNewsBar posts={data.breaking} />
@@ -196,47 +222,43 @@ export default async function HomePage() {
       {/* ── Hero editorial ─────────────────────────────────── */}
       <section className="home-opening" aria-label="Noticias destacadas">
         <div className="container">
-          <div className="home-edition-line"><span>La actualidad, desde La Rioja</span><span>Edición digital</span></div>
           {mainPost ? (
-            <div className="home-hero-grid">
-              {/* IZQUIERDA: nota principal + 2 sub-cards */}
-              <div className="hero-left">
-                <div className="hero-main-slot">
-                  <PostCard post={mainPost} variant="lead" priority autoplayInView />
-                </div>
+            /* Desktop: principal | secundarias | Ahora. Tablet: principal
+               arriba y dos columnas debajo. Móvil: apilado (ver CSS). */
+            <div className={`home-hero-grid${!secondary.length ? ' lead-only' : listItems.length ? '' : ' no-ahora'}`}>
+              <div className="hero-lead">
+                <PostCard post={mainPost} variant="lead" priority imageSizes="(min-width: 1200px) 600px, (min-width: 1024px) 640px, (min-width: 768px) 52vw, 100vw" autoplayInView />
+              </div>
 
-                {subCards.length > 0 && (
-                  <div className="hero-sub-row">
-                    {subCards.map((post) => (
-                      <div className="hero-sub-card" key={post.id}>
-                        <PostCard post={post} variant="featured" imageSizes="(min-width: 1280px) 410px, (min-width: 768px) 30vw, 100vw" autoplayInView />
-                      </div>
+              {secondary.length > 0 && (
+                <div className="hero-secondary">
+                  {secondary.map((post, i) => (
+                    <PostCard
+                      key={post.id}
+                      post={post}
+                      variant={i === 0 ? 'featured' : 'compact'}
+                      imageSizes={i === 0 ? '(min-width: 1200px) 310px, (min-width: 768px) 40vw, 112px' : undefined}
+                      autoplayInView
+                    />
+                  ))}
+                </div>
+              )}
+
+              {listItems.length > 0 && (
+                <section className="ahora-block" aria-labelledby="ahora-title">
+                  <h2 className="ahora-header" id="ahora-title">
+                    <span className="live-label">Ahora</span>
+                  </h2>
+                  <div className="latest-list" id="ahora-list">
+                    {listItems.map((post) => (
+                      <PostCard post={post} variant="list" key={post.id} />
                     ))}
                   </div>
-                )}
-              </div>
-
-              {/* DERECHA: nota destacada + bloque AHORA */}
-              <div className="hero-right">
-                {featured1 && (
-                  <div className="hero-right-item">
-                    <PostCard post={featured1} variant="featured" imageSizes="(min-width: 1280px) 320px, (min-width: 768px) 28vw, 100vw" autoplayInView />
-                  </div>
-                )}
-
-                {listItems.length > 0 && (
-                  <div className="hero-right-item">
-                    <div className="ahora-header">
-                      <span className="live-label">Ahora</span>
-                    </div>
-                    <div className="latest-list">
-                      {listItems.map((post) => (
-                        <PostCard post={post} variant="list" key={post.id} />
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
+                  {listItems.length > AHORA_MOBILE_VISIBLE && (
+                    <AhoraMore count={listItems.length - AHORA_MOBILE_VISIBLE} listId="ahora-list" />
+                  )}
+                </section>
+              )}
             </div>
           ) : (
             <div style={{ padding: '32px 0', textAlign: 'center' }}>
@@ -257,22 +279,27 @@ export default async function HomePage() {
           <div className="container news-layout">
             <div>
               <h2 className="section-title">Últimas noticias</h2>
-              {latestPosts.length > 0 && (
-                <div className="editorial-2col" style={{ marginBottom: 14 }}>
-                  <PostCard post={latestPosts[0]} variant="featured" autoplayInView />
+              <div className="editorial-2col latest-lead">
+                <PostCard post={latestPosts[0]} variant="featured" autoplayInView />
+                {latestPosts.length > 1 && (
                   <div className="editorial-2col-list">
-                    {latestPosts.slice(1, 4).map((post) => (
+                    {latestPosts.slice(1, 5).map((post) => (
                       <PostCard post={post} variant="compact" key={post.id} autoplayInView />
                     ))}
                   </div>
-                </div>
-              )}
-              <div className="editorial-grid">
-                {latestPosts.slice(4).map((post) => (
-                  <PostCard post={post} key={post.id} autoplayInView />
-                ))}
+                )}
               </div>
-              <BannerAd slot="HOME_MIDDLE" />
+              {latestPosts.length > 5 ? (
+                <div className="editorial-grid">
+                  {latestPosts.slice(5).flatMap((post, i) => [
+                    ...(i === MIDDLE_AD_CELL ? [middleAd] : []),
+                    <PostCard post={post} key={post.id} autoplayInView />
+                  ])}
+                  {latestPosts.length - 5 <= MIDDLE_AD_CELL && middleAd}
+                </div>
+              ) : (
+                middleAd
+              )}
             </div>
 
             <aside className="sidebar" aria-label="Lateral">
@@ -287,12 +314,12 @@ export default async function HomePage() {
                             {post.category.name}
                           </Link>
                           <h3 className="sidebar-hi-title">
-                            <Link href={`/noticias/${post.slug}`}>{post.title}</Link>
+                            <Link href={`/noticias/${post.slug}`}>{headlineOf(post)}</Link>
                           </h3>
                         </div>
                         {post.mainImageUrl && (
-                          <Link href={`/noticias/${post.slug}`} className="sidebar-hi-thumb" aria-label={post.title}>
-                            <Image src={post.mainImageUrl} alt="" fill sizes="62px" />
+                          <Link href={`/noticias/${post.slug}`} className="sidebar-hi-thumb" aria-hidden="true" tabIndex={-1}>
+                            <Image src={post.mainImageUrl} alt="" fill sizes="(max-width: 767px) 168px, 72px" />
                           </Link>
                         )}
                       </article>
@@ -315,7 +342,7 @@ export default async function HomePage() {
                 </div>
               </section>
 
-              <BannerAd slot="SIDEBAR" />
+              <BannerSquare banner={sideBanner} slot="SIDEBAR" />
               <AdSenseUnit slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_HOME_SIDEBAR} className="ad-slot-home-sidebar" />
             </aside>
           </div>

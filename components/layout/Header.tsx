@@ -115,6 +115,9 @@ export async function Header() {
           </nav>
         </div>
       </header>
+      {/* The header is fixed; this keeps its full height in the flow so that
+          compacting it on scroll never moves the page content. */}
+      <div className="site-header-spacer" aria-hidden="true" />
     </>
   );
 }

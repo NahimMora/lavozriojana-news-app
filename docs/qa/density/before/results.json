@@ -1,0 +1,967 @@
+{
+  "label": "before",
+  "origin": "http://127.0.0.1:3110",
+  "pages": [
+    {
+      "name": "home",
+      "width": 360,
+      "height": 800,
+      "status": 200,
+      "overflow": false,
+      "headerHeight": 112,
+      "firstCardTop": 230,
+      "firstImageTop": 498,
+      "visibleHeadlines": 1,
+      "blocks": {
+        "opening": {
+          "top": 159,
+          "height": 2138
+        },
+        "ahora": {
+          "top": 1285,
+          "height": 977
+        },
+        "leadCard": {
+          "top": 230,
+          "height": 471
+        },
+        "enFoco": {
+          "top": 17099,
+          "height": 1063
+        },
+        "titulares": {
+          "top": 12957,
+          "height": 1136
+        },
+        "destacados": {
+          "top": 7525,
+          "height": 2103
+        },
+        "catHero": null
+      },
+      "rowSpread": {
+        "grid": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sub": [
+          0
+        ],
+        "titulares": [
+          0
+        ]
+      },
+      "lines": {
+        "ahora": [
+          2,
+          3,
+          2,
+          2,
+          2,
+          2,
+          3,
+          4,
+          2
+        ],
+        "titulares": [
+          4,
+          2,
+          2,
+          3,
+          2,
+          2,
+          3,
+          2,
+          2
+        ],
+        "enFoco": [
+          3,
+          4,
+          3,
+          2
+        ],
+        "lead": [
+          3
+        ]
+      },
+      "fonts": {
+        "lead": 32,
+        "featured": 19.52,
+        "standard": 22.4,
+        "list": 17.28,
+        "titulares": 20,
+        "kicker": 11.52,
+        "meta": 10.88
+      },
+      "ticker": {
+        "animated": false,
+        "focusableLinks": 3,
+        "hiddenCopies": 0,
+        "height": 47
+      },
+      "headerHeightScrolled": 112,
+      "headerHeightRestored": 112
+    },
+    {
+      "name": "home",
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "overflow": false,
+      "headerHeight": 112,
+      "firstCardTop": 230,
+      "firstImageTop": 498,
+      "visibleHeadlines": 1,
+      "blocks": {
+        "opening": {
+          "top": 159,
+          "height": 2134
+        },
+        "ahora": {
+          "top": 1302,
+          "height": 955
+        },
+        "leadCard": {
+          "top": 230,
+          "height": 489
+        },
+        "enFoco": {
+          "top": 17167,
+          "height": 1034
+        },
+        "titulares": {
+          "top": 12989,
+          "height": 1086
+        },
+        "destacados": {
+          "top": 7602,
+          "height": 1995
+        },
+        "catHero": null
+      },
+      "rowSpread": {
+        "grid": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sub": [
+          0
+        ],
+        "titulares": [
+          0
+        ]
+      },
+      "lines": {
+        "ahora": [
+          2,
+          3,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          2
+        ],
+        "titulares": [
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          2,
+          2
+        ],
+        "enFoco": [
+          3,
+          3,
+          3,
+          2
+        ],
+        "lead": [
+          3
+        ]
+      },
+      "fonts": {
+        "lead": 32,
+        "featured": 19.52,
+        "standard": 22.4,
+        "list": 17.28,
+        "titulares": 20,
+        "kicker": 11.52,
+        "meta": 10.88
+      },
+      "ticker": {
+        "animated": false,
+        "focusableLinks": 3,
+        "hiddenCopies": 0,
+        "height": 47
+      },
+      "headerHeightScrolled": 112,
+      "headerHeightRestored": 112
+    },
+    {
+      "name": "home",
+      "width": 768,
+      "height": 1024,
+      "status": 200,
+      "overflow": false,
+      "headerHeight": 191,
+      "firstCardTop": 325,
+      "firstImageTop": 558,
+      "visibleHeadlines": 3,
+      "blocks": {
+        "opening": {
+          "top": 238,
+          "height": 2041
+        },
+        "ahora": {
+          "top": 791,
+          "height": 1452
+        },
+        "leadCard": {
+          "top": 325,
+          "height": 532
+        },
+        "enFoco": {
+          "top": 12310,
+          "height": 642
+        },
+        "titulares": {
+          "top": 9501,
+          "height": 675
+        },
+        "destacados": {
+          "top": 5374,
+          "height": 1601
+        },
+        "catHero": null
+      },
+      "rowSpread": {
+        "grid": [
+          27,
+          0,
+          0,
+          0,
+          27,
+          26,
+          27,
+          0,
+          26,
+          26,
+          79,
+          53
+        ],
+        "sub": [
+          0
+        ],
+        "titulares": [
+          0
+        ]
+      },
+      "lines": {
+        "ahora": [
+          5,
+          6,
+          3,
+          4,
+          4,
+          4,
+          6,
+          8,
+          4
+        ],
+        "titulares": [
+          4,
+          2,
+          2,
+          3,
+          2,
+          2,
+          3,
+          2,
+          2
+        ],
+        "enFoco": [
+          3,
+          4,
+          3,
+          2
+        ],
+        "lead": [
+          2
+        ]
+      },
+      "fonts": {
+        "lead": 32,
+        "featured": 20,
+        "standard": 22.4,
+        "list": 17.28,
+        "titulares": 20,
+        "kicker": 11.52,
+        "meta": 10.88
+      },
+      "ticker": {
+        "animated": false,
+        "focusableLinks": 3,
+        "hiddenCopies": 0,
+        "height": 47
+      },
+      "headerHeightScrolled": 191,
+      "headerHeightRestored": 191
+    },
+    {
+      "name": "home",
+      "width": 1024,
+      "height": 768,
+      "status": 200,
+      "overflow": false,
+      "headerHeight": 191,
+      "firstCardTop": 325,
+      "firstImageTop": 535,
+      "visibleHeadlines": 2,
+      "blocks": {
+        "opening": {
+          "top": 238,
+          "height": 1717
+        },
+        "ahora": {
+          "top": 748,
+          "height": 1171
+        },
+        "leadCard": {
+          "top": 325,
+          "height": 621
+        },
+        "enFoco": {
+          "top": 8036,
+          "height": 627
+        },
+        "titulares": {
+          "top": 6344,
+          "height": 471
+        },
+        "destacados": {
+          "top": 1996,
+          "height": 2366
+        },
+        "catHero": null
+      },
+      "rowSpread": {
+        "grid": [
+          26,
+          26,
+          0,
+          26,
+          26,
+          0,
+          26,
+          26,
+          53,
+          27,
+          79,
+          53
+        ],
+        "sub": [
+          0
+        ],
+        "titulares": [
+          0
+        ]
+      },
+      "lines": {
+        "ahora": [
+          3,
+          4,
+          3,
+          3,
+          3,
+          3,
+          4,
+          5,
+          3
+        ],
+        "titulares": [
+          4,
+          2,
+          2,
+          3,
+          2,
+          2,
+          4,
+          2,
+          3
+        ],
+        "enFoco": [
+          2,
+          3,
+          2,
+          2
+        ],
+        "lead": [
+          2
+        ]
+      },
+      "fonts": {
+        "lead": 33.28,
+        "featured": 20,
+        "standard": 22.4,
+        "list": 17.28,
+        "titulares": 20,
+        "kicker": 11.52,
+        "meta": 10.88
+      },
+      "ticker": {
+        "animated": false,
+        "focusableLinks": 3,
+        "hiddenCopies": 0,
+        "height": 47
+      },
+      "headerHeightScrolled": 191,
+      "headerHeightRestored": 191
+    },
+    {
+      "name": "home",
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "overflow": false,
+      "headerHeight": 191,
+      "firstCardTop": 325,
+      "firstImageTop": 552,
+      "visibleHeadlines": 2,
+      "blocks": {
+        "opening": {
+          "top": 238,
+          "height": 1558
+        },
+        "ahora": {
+          "top": 783,
+          "height": 977
+        },
+        "leadCard": {
+          "top": 325,
+          "height": 752
+        },
+        "enFoco": {
+          "top": 7484,
+          "height": 722
+        },
+        "titulares": {
+          "top": 5813,
+          "height": 396
+        },
+        "destacados": {
+          "top": 1837,
+          "height": 2366
+        },
+        "catHero": null
+      },
+      "rowSpread": {
+        "grid": [
+          27,
+          26,
+          0,
+          26,
+          26,
+          0,
+          26,
+          26,
+          26,
+          0,
+          53,
+          26
+        ],
+        "sub": [
+          0
+        ],
+        "titulares": [
+          0
+        ]
+      },
+      "lines": {
+        "ahora": [
+          2,
+          3,
+          2,
+          2,
+          2,
+          2,
+          3,
+          4,
+          2
+        ],
+        "titulares": [
+          3,
+          2,
+          1,
+          2,
+          2,
+          2,
+          3,
+          2,
+          2
+        ],
+        "enFoco": [
+          2,
+          2,
+          2,
+          2
+        ],
+        "lead": [
+          2
+        ]
+      },
+      "fonts": {
+        "lead": 41.6,
+        "featured": 23.04,
+        "standard": 22.4,
+        "list": 17.28,
+        "titulares": 20,
+        "kicker": 11.52,
+        "meta": 10.88
+      },
+      "ticker": {
+        "animated": false,
+        "focusableLinks": 3,
+        "hiddenCopies": 0,
+        "height": 47
+      },
+      "headerHeightScrolled": 191,
+      "headerHeightRestored": 191
+    },
+    {
+      "name": "home",
+      "width": 1440,
+      "height": 900,
+      "status": 200,
+      "overflow": false,
+      "headerHeight": 191,
+      "firstCardTop": 325,
+      "firstImageTop": 564,
+      "visibleHeadlines": 2,
+      "blocks": {
+        "opening": {
+          "top": 238,
+          "height": 1609
+        },
+        "ahora": {
+          "top": 835,
+          "height": 977
+        },
+        "leadCard": {
+          "top": 325,
+          "height": 792
+        },
+        "enFoco": {
+          "top": 7590,
+          "height": 750
+        },
+        "titulares": {
+          "top": 5891,
+          "height": 396
+        },
+        "destacados": {
+          "top": 1888,
+          "height": 2366
+        },
+        "catHero": null
+      },
+      "rowSpread": {
+        "grid": [
+          27,
+          26,
+          0,
+          26,
+          26,
+          0,
+          26,
+          26,
+          52,
+          0,
+          53,
+          26
+        ],
+        "sub": [
+          0
+        ],
+        "titulares": [
+          0
+        ]
+      },
+      "lines": {
+        "ahora": [
+          2,
+          3,
+          2,
+          2,
+          2,
+          2,
+          3,
+          4,
+          2
+        ],
+        "titulares": [
+          3,
+          2,
+          1,
+          2,
+          2,
+          2,
+          3,
+          2,
+          2
+        ],
+        "enFoco": [
+          2,
+          2,
+          2,
+          2
+        ],
+        "lead": [
+          2
+        ]
+      },
+      "fonts": {
+        "lead": 46.8,
+        "featured": 25.92,
+        "standard": 22.4,
+        "list": 17.28,
+        "titulares": 20,
+        "kicker": 11.52,
+        "meta": 10.88
+      },
+      "ticker": {
+        "animated": false,
+        "focusableLinks": 3,
+        "hiddenCopies": 0,
+        "height": 47
+      },
+      "headerHeightScrolled": 191,
+      "headerHeightRestored": 191
+    },
+    {
+      "name": "category",
+      "width": 360,
+      "height": 800,
+      "status": 200,
+      "overflow": false,
+      "headerHeight": 112,
+      "firstCardTop": 449,
+      "firstImageTop": 751,
+      "visibleHeadlines": 1,
+      "blocks": {
+        "opening": null,
+        "ahora": null,
+        "leadCard": null,
+        "enFoco": null,
+        "titulares": null,
+        "destacados": null,
+        "catHero": {
+          "top": 112,
+          "height": 205
+        }
+      },
+      "rowSpread": {
+        "grid": [
+          0
+        ],
+        "sub": [],
+        "titulares": []
+      },
+      "lines": {
+        "ahora": [],
+        "titulares": [],
+        "enFoco": [],
+        "lead": [
+          4
+        ]
+      },
+      "fonts": {
+        "lead": 32,
+        "featured": null,
+        "standard": 22.4,
+        "list": null,
+        "titulares": null,
+        "kicker": 11.52,
+        "meta": 10.88
+      },
+      "ticker": null,
+      "headerHeightScrolled": 112,
+      "headerHeightRestored": 112
+    },
+    {
+      "name": "category",
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "overflow": false,
+      "headerHeight": 112,
+      "firstCardTop": 453,
+      "firstImageTop": 721,
+      "visibleHeadlines": 1,
+      "blocks": {
+        "opening": null,
+        "ahora": null,
+        "leadCard": null,
+        "enFoco": null,
+        "titulares": null,
+        "destacados": null,
+        "catHero": {
+          "top": 112,
+          "height": 205
+        }
+      },
+      "rowSpread": {
+        "grid": [
+          0
+        ],
+        "sub": [],
+        "titulares": []
+      },
+      "lines": {
+        "ahora": [],
+        "titulares": [],
+        "enFoco": [],
+        "lead": [
+          3
+        ]
+      },
+      "fonts": {
+        "lead": 32,
+        "featured": null,
+        "standard": 22.4,
+        "list": null,
+        "titulares": null,
+        "kicker": 11.52,
+        "meta": 10.88
+      },
+      "ticker": null,
+      "headerHeightScrolled": 112,
+      "headerHeightRestored": 112
+    },
+    {
+      "name": "category",
+      "width": 768,
+      "height": 1024,
+      "status": 200,
+      "overflow": false,
+      "headerHeight": 191,
+      "firstCardTop": 568,
+      "firstImageTop": 775,
+      "visibleHeadlines": 1,
+      "blocks": {
+        "opening": null,
+        "ahora": null,
+        "leadCard": null,
+        "enFoco": null,
+        "titulares": null,
+        "destacados": null,
+        "catHero": {
+          "top": 191,
+          "height": 195
+        }
+      },
+      "rowSpread": {
+        "grid": [
+          27
+        ],
+        "sub": [],
+        "titulares": []
+      },
+      "lines": {
+        "ahora": [],
+        "titulares": [],
+        "enFoco": [],
+        "lead": [
+          2
+        ]
+      },
+      "fonts": {
+        "lead": 32,
+        "featured": null,
+        "standard": 22.4,
+        "list": null,
+        "titulares": null,
+        "kicker": 11.52,
+        "meta": 10.88
+      },
+      "ticker": null,
+      "headerHeightScrolled": 191,
+      "headerHeightRestored": 191
+    },
+    {
+      "name": "category",
+      "width": 1024,
+      "height": 768,
+      "status": 200,
+      "overflow": false,
+      "headerHeight": 191,
+      "firstCardTop": 612,
+      "firstImageTop": 822,
+      "visibleHeadlines": 1,
+      "blocks": {
+        "opening": null,
+        "ahora": null,
+        "leadCard": null,
+        "enFoco": null,
+        "titulares": null,
+        "destacados": null,
+        "catHero": {
+          "top": 191,
+          "height": 205
+        }
+      },
+      "rowSpread": {
+        "grid": [
+          26
+        ],
+        "sub": [],
+        "titulares": []
+      },
+      "lines": {
+        "ahora": [],
+        "titulares": [],
+        "enFoco": [],
+        "lead": [
+          2
+        ]
+      },
+      "fonts": {
+        "lead": 33.28,
+        "featured": null,
+        "standard": 22.4,
+        "list": null,
+        "titulares": null,
+        "kicker": 11.52,
+        "meta": 10.88
+      },
+      "ticker": null,
+      "headerHeightScrolled": 191,
+      "headerHeightRestored": 191
+    },
+    {
+      "name": "category",
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "overflow": false,
+      "headerHeight": 191,
+      "firstCardTop": 628,
+      "firstImageTop": 855,
+      "visibleHeadlines": 2,
+      "blocks": {
+        "opening": null,
+        "ahora": null,
+        "leadCard": null,
+        "enFoco": null,
+        "titulares": null,
+        "destacados": null,
+        "catHero": {
+          "top": 191,
+          "height": 219
+        }
+      },
+      "rowSpread": {
+        "grid": [
+          27
+        ],
+        "sub": [],
+        "titulares": []
+      },
+      "lines": {
+        "ahora": [],
+        "titulares": [],
+        "enFoco": [],
+        "lead": [
+          2
+        ]
+      },
+      "fonts": {
+        "lead": 41.6,
+        "featured": null,
+        "standard": 22.4,
+        "list": null,
+        "titulares": null,
+        "kicker": 11.52,
+        "meta": 10.88
+      },
+      "ticker": null,
+      "headerHeightScrolled": 191,
+      "headerHeightRestored": 191
+    },
+    {
+      "name": "category",
+      "width": 1440,
+      "height": 900,
+      "status": 200,
+      "overflow": false,
+      "headerHeight": 191,
+      "firstCardTop": 636,
+      "firstImageTop": 875,
+      "visibleHeadlines": 2,
+      "blocks": {
+        "opening": null,
+        "ahora": null,
+        "leadCard": null,
+        "enFoco": null,
+        "titulares": null,
+        "destacados": null,
+        "catHero": {
+          "top": 191,
+          "height": 227
+        }
+      },
+      "rowSpread": {
+        "grid": [
+          26
+        ],
+        "sub": [],
+        "titulares": []
+      },
+      "lines": {
+        "ahora": [],
+        "titulares": [],
+        "enFoco": [],
+        "lead": [
+          2
+        ]
+      },
+      "fonts": {
+        "lead": 46.8,
+        "featured": null,
+        "standard": 22.4,
+        "list": null,
+        "titulares": null,
+        "kicker": 11.52,
+        "meta": 10.88
+      },
+      "ticker": null,
+      "headerHeightScrolled": 191,
+      "headerHeightRestored": 191
+    }
+  ],
+  "errors": []
+}

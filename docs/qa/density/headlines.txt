@@ -1,0 +1,243 @@
+# Titulares reales: almacenado → presentación
+# Fuente: API pública /api/public/posts (lectura). Solo cambia la presentación; la base no se modifica.
+
+NICOLE NEUMANN SE QUEBRÓ TRAS RECIBIR UN MENSAJE SOBRE SU FAMILIA
+→ Nicole Neumann se quebró tras recibir un mensaje sobre su familia
+
+FERNANDO CARRILLO CONFESÓ QUE LE FUE INFIEL A CATHERINE FULOP TRAS CASARSE
+→ Fernando Carrillo confesó que le fue infiel a Catherine Fulop tras casarse
+
+LUCIANA SALAZAR REVELÓ QUE SALIÓ CON UN HOMBRE 20 AÑOS MENOR
+→ Luciana Salazar reveló que salió con un hombre 20 años menor
+
+ATACARON A UN CONDUCTOR TRAS EXIGIRLE DINERO POR ESTACIONAR EN CÓRDOBA
+→ Atacaron a un conductor tras exigirle dinero por estacionar en Córdoba
+
+ANDREA RINCÓN REVELÓ DETALLES SOBRE LA INTERNA DE LOS ORTEGA
+→ Andrea Rincón reveló detalles sobre la interna de los Ortega
+
+CAPACITARON A TRABAJADORES SOBRE LA DETECCIÓN TEMPRANA DEL CÁNCER DE MAMA
+→ Capacitaron a trabajadores sobre la detección temprana del cáncer de mama
+
+LA UTN ABRE LA INSCRIPCIÓN PARA SUS TECNICATURAS
+→ La UTN abre la inscripción para sus tecnicaturas
+
+CIERRAN UNA PLANTA PROCESADORA EN SANAGASTA Y 21 TRABAJADORES QUEDAN EN LA CALLE
+→ Cierran una planta procesadora en Sanagasta y 21 trabajadores quedan en la calle
+
+IMPUGNAN EL NOMBRAMIENTO DE LA HIJA DEL JUEZ HERRERA PIEDRABUENA EN LA JUSTICIA FEDERAL
+→ Impugnan el nombramiento de la hija del juez Herrera Piedrabuena en la Justicia federal
+
+UNA NIÑA DE 6 AÑOS SE INTOXICÓ TRAS INGERIR UNA PLANTA ORNAMENTAL EN OLTA
+→ Una niña de 6 años se intoxicó tras ingerir una planta ornamental en Olta
+
+EDELAR CORTA EL SUMINISTRO ELÉCTRICO ESTE SÁBADO EN CHAMICAL
+→ EDELaR corta el suministro eléctrico este sábado en Chamical
+
+ANTONELA ROCCUZZO DESPEJÓ LOS RUMORES DE CRISIS CON LIONEL MESSI
+→ Antonela Roccuzzo despejó los rumores de crisis con Lionel Messi
+
+EDUCACIÓN ACLARÓ QUE EL PROTOCOLO CONTRA EL BULLYING NO CONTEMPLA EXPULSIONES
+→ Educación aclaró que el protocolo contra el bullying no contempla expulsiones
+
+CAMIÓN DERRIBÓ UN POSTE Y CABLES DE LUZ EN EL PORTEZUELO
+→ Camión derribó un poste y cables de luz en El Portezuelo
+
+ROBO EN UN KIOSCO DEL BARRIO SUBOFICIALES: EL DUEÑO SORPRENDIÓ AL DELINCUENTE
+→ Robo en un kiosco del barrio Suboficiales: el dueño sorprendió al delincuente
+
+MARTINA STEWART EN EL CENTRO DE LA POLÉMICA POR LA CRIANZA DE SU HIJA
+→ Martina Stewart en el centro de la polémica por la crianza de su hija
+
+SALUD PROVINCIAL CAPACITA A PROFESIONALES EN SALUD MENTAL INFANTIL Y JUVENIL
+→ Salud provincial capacita a profesionales en salud mental infantil y juvenil
+
+QUINTELA SE REUNIÓ CON CURAS VILLEROS Y CUESTIONÓ LA POLÍTICA NACIONAL
+→ Quintela se reunió con curas villeros y cuestionó la política nacional
+
+EL EJÉRCITO ARGENTINO DESPLIEGA EL EJERCICIO TÁCTICO PEGASO 6 EN ARAUCO Y CASTRO BARROS
+→ El Ejército Argentino despliega el ejercicio táctico Pegaso 6 en Arauco y Castro Barros
+
+INTENSIFICAN LA BÚSQUEDA DE UN DOCENTE DESAPARECIDO EN TUCUMÁN
+→ Intensifican la búsqueda de un docente desaparecido en Tucumán
+
+CORTES DE LUZ PROGRAMADOS EN ARAUCO, CASTRO BARROS Y SAN BLAS DE LOS SAUCES
+→ Cortes de luz programados en Arauco, Castro Barros y San Blas de los Sauces
+
+RICARDO QUINTELA REPASÓ SU TRAYECTORIA POLÍTICA Y DEFENDIÓ LA EMISIÓN DE LOS CHACHOS
+→ Ricardo Quintela repasó su trayectoria política y defendió la emisión de los Chachos
+
+TRAGEDIA EN EL MERCADO CENTRAL: UNA MUJER MURIÓ ARROLLADA POR UN ACOPLADO
+→ Tragedia en el Mercado Central: una mujer murió arrollada por un acoplado
+
+EE.UU. EXPRESÓ PREOCUPACIÓN POR LA LEY DE DEFENSA DE LA SOBERANÍA EN MALVINAS
+→ EE.UU. expresó preocupación por la ley de defensa de la soberanía en Malvinas
+
+DENUNCIAN HOSTIGAMIENTO CONTRA UNA ALUMNA DURANTE UN VIAJE DE EGRESADOS A BARILOCHE
+→ Denuncian hostigamiento contra una alumna durante un viaje de egresados a Bariloche
+
+QUINTELA PARTICIPÓ DE UNA CUMBRE DEL PERONISMO NACIONAL EN BUENOS AIRES
+→ Quintela participó de una cumbre del peronismo nacional en Buenos Aires
+
+BOMBEROS CONTROLARON DOS FOCOS DE INCENDIO EN LA CIUDAD
+→ Bomberos controlaron dos focos de incendio en la ciudad
+
+YANINA LATORRE CRUZÓ A NORA COLOSIMO: ACUSACIONES DE MANIPULACIÓN Y FALTA DE RESPONSABILIDAD
+→ Yanina Latorre cruzó a Nora Colosimo: Acusaciones de manipulación y falta de responsabilidad
+
+ESTAFARON A UNA MUJER CON FALSAS INVERSIONES POR MÁS DE 7 MILLONES DE PESOS
+→ Estafaron a una mujer con falsas inversiones por más de 7 millones de pesos
+
+TRES MUJERES RESULTARON HERIDAS EN DOS ACCIDENTES DE MOTO EN LA PROVINCIA
+→ Tres mujeres resultaron heridas en dos accidentes de moto en la provincia
+
+LA JOAQUI ROMPE EL SILENCIO TRAS EL NUEVO LANZAMIENTO DE LUCK RA
+→ La Joaqui rompe el silencio tras el nuevo lanzamiento de Luck Ra
+
+CONDENARON A 10 AÑOS AL LÍDER DE LA SECTA CASA MAMA
+→ Condenaron a 10 años al líder de la secta Casa Mama
+
+FALLECIÓ EL JOVEN QUE HABÍA VOLCADO EN LA RUTA 75
+→ Falleció el joven que había volcado en la Ruta 75
+
+BUSCAN INTENSAMENTE A THEO CAVIERES, UN NIÑO DE 12 AÑOS EN CHILECITO
+→ Buscan intensamente a Theo Cavieres, un niño de 12 años en Chilecito
+
+PAULO KABLAN DISERTARÁ EN LA RIOJA SOBRE LOS DESAFÍOS DEL PERIODISMO JUDICIAL
+→ Paulo Kablan disertará en La Rioja sobre los desafíos del periodismo judicial
+
+ALERTA EN SALUD: DENUNCIAN EL RECORTE DEL PROGRAMA REMEDIAR
+→ Alerta en salud: denuncian el recorte del programa Remediar
+
+BAZÁN DESTACÓ A LA MINERÍA Y LA INDUSTRIA COMO MOTORES DE EMPLEO EN LA EXPO UNLAR
+→ Bazán destacó a la minería y la industria como motores de empleo en la Expo UNLaR
+
+AVANZAN LAS OBRAS HÍDRICAS EN CHAÑARMUYO PARA OPTIMIZAR EL SUMINISTRO
+→ Avanzan las obras hídricas en Chañarmuyo para optimizar el suministro
+
+CRIMEN EN MAR DEL PLATA: DOS DETENIDOS TRAS EL HALLAZGO DE UN HOMBRE SIN VIDA
+→ Crimen en Mar del Plata: dos detenidos tras el hallazgo de un hombre sin vida
+
+ALUMNOS DE LA ESCUELA DE ARTE EXPLORARON LA HISTORIA DEL SALADILLO
+→ Alumnos de la Escuela de Arte exploraron la historia del Saladillo
+
+LA MINERÍA EN LA RIOJA EMPLEA A 300 PERSONAS Y PROYECTA UN AUMENTO DE ACTIVIDAD
+→ La minería en La Rioja emplea a 300 personas y proyecta un aumento de actividad
+
+MERCADO LUNA ANALIZA EL NUEVO RÉGIMEN PENAL JUVENIL EN LA RIOJA
+→ Mercado Luna analiza el nuevo régimen penal juvenil en La Rioja
+
+LA UNDEC EXPUSO SU INVESTIGACIÓN SOBRE TURISMO EN UN CONGRESO INTERNACIONAL EN COSTA RICA
+→ La UNdeC expuso su investigación sobre turismo en un Congreso internacional en Costa Rica
+
+JUICIO POR ABUSO SEXUAL: FISCALÍA PIDIÓ 9 AÑOS DE PRISIÓN PARA UN HOMBRE
+→ Juicio por abuso sexual: Fiscalía pidió 9 años de prisión para un hombre
+
+ALERTA POR LLUVIAS Y VIENTOS EN LA ZONA CORDILLERANA DE LA RIOJA
+→ Alerta por lluvias y vientos en la zona cordillerana de La Rioja
+
+VÍNCULO SENTIMENTAL: ASEGURAN QUE LA MAMÁ DE TOMÁS HOLDER ESTÁ EN PAREJA CON UN JUGADOR DE ROSARIO CENTRAL
+→ Vínculo sentimental: aseguran que la mamá de Tomás Holder está en pareja con un jugador de Rosario Central
+
+DANIEL OSVALDO RECIBIÓ EL ALTA MÉDICA Y CONTINÚA SU RECUPERACIÓN EN CASA
+→ Daniel Osvaldo recibió el alta médica y continúa su recuperación en casa
+
+KARINA MAZZOCCO RENOVÓ SU IMAGEN CON UN IMPACTANTE CAMBIO DE LOOK
+→ Karina Mazzocco renovó su imagen con un impactante cambio de look
+
+LANZARON UN PROGRAMA DE SALUD MENTAL INFANTO JUVENIL EN EL HOSPITAL DE LA MADRE Y EL NIÑO
+→ Lanzaron un Programa de Salud Mental infanto juvenil en el Hospital de la Madre y el Niño
+
+EL INV LANZA UN PLAN DE RETIROS VOLUNTARIOS CON TOPE DE 24 SUELDOS
+→ El INV lanza un plan de retiros voluntarios con tope de 24 sueldos
+
+MILEI SOBRE LA ECONOMÍA: "LA FOTO ES HORRIBLE, PERO LA PELÍCULA ES LA MEJOR"
+→ Milei sobre la economía: "La foto es horrible, pero la película es la mejor"
+
+RECONOCIMIENTO A LA TRAYECTORIA Y EL APORTE DE LAS MUJERES RURALES DE CHILECITO
+→ Reconocimiento a la trayectoria y el aporte de las mujeres Rurales de Chilecito
+
+EL TSJ DE LA RIOJA ABRIÓ UN SUMARIO A UN EMPLEADO JUDICIAL POR PRESUNTO PEDIDO DE DINERO
+→ El TSJ de La Rioja abrió un sumario a un empleado judicial por presunto pedido de dinero
+
+GRAVE INUNDACIÓN EN PASO DE LA PATRIA TRAS LA ROTURA DE UN TERRAPLÉN POR LA CRECIENTE DEL PARANÁ
+→ Grave inundación en Paso de la Patria tras la rotura de un terraplén por la creciente del Paraná
+
+AVANZA LA CAUSA POR EL HOMICIDIO DE LUIS ALBERTO BLANCO
+→ Avanza la causa por el homicidio de Luis Alberto Blanco
+
+TRÁGICO SINIESTRO VIAL EN LA RUTA: UN EMPRESARIO PERDIÓ LA VIDA
+→ Trágico siniestro vial en la Ruta: un empresario perdió la vida
+
+JUSTICIA POR DIEGO: EL PEDIDO FINAL DE LAS HIJAS DEL DIEZ
+→ Justicia por Diego: el pedido final de las hijas del Diez
+
+PREFECTURA RESCATÓ A ALUMNOS AISLADOS POR LA CRECIDA DEL RÍO PARANÁ EN ITATÍ
+→ Prefectura rescató a alumnos aislados por la crecida del río Paraná en Itatí
+
+EL RIESGO PAÍS SUPERÓ LOS 700 PUNTOS Y EL DÓLAR ALCANZÓ UN NUEVO RÉCORD
+→ El riesgo país superó los 700 puntos y el dólar alcanzó un nuevo récord
+
+PREOCUPACIÓN DE ESTADOS UNIDOS POR LA LEY QUE SANCIONARÍA EMPRESAS EN MALVINAS
+→ Preocupación de Estados Unidos por la ley que sancionaría empresas en Malvinas
+
+MOTÍN Y TOMA DE REHENES EN UNA COMISARÍA DEL MICROCENTRO PORTEÑO
+→ Motín y toma de rehenes en una comisaría del microcentro porteño
+
+MOMI GIARDINA SORPRENDIÓ AL AIRE CON UN ANUNCIO SOBRE SU RELACIÓN
+→ Momi Giardina sorprendió al aire con un anuncio sobre su relación
+
+IDENTIFICARON LOS RESTOS DE UN RIOJANO DESAPARECIDO DURANTE LA ÚLTIMA DICTADURA
+→ Identificaron los restos de un riojano desaparecido durante la última dictadura
+
+EL INESPERADO LLAMADO DE SYLVESTER STALLONE A NICO VÁZQUEZ
+→ El inesperado llamado de Sylvester Stallone a Nico Vázquez
+
+CAPACITACIÓN EN SALUD PARA AGILIZAR LICENCIAS DEL SECTOR PÚBLICO
+→ Capacitación en salud para agilizar licencias del sector público
+
+HUACO ES RECONOCIDA COMO NUEVA INDICACIÓN GEOGRÁFICA PARA VINOS DE CALIDAD
+→ Huaco es reconocida como nueva Indicación Geográfica para vinos de calidad
+
+PROCESAN A JOSÉ LUIS ESPERT EN LA CAUSA POR PRESUNTO LAVADO DE DINERO
+→ Procesan a José Luis Espert en la causa por presunto lavado de dinero
+
+LA CHABONA REVELÓ UN SUPUESTO ROMANCE PASADO CON MAURO ICARDI
+→ La Chabona reveló un supuesto romance pasado con Mauro Icardi
+
+EL DRAMA FAMILIAR DE LA FAMILIA CONSTANTINI: HABLÓ LA ABUELA DE KAHLO
+→ El drama familiar de la familia Constantini: habló la abuela de Kahlo
+
+TANIA WED LLEGA A LA RIOJA PARA DICTAR UN TALLER DE STREAMING Y PRODUCCIÓN DE CONTENIDOS
+→ Tania Wed llega a La Rioja para dictar un taller de streaming y producción de Contenidos
+
+TARTAMUDEZ: QUÉ ES Y CUÁNDO EMPIEZA A MANIFESTARSE ESTE TRASTORNO
+→ Tartamudez: qué es y cuándo empieza a manifestarse este trastorno
+
+NODIS: LA FUNDA QUE BUSCA FRENAR LAS DISTRACCIONES EN EL AULA
+→ NoDis: la funda que busca frenar las distracciones en el aula
+
+META ENFRENTA UNA DEMANDA COLECTIVA EN AUSTRALIA POR DAÑOS A MENORES
+→ Meta enfrenta una demanda colectiva en Australia por daños a menores
+
+EDELAR ADVIERTE POR LA CRECIENTE MOROSIDAD Y EL CIERRE DE COMERCIOS EN LA PROVINCIA
+→ EDELaR advierte por la creciente morosidad y el cierre de comercios en la provincia
+
+DETUVIERON A DOS SOSPECHOSOS POR EL CRIMEN DE UNA JOVEN EN CÓRDOBA
+→ Detuvieron a dos sospechosos por el crimen de una joven en Córdoba
+
+FALLECIÓ EL JOVEN QUE VOLCÓ EN LA RUTA 75 EN SANAGASTA
+→ Falleció el joven que volcó en la Ruta 75 en Sanagasta
+
+EL CONMOVEDOR RELATO DE SOLEDAD PASTORUTTI SOBRE LA SALUD DE SU PADRE
+→ El conmovedor relato de Soledad Pastorutti sobre la salud de su padre
+
+MELODY LUZ REVELÓ CÓMO SE VENGÓ DE ALEX CANIGGIA DURANTE SU EMBARAZO
+→ Melody Luz reveló cómo se vengó de Alex Caniggia durante su embarazo
+
+LA JOAQUI REVELÓ CÓMO REACCIONAN SUS HIJAS ANTE LOS RUMORES SOBRE SU VIDA PRIVADA
+→ La Joaqui reveló cómo reaccionan sus hijas ante los rumores sobre su vida privada
+
+EL ARCHIVO OCULTO: REVELAN EL DEBUT ACTORAL DE WANDA NARA JUNTO A ADRIÁN SUAR
+→ El archivo oculto: revelan el debut actoral de Wanda Nara junto a Adrián Suar
+

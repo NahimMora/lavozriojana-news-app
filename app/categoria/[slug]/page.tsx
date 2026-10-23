@@ -104,43 +104,40 @@ export default async function CategoryPage({ params, searchParams }: Props) {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
 
-      {/* Colored category hero */}
+      {/* Compact section header: identity without pushing the news down */}
       <div className={`cat-hero category-${cssSlug}`}>
-        <div className="container">
-          <span className="cat-hero-label">Secciones / La Voz Riojana</span>
-          <h1>{category.name}</h1>
-          {category.description && <p>{category.description}</p>}
+        <div className="container cat-hero-inner">
+          <Breadcrumbs items={[{ label: category.name }]} />
+          <div className="cat-hero-row">
+            <h1>{category.name}</h1>
+            {category.description && <p>{category.description}</p>}
+          </div>
         </div>
       </div>
 
-      <div className="container" style={{ paddingTop: 8 }}>
-        <Breadcrumbs items={[{ label: category.name }]} />
-        <BannerAd slot="CATEGORY_TOP" />
+      {/* Grid areas place the square CATEGORY_TOP ad at the top of the right
+          column on desktop and right after the lead story on phones. */}
+      <div className="container category-body">
+        <div className="news-layout category-layout">
+          {posts.length === 0 ? (
+            <div className="category-lead category-empty">
+              <p className="muted">No hay noticias publicadas en esta categoría todavía.</p>
+            </div>
+          ) : (
+            <div className="category-lead">
+              <PostCard post={posts[0]} variant="lead" priority imageSizes="(min-width: 1280px) 500px, (min-width: 768px) 50vw, 100vw" />
+            </div>
+          )}
 
-        <div className="news-layout" style={{ marginTop: 16 }}>
-          <div>
-            {posts.length === 0 ? (
-              <div style={{ padding: '32px 0', textAlign: 'center' }}>
-                <p className="muted">No hay noticias publicadas en esta categoría todavía.</p>
+          <BannerAd slot="CATEGORY_TOP" className="category-top-ad" />
+
+          <div className="category-list">
+            {posts.length > 1 && (
+              <div className="editorial-grid">
+                {posts.slice(1).map((post) => (
+                  <PostCard post={post} key={post.id} />
+                ))}
               </div>
-            ) : (
-              <>
-                {/* First post: large horizontal card */}
-                {posts[0] && (
-                  <div className="category-lead">
-                    <PostCard post={posts[0]} variant="lead" priority />
-                  </div>
-                )}
-
-                {/* Rest: grid */}
-                {posts.length > 1 && (
-                  <div className="editorial-grid">
-                    {posts.slice(1).map((post) => (
-                      <PostCard post={post} key={post.id} />
-                    ))}
-                  </div>
-                )}
-              </>
             )}
             <Pagination page={page} perPage={perPage} total={total} basePath={`/categoria/${category.slug}`} />
           </div>
