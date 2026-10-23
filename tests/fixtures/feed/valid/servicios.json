@@ -1,0 +1,106 @@
+{
+  "version": 1,
+  "actualizado": "2026-10-23T16:00:00-03:00",
+  "clima": {
+    "fuente": "Servicio Meteorológico Nacional",
+    "actualizado": "2026-10-23T16:00:00-03:00",
+    "estacion": "La Rioja Aero",
+    "observado": "2026-10-23T15:00:00-03:00",
+    "temperatura": 27.4,
+    "cielo": "parcialmente nublado",
+    "humedad": 31,
+    "viento": "Sur 24 km/h",
+    "pronostico": [
+      { "fecha": "2026-10-22", "dia": "jueves", "min": 13, "max": 29, "lluvia": 0 },
+      { "fecha": "2026-10-23", "dia": "viernes", "min": 14, "max": 30, "lluvia": 10 },
+      { "fecha": "2026-10-24", "dia": "sábado", "min": 12, "max": 25, "lluvia": "20-40 %" },
+      { "fecha": "2026-10-25", "dia": "domingo", "min": 0, "max": 22, "lluvia": 0 },
+      { "fecha": "2026-10-26", "dia": "lunes", "min": null, "max": 26, "lluvia": null },
+      { "fecha": "2026-02-30", "dia": "inválido", "min": 1, "max": 2, "lluvia": 0 }
+    ]
+  },
+  "alerta": {
+    "fuente": "Servicio Meteorológico Nacional",
+    "estado": "activa",
+    "tipo": "alerta",
+    "nivel": "naranja",
+    "fenomeno": "viento",
+    "zonas": ["Vinchina", "General Lamadrid"],
+    "vence": "2026-10-24T02:59:59-03:00",
+    "descripcion": "Texto de prueba: se esperan vientos del sector sur con ráfagas intensas en las zonas indicadas.",
+    "actualizado": "2026-10-23T15:00:00-03:00"
+  },
+  "dolar": {
+    "fuente": "DolarApi.com",
+    "actualizado": "2026-10-23T16:00:00-03:00",
+    "cotizaciones": [
+      { "casa": "blue", "nombre": "Blue", "compra": 1530, "venta": 1550, "actualizado": "2026-10-23T15:45:00-03:00" },
+      { "casa": "oficial", "nombre": "Oficial", "compra": 1440, "venta": 1490, "actualizado": "2026-10-23T15:50:00-03:00" },
+      { "casa": "bolsa", "nombre": "MEP", "compra": 1512.3, "venta": 1520.8, "actualizado": "2026-10-23T15:55:00-03:00" },
+      { "casa": "contadoconliqui", "nombre": "CCL", "compra": 1530.5, "venta": 1541.2, "actualizado": "2026-10-23T11:00:00-03:00" },
+      { "casa": "mayorista", "nombre": "Mayorista", "compra": 0, "venta": null, "actualizado": "2026-10-23T15:00:00-03:00" },
+      { "casa": "tarjeta", "nombre": "Tarjeta", "compra": null, "venta": null, "actualizado": "2026-10-23T15:00:00-03:00" },
+      { "casa": "cripto", "nombre": "Cripto", "compra": "1600", "venta": 1610, "actualizado": "2026-10-10T15:00:00-03:00" }
+    ],
+    "brecha_blue_pct": 4.03
+  },
+  "feriados": {
+    "fuente": "Calendario oficial de feriados",
+    "actualizado": "2026-10-23T08:00:00-03:00",
+    "proximos": [
+      { "fecha": "2026-10-12", "nombre": "Feriado de prueba ya pasado", "tipo": "trasladable" },
+      { "fecha": "2026-11-23", "nombre": "Feriado de prueba de noviembre", "tipo": "trasladable" },
+      { "fecha": "2026-12-08", "nombre": "Feriado de prueba de diciembre", "tipo": "inamovible" },
+      { "fecha": "2026-12-08", "nombre": "Feriado de prueba de diciembre", "tipo": "inamovible" },
+      { "fecha": "2026-10-24", "nombre": "Feriado de prueba de mañana", "tipo": null }
+    ]
+  },
+  "pagos": {
+    "fuente": "ANSES",
+    "actualizado": "2026-10-23T07:00:00-03:00",
+    "hoy": [
+      {
+        "fecha": "2026-10-23",
+        "dia": "viernes",
+        "concepto": "Jubilaciones de prueba, documentos terminados en 4",
+        "organismos": [{ "banco": "Banco de prueba", "items": ["Sucursal Centro", "Cajeros desde las 8"] }],
+        "url": "https://www.anses.gob.ar/"
+      },
+      {
+        "fecha": "2026-10-22",
+        "dia": "jueves",
+        "concepto": "Pago de ayer que quedó en la lista de hoy",
+        "organismos": [],
+        "url": "javascript:alert(1)"
+      }
+    ],
+    "proximos": [
+      { "fecha": "2026-10-26", "dia": "lunes", "concepto": "Asignaciones de prueba, documentos terminados en 5", "organismos": [], "url": "https://www.anses.gob.ar/" },
+      { "fecha": "2026-10-27", "dia": "martes", "concepto": "Jubilaciones de prueba, documentos terminados en 5", "organismos": [{ "banco": "Banco de prueba", "items": [] }], "url": null }
+    ]
+  },
+  "sismos": {
+    "fuente": "INPRES",
+    "actualizado": "2026-10-23T16:10:00-03:00",
+    "ultimos_7_dias": [
+      { "id": "prueba-1", "fecha": "2026-10-23T09:12:00-03:00", "magnitud": 4.3, "profundidad_km": 110, "lugar": "34 km al noroeste de Villa Unión", "estado": "sentido" },
+      { "id": "prueba-2", "fecha": "2026-10-22T22:40:00-03:00", "magnitud": 2.8, "profundidad_km": 15, "lugar": "20 km al sur de Chamical", "estado": "automático" },
+      { "id": "prueba-3", "fecha": "2026-10-20T04:02:00-03:00", "magnitud": 3.1, "profundidad_km": null, "lugar": "Famatina", "estado": "revisado" },
+      { "id": "prueba-1", "fecha": "2026-10-23T09:12:00-03:00", "magnitud": 4.3, "profundidad_km": 110, "lugar": "34 km al noroeste de Villa Unión", "estado": "sentido" },
+      { "id": "prueba-viejo", "fecha": "2026-10-12T10:00:00-03:00", "magnitud": 3.5, "profundidad_km": 20, "lugar": "Chilecito", "estado": "revisado" },
+      { "id": "prueba-estado", "fecha": "2026-10-22T10:00:00-03:00", "magnitud": 3.0, "profundidad_km": 20, "lugar": "Olta", "estado": "confirmado" }
+    ]
+  },
+  "cortes": {
+    "fuente": "Avisos oficiales y notas de La Voz Riojana",
+    "actualizado": "2026-10-23T15:30:00-03:00",
+    "avisos": [
+      { "servicio": "luz", "titulo": "Corte de luz programado de prueba en barrio Faecha", "zona": "Barrio Faecha, Capital", "url": "https://lavozriojana.com/noticias/noticia-de-prueba-6", "publicado": "2026-10-23T11:20:00-03:00" },
+      { "servicio": "agua", "titulo": "Aviso de prueba por baja presión de agua en la zona sur", "zona": null, "url": "https://www.example.com/aviso-agua", "publicado": "2026-10-22T18:00:00-03:00" },
+      { "servicio": "rutas", "titulo": "Ruta de prueba con tránsito por media calzada", "zona": "Villa Unión - Vinchina", "url": "https://www.example.com/aviso-ruta", "publicado": "2026-10-23T08:00:00-03:00" },
+      { "servicio": "luz", "titulo": "Aviso viejo que no debe mostrarse", "zona": "Capital", "url": "https://www.example.com/viejo", "publicado": "2026-10-18T08:00:00-03:00" },
+      { "servicio": "gas", "titulo": "Servicio fuera del contrato", "zona": "Capital", "url": "https://www.example.com/gas", "publicado": "2026-10-23T08:00:00-03:00" },
+      { "servicio": "agua", "titulo": "Aviso con enlace peligroso", "zona": "Capital", "url": "javascript:alert(1)", "publicado": "2026-10-23T08:00:00-03:00" }
+    ]
+  }
+}

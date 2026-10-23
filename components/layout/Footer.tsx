@@ -77,6 +77,12 @@ export async function Footer() {
                   <Link href={`/categoria/${cat.slug}`}>{cat.name}</Link>
                 </li>
               ))}
+              <li>
+                <Link href="/servicios">Servicios</Link>
+              </li>
+              <li>
+                <Link href="/videos">Videos</Link>
+              </li>
             </ul>
           </div>
 

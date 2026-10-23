@@ -10,6 +10,7 @@
     "start:win": "next start -p 3000",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
+    "test": "node --test tests/feed.test.mjs scripts/headline.test.mjs",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:deploy": "prisma migrate deploy",

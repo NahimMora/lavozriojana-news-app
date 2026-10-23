@@ -1,10 +1,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { Suspense } from 'react';
 import { INITIAL_CATEGORIES, SITE_NAME, SITE_SLOGAN } from '@/lib/site';
 import { getCategoriesSafe } from '@/lib/posts';
 import { slugify } from '@/lib/slug';
 import { formatTodayLabel } from '@/lib/format';
-import { getLaRiojaTemperature } from '@/lib/weather';
+import { getCurrentWeather } from '@/lib/feed';
+import { formatDecimal } from '@/lib/feed-select';
 import { SearchOverlay } from './SearchOverlay';
 import { ScrollShrinkEffect } from './ScrollShrinkEffect';
 import { MobileMenu } from './MobileMenu';
@@ -34,11 +36,21 @@ const IconSun = () => (
   </svg>
 );
 
+/* The services feed first, Open-Meteo when it has no recent observation
+   (lib/feed.ts). Its own boundary: a slow source never holds the header. */
+async function HeaderWeather() {
+  const weather = await getCurrentWeather();
+  if (!weather) return null;
+  return (
+    <Link className="masthead-weather" href="/servicios#clima">
+      <IconSun />
+      {formatDecimal(weather.temperatura)}°C · La Rioja
+    </Link>
+  );
+}
+
 export async function Header() {
-  const [dbCategories, temperature] = await Promise.all([
-    getCategoriesSafe(),
-    getLaRiojaTemperature()
-  ]);
+  const dbCategories = await getCategoriesSafe();
   const categories =
     dbCategories.length > 0
       ? dbCategories.map((c) => ({ name: c.name, slug: c.slug }))
@@ -55,13 +67,14 @@ export async function Header() {
           <div className="container masthead-utility-inner">
             <div className="masthead-date-group">
               <span className="masthead-date">{todayLabel}</span>
-              {temperature !== null && (
-                <span className="masthead-weather">
-                  <IconSun />
-                  {temperature}°C · La Rioja
-                </span>
-              )}
+              <Suspense fallback={null}>
+                <HeaderWeather />
+              </Suspense>
             </div>
+            <nav className="masthead-links" aria-label="Servicios del sitio">
+              <Link href="/servicios">Servicios</Link>
+              <Link href="/videos">Videos</Link>
+            </nav>
             <div className="masthead-social" aria-label="Redes sociales">
               <a href="https://facebook.com/lavozriojana" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><IconFacebook /></a>
               <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer" aria-label="X"><IconX /></a>

@@ -5,6 +5,8 @@ import { Breadcrumbs } from '@/components/news/Breadcrumbs';
 import { MostRead } from '@/components/news/MostRead';
 import { Pagination } from '@/components/news/Pagination';
 import { PostCard } from '@/components/news/PostCard';
+import { SectionTrends } from '@/components/feed/SectionTrends';
+import { getSectionTrending } from '@/lib/feed';
 import { absoluteUrl, SITE_NAME, SITE_URL } from '@/lib/site';
 import { prisma } from '@/lib/prisma';
 import { publicPostInclude, type PublicPost } from '@/lib/posts';
@@ -61,6 +63,8 @@ export default async function CategoryPage({ params, searchParams }: Props) {
     categoryId: category.id
   };
 
+  // The section's Instagram ranking is read in parallel with the stories.
+  const trendingPromise = getSectionTrending(category.slug).catch(() => []);
   const [posts, total, mostRead]: [PublicPost[], number, PublicPost[]] = await Promise.all([
     prisma.post.findMany({
       where,
@@ -77,6 +81,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
       take: 10
     })
   ]).catch(() => [[], 0, []]);
+  const sectionTrends = await trendingPromise;
 
   /* Category slug → CSS class */
   const cssSlug = category.slug;
@@ -142,8 +147,11 @@ export default async function CategoryPage({ params, searchParams }: Props) {
             <Pagination page={page} perPage={perPage} total={total} basePath={`/categoria/${category.slug}`} />
           </div>
 
-          <aside className="sidebar" aria-label="Más leídas">
-            <MostRead posts={mostRead} />
+          <aside className="sidebar" aria-label="Lateral de la sección">
+            {/* With the Instagram ranking beside it, "Más leídas" keeps six
+                stories so the rail stays as tall as the grid. */}
+            <MostRead posts={sectionTrends.length ? mostRead.slice(0, 6) : mostRead} />
+            <SectionTrends stories={sectionTrends} sectionName={category.name} />
             <BannerAd slot="SIDEBAR" />
           </aside>
         </div>

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QA de feeds</title>
+<style>
+  :root { --ink:#111827; --muted:#5f6672; --rule:#dfe1e3; --red:#8a1024; }
+  body { margin:0; background:#fff; color:var(--ink); font:15px/1.5 system-ui, sans-serif; }
+  header, main { max-width:1320px; margin:0 auto; padding:16px; }
+  h1 { margin:8px 0 4px; font:600 1.8rem/1.2 Georgia, serif; }
+  p { margin:0 0 12px; color:var(--muted); max-width:72ch; }
+  nav { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0; }
+  button { min-height:36px; padding:0 12px; border:1px solid #c8cbd0; border-radius:999px; background:#fff; font:inherit; cursor:pointer; }
+  button[aria-pressed="true"] { background:var(--ink); color:#fff; border-color:var(--ink); }
+  section { border-top:1px solid var(--rule); padding:16px 0; }
+  h2 { margin:0 0 10px; font:600 1.2rem Georgia, serif; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:16px; }
+  figure { margin:0; }
+  figcaption { font-size:.8rem; color:var(--muted); margin-top:4px; }
+  img { display:block; width:100%; height:auto; border:1px solid var(--rule); }
+</style>
+</head>
+<body>
+<header>
+  <h1>QA de la integración de feeds</h1>
+  <p>Vista aislada con fixtures ficticios (<code>tests/fixtures/feed/valid</code>) y sin feeds (<code>--no-feeds</code>). No son datos reales. Ver <code>docs/FEED_INTEGRATION.md</code>.</p>
+  <nav aria-label="Ancho">
+    <button type="button" data-width="390" aria-pressed="true">390 px</button>
+    <button type="button" data-width="1440" aria-pressed="false">1440 px</button>
+    <button type="button" data-width="all" aria-pressed="false">Todos los anchos</button>
+  </nav>
+</header>
+<main id="gallery"></main>
+<script>
+  const pages = [
+    ['home', 'Portada'], ['articulo', 'Artículo sin módulos'], ['articulo-actualizacion', 'Artículo con actualización'],
+    ['articulo-cronologia', 'Artículo con cronología'], ['categoria', 'Categoría'], ['servicios', 'Servicios'], ['videos', 'Videos']
+  ];
+  const widths = [360, 390, 768, 1024, 1280, 1440];
+  const gallery = document.getElementById('gallery');
+  function figure(src, caption) {
+    return `<figure><a href="${src}"><img src="${src}" alt="${caption}" loading="lazy"></a><figcaption>${caption}</figcaption></figure>`;
+  }
+  function render(width) {
+    const shown = width === 'all' ? widths : [Number(width)];
+    let html = '<section><h2>Primer viewport de la portada: antes, con feeds y sin feeds</h2><div class="grid">';
+    for (const w of shown.filter((w) => w === 390 || w === 1440)) {
+      html += figure(`viewport-before/home-${w}.png`, `Antes · ${w} px`) + figure(`viewport-after/home-${w}.png`, `Con feeds · ${w} px`) + figure(`viewport-absent/home-${w}.png`, `Sin feeds · ${w} px`);
+    }
+    html += '</div></section>';
+    html += '<section><h2>Instagram real (post De2pKcEjffC)</h2><div class="grid">';
+    for (const [file, label] of [['real-home-band-1440', 'Portada, banda Videos · 1440 px'], ['real-home-band-390', 'Portada, banda Videos · 390 px'], ['real-videos-1440', '/videos · 1440 px'], ['real-videos-1440-playing', '/videos reproduciendo · 1440 px'], ['real-article3-1440', 'Video dentro de la nota · 1440 px'], ['real-article3-390-playing', 'Nota reproduciendo · 390 px']]) html += figure(`instagram-real/${file}.png`, label);
+    html += '</div></section>';
+    for (const [name, label] of pages) {
+      html += `<section><h2>${label}</h2><div class="grid">`;
+      for (const w of shown) html += figure(`after/${name}-${w}.jpg`, `Con feeds · ${w} px`);
+      if (['home', 'servicios', 'videos'].includes(name)) for (const w of shown.filter((w) => w === 390 || w === 1440)) html += figure(`absent/${name}-${w}.jpg`, `Sin feeds · ${w} px`);
+      html += '</div></section>';
+    }
+    gallery.innerHTML = html;
+  }
+  document.querySelectorAll('button[data-width]').forEach((button) => button.addEventListener('click', () => {
+    document.querySelectorAll('button[data-width]').forEach((other) => other.setAttribute('aria-pressed', String(other === button)));
+    render(button.dataset.width);
+  }));
+  render('390');
+</script>
+</body>
+</html>

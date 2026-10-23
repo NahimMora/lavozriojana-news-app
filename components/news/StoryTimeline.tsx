@@ -1,35 +1,40 @@
-import { formatDateShort } from '@/lib/format';
-
-type TimelineItem = {
-  id: number;
-  slug: string;
-  title: string;
-  publishedAt: Date | null;
-};
+import { formatDateTime24 } from '@/lib/format';
+import { formatHeadline } from '@/lib/headline';
+import type { TimelineEntry } from '@/lib/feed-select';
 
 /**
- * "Seguí esta historia" (Parte 11/38 del plan de contexto editorial del
- * autopublicador). Sólo se muestra cuando hay al menos 2 publicaciones
- * previas relacionadas — esa regla la aplica el caller (la nota actual
- * nunca aparece en la lista).
+ * "Seguí esta historia": publications of one verified event (storyKey with
+ * the `event:` prefix), oldest first, the current story included and
+ * marked. The caller builds the entries (buildStoryTimeline) and shows this
+ * module instead of "En contexto", never both.
  */
-export function StoryTimeline({ items }: { items: TimelineItem[] }) {
-  if (items.length < 2) return null;
+export function StoryTimeline({ entries }: { entries: TimelineEntry[] }) {
+  if (entries.length < 2) return null;
 
   return (
-    <section className="story-timeline-box" aria-label="Seguí esta historia">
-      <h2 className="section-title">Seguí esta historia</h2>
+    <section className="story-timeline-box" aria-labelledby="story-timeline-title">
+      <h2 className="section-title" id="story-timeline-title">Seguí esta historia</h2>
       <ol className="story-timeline-list">
-        {items.map((item) => (
-          <li className="story-timeline-item" key={item.id}>
-            <time className="story-timeline-date" dateTime={item.publishedAt?.toISOString()}>
-              {formatDateShort(item.publishedAt)}
-            </time>
-            <a className="story-timeline-title" href={`/noticias/${item.slug}`}>
-              {item.title}
-            </a>
-          </li>
-        ))}
+        {entries.map((entry) => {
+          const title = formatHeadline(entry.title, entry.excerpt);
+          return (
+            <li className={`story-timeline-item${entry.current ? ' is-current' : ''}`} key={entry.slug}>
+              <time className="story-timeline-date" dateTime={entry.publishedAt}>
+                {formatDateTime24(entry.publishedAt)}
+              </time>
+              {entry.current ? (
+                <p className="story-timeline-title" aria-current="page">
+                  {title} <span className="story-timeline-here">Estás leyendo esta nota</span>
+                </p>
+              ) : (
+                <a className="story-timeline-title" href={entry.path}>
+                  {title}
+                </a>
+              )}
+              {entry.novedad && <p className="story-timeline-news">{entry.novedad}</p>}
+            </li>
+          );
+        })}
       </ol>
     </section>
   );

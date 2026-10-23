@@ -1,0 +1,715 @@
+{
+  "feeds": "http://127.0.0.1:3101",
+  "absent": "http://127.0.0.1:3102",
+  "checks": [
+    {
+      "name": "portada: la nota urgente queda fija en el ticker existente, sin una segunda franja",
+      "ok": true,
+      "detail": {
+        "pinned": "/noticias/noticia-de-prueba-20",
+        "tickerLinks": [
+          "/noticias/noticia-de-prueba-1",
+          "/noticias/noticia-de-prueba-2",
+          "/noticias/noticia-de-prueba-3"
+        ],
+        "bars": 1,
+        "strip": false,
+        "leadHref": "/noticias/noticia-de-prueba-1"
+      }
+    },
+    {
+      "name": "portada: la nota fijada no se repite en el ticker ni es la principal",
+      "ok": true,
+      "detail": {
+        "pinned": "/noticias/noticia-de-prueba-20",
+        "tickerLinks": [
+          "/noticias/noticia-de-prueba-1",
+          "/noticias/noticia-de-prueba-2",
+          "/noticias/noticia-de-prueba-3"
+        ],
+        "bars": 1,
+        "strip": false,
+        "leadHref": "/noticias/noticia-de-prueba-1"
+      }
+    },
+    {
+      "name": "ticker: la nota fijada no se mueve",
+      "ok": true,
+      "detail": {
+        "focus": "none"
+      }
+    },
+    {
+      "name": "otra nota: muestra el último momento con enlace a la nota urgente",
+      "ok": true,
+      "detail": {
+        "strip": "/noticias/noticia-de-prueba-20"
+      }
+    },
+    {
+      "name": "su propia nota (/noticias/noticia-de-prueba-20): no se anuncia a sí misma",
+      "ok": true,
+      "detail": {
+        "present": false,
+        "finalPath": "/noticias/noticia-de-prueba-20"
+      }
+    },
+    {
+      "name": "su propia nota (/noticias/noticia-de-prueba-20/): no se anuncia a sí misma",
+      "ok": true,
+      "detail": {
+        "present": false,
+        "finalPath": "/noticias/noticia-de-prueba-20"
+      }
+    },
+    {
+      "name": "su propia nota (/noticias/NOTICIA-DE-PRUEBA-20): no se anuncia a sí misma",
+      "ok": true,
+      "detail": {
+        "present": false,
+        "finalPath": "/noticias/NOTICIA-DE-PRUEBA-20"
+      }
+    },
+    {
+      "name": "alerta: una sola banda aunque llegue en dos feeds, texto derivado del feed",
+      "ok": true,
+      "detail": {
+        "count": 1,
+        "text": "Alerta naranja por viento · Vinchina y General Lamadrid · Vigente hasta las 07:03 del sábado 24",
+        "level": "weather-alert level-naranja",
+        "label": "rgb(240, 124, 0)",
+        "expanded": "false",
+        "detailHidden": true
+      }
+    },
+    {
+      "name": "alerta naranja: color #F07C00 con texto oscuro",
+      "ok": true,
+      "detail": {
+        "count": 1,
+        "text": "Alerta naranja por viento · Vinchina y General Lamadrid · Vigente hasta las 07:03 del sábado 24",
+        "level": "weather-alert level-naranja",
+        "label": "rgb(240, 124, 0)",
+        "expanded": "false",
+        "detailHidden": true
+      }
+    },
+    {
+      "name": "alerta: el detalle se expande con teclado (aria-expanded, aria-controls)",
+      "ok": true,
+      "detail": {
+        "expanded": "true",
+        "hidden": false,
+        "controls": true
+      }
+    },
+    {
+      "name": "/servicios: la alerta aparece completa en su sección y no repetida en la banda",
+      "ok": true,
+      "detail": {
+        "band": false,
+        "section": 1
+      }
+    },
+    {
+      "name": "alerta: desaparece al vencer con la página abierta",
+      "ok": true,
+      "detail": {
+        "before": true,
+        "after": false,
+        "hideAt": "2026-10-24T02:08:01.000Z"
+      }
+    },
+    {
+      "name": "actualización: la original enlaza a la más reciente (nota → actualiza)",
+      "ok": true,
+      "detail": {
+        "href": "/noticias/noticia-de-prueba-2",
+        "text": "Esta noticia tiene una actualizaciónImputaron a los cinco detenidosLeé la información actualizada: Cortes de luz programados en Arauco, Castro Barros y San Blas de los Sauces",
+        "count": 1,
+        "inHeader": true
+      }
+    },
+    {
+      "name": "actualización: sin aviso en la propia actualización",
+      "ok": true,
+      "detail": {
+        "route": "/noticias/noticia-de-prueba-2"
+      }
+    },
+    {
+      "name": "actualización: sin aviso en autorreferencia",
+      "ok": true,
+      "detail": {
+        "route": "/noticias/noticia-de-prueba-12"
+      }
+    },
+    {
+      "name": "actualización: sin aviso en relación invertida",
+      "ok": true,
+      "detail": {
+        "route": "/noticias/noticia-de-prueba-4"
+      }
+    },
+    {
+      "name": "actualización: sin aviso en sin datos",
+      "ok": true,
+      "detail": {
+        "route": "/noticias/noticia-de-prueba-8"
+      }
+    },
+    {
+      "name": "cronología event:: orden antigua → reciente, nota actual incluida y marcada",
+      "ok": true,
+      "detail": {
+        "count": 4,
+        "times": [
+          "2026-10-21T03:00:00.000Z",
+          "2026-10-21T16:00:00.000Z",
+          "2026-10-22T03:00:00.000Z",
+          "2026-10-22T14:00:00.000Z"
+        ],
+        "current": 1,
+        "novedades": [
+          "Vialidad recibió el pedido formal",
+          "Vecinos denunciaron el deterioro del tramo",
+          null,
+          "Comenzaron los trabajos de bacheo"
+        ],
+        "links": [
+          "/noticias/noticia-de-prueba-40",
+          "/noticias/noticia-de-prueba-27",
+          null,
+          "/noticias/noticia-de-prueba-5"
+        ],
+        "context": false
+      }
+    },
+    {
+      "name": "cronología: sin duplicados ni notas de otro hecho, novedad del feed",
+      "ok": true,
+      "detail": {
+        "count": 4,
+        "times": [
+          "2026-10-21T03:00:00.000Z",
+          "2026-10-21T16:00:00.000Z",
+          "2026-10-22T03:00:00.000Z",
+          "2026-10-22T14:00:00.000Z"
+        ],
+        "current": 1,
+        "novedades": [
+          "Vialidad recibió el pedido formal",
+          "Vecinos denunciaron el deterioro del tramo",
+          null,
+          "Comenzaron los trabajos de bacheo"
+        ],
+        "links": [
+          "/noticias/noticia-de-prueba-40",
+          "/noticias/noticia-de-prueba-27",
+          null,
+          "/noticias/noticia-de-prueba-5"
+        ],
+        "context": false
+      }
+    },
+    {
+      "name": "cronología y \"En contexto\" no conviven",
+      "ok": true,
+      "detail": {
+        "count": 4,
+        "times": [
+          "2026-10-21T03:00:00.000Z",
+          "2026-10-21T16:00:00.000Z",
+          "2026-10-22T03:00:00.000Z",
+          "2026-10-22T14:00:00.000Z"
+        ],
+        "current": 1,
+        "novedades": [
+          "Vialidad recibió el pedido formal",
+          "Vecinos denunciaron el deterioro del tramo",
+          null,
+          "Comenzaron los trabajos de bacheo"
+        ],
+        "links": [
+          "/noticias/noticia-de-prueba-40",
+          "/noticias/noticia-de-prueba-27",
+          null,
+          "/noticias/noticia-de-prueba-5"
+        ],
+        "context": false
+      }
+    },
+    {
+      "name": "clave story:: sin cronología",
+      "ok": true
+    },
+    {
+      "name": "portada: la banda se llama \"Videos\" y va justo después de servicios, antes de Últimas noticias",
+      "ok": true,
+      "detail": {
+        "title": "Videos",
+        "noInstagramTitle": true,
+        "afterStrip": true,
+        "beforeLatest": true,
+        "cards": 5,
+        "dark": "rgb(17, 24, 39)"
+      }
+    },
+    {
+      "name": "ranking: \"Más leídas\" y \"En Instagram\" como pestañas separadas por fuente",
+      "ok": true,
+      "detail": {
+        "title": "Lo más visto",
+        "tabs": [
+          [
+            "Más leídas",
+            "true"
+          ],
+          [
+            "En Instagram",
+            "false"
+          ]
+        ],
+        "siteVisible": true
+      }
+    },
+    {
+      "name": "Instagram: se nombra la fuente, sin cifras de alcance, hasta cinco notas (flechas)",
+      "ok": true,
+      "detail": {
+        "selected": "En Instagram",
+        "note": "Según el alcance de nuestras publicaciones en Instagram.",
+        "items": 5,
+        "numbers": false
+      }
+    },
+    {
+      "name": "pestañas Hoy/Semana dentro de Instagram: flechas y un solo panel visible",
+      "ok": true,
+      "detail": {
+        "selected": "Semana",
+        "visible": 1
+      }
+    },
+    {
+      "name": "videos: ningún script de Instagram antes de abrir un video",
+      "ok": true
+    },
+    {
+      "name": "videos: el reproductor se carga al abrir, con enlace a Instagram y a la noticia",
+      "ok": true,
+      "detail": {
+        "open": true,
+        "iframe": true,
+        "links": [
+          "Ver en Instagram",
+          "Leé la noticia"
+        ]
+      }
+    },
+    {
+      "name": "videos: embed.js se pide una sola vez",
+      "ok": true,
+      "detail": {
+        "count": 1
+      }
+    },
+    {
+      "name": "videos de X: crédito «Video: X» con su enlace original",
+      "ok": true,
+      "detail": [
+        [
+          "Video: X",
+          "https://x.com/usuario_de_prueba/status/1234567890"
+        ]
+      ]
+    },
+    {
+      "name": "nota con video propio: bloque dentro del cuerpo y reproductor en el lugar",
+      "ok": true,
+      "detail": {
+        "inArticle": {
+          "present": true,
+          "inBody": true,
+          "permalink": "https://www.instagram.com/p/De2pKcEjffC/",
+          "rail": 4
+        },
+        "played": {
+          "iframe": true,
+          "dialog": false
+        }
+      }
+    },
+    {
+      "name": "nota: carril \"Videos\" con otros videos, sin repetir el propio",
+      "ok": true,
+      "detail": {
+        "present": true,
+        "inBody": true,
+        "permalink": "https://www.instagram.com/p/De2pKcEjffC/",
+        "rail": 4
+      }
+    },
+    {
+      "name": "nota sin video propio: sin bloque, con carril de videos",
+      "ok": true,
+      "detail": {
+        "feature": false,
+        "rail": 4
+      }
+    },
+    {
+      "name": "/videos: el último video encabeza la página y el resto va en la grilla",
+      "ok": true,
+      "detail": {
+        "featured": "Un perrito se vuelve viral por ayudar con el mate",
+        "grid": 5,
+        "h1": "Videos"
+      }
+    },
+    {
+      "name": "miniaturas vencidas: panel neutro, sin imagen rota",
+      "ok": true,
+      "detail": {
+        "cards": 6,
+        "fallback": 6,
+        "imgs": 0
+      }
+    },
+    {
+      "name": "embed bloqueado: la tarjeta sigue útil con enlace a Instagram",
+      "ok": true,
+      "detail": {
+        "failed": "No se pudo mostrar el video en esta página. Miralo en Instagram."
+      }
+    },
+    {
+      "name": "publicación que no se puede incrustar: aviso y enlace tras la espera",
+      "ok": true
+    },
+    {
+      "name": "categoría con tendencias: Instagram aparte de \"Más leídas\" (6)",
+      "ok": true,
+      "detail": {
+        "trends": 3,
+        "mostRead": 6,
+        "title": "Tendencias en Instagram"
+      }
+    },
+    {
+      "name": "categoría sin tendencias: sin hueco, \"Más leídas\" completa",
+      "ok": true,
+      "detail": {
+        "trends": false,
+        "mostRead": 10
+      }
+    },
+    {
+      "name": "sin feeds /: funciona y no reserva espacio",
+      "ok": true,
+      "detail": {
+        "status": "La Voz Riojana | Noticias de La Rioja",
+        "modules": [],
+        "cmsTimeline": 0,
+        "news": 69,
+        "overflow": false
+      }
+    },
+    {
+      "name": "sin feeds /noticias/noticia-de-prueba-16: funciona y no reserva espacio",
+      "ok": true,
+      "detail": {
+        "status": "Una nueva campaña de prevención llega a los centros de salud | La Voz Riojana",
+        "modules": [],
+        "cmsTimeline": 3,
+        "news": 4,
+        "overflow": false
+      }
+    },
+    {
+      "name": "sin feeds /noticias/noticia-de-prueba-30: funciona y no reserva espacio",
+      "ok": true,
+      "detail": {
+        "status": "VECINOS DE SANAGASTA RECLAMAN POR EL ESTADO DE LA RUTA 75 | La Voz Riojana",
+        "modules": [],
+        "cmsTimeline": 0,
+        "news": 4,
+        "overflow": false
+      }
+    },
+    {
+      "name": "sin feeds /categoria/politica: funciona y no reserva espacio",
+      "ok": true,
+      "detail": {
+        "status": "Política | La Voz Riojana",
+        "modules": [],
+        "cmsTimeline": 0,
+        "news": 8,
+        "overflow": false
+      }
+    },
+    {
+      "name": "sin feeds /servicios: funciona y no reserva espacio",
+      "ok": true,
+      "detail": {
+        "status": "Servicios | La Voz Riojana",
+        "modules": [],
+        "cmsTimeline": 0,
+        "news": 0,
+        "overflow": false
+      }
+    },
+    {
+      "name": "sin feeds /videos: funciona y no reserva espacio",
+      "ok": true,
+      "detail": {
+        "status": "Videos | La Voz Riojana",
+        "modules": [],
+        "cmsTimeline": 0,
+        "news": 0,
+        "overflow": false
+      }
+    },
+    {
+      "name": "360px /: sin scroll horizontal ni textos < 11 px",
+      "ok": true,
+      "detail": {
+        "overflow": false,
+        "tiny": []
+      }
+    },
+    {
+      "name": "360px /servicios: sin scroll horizontal ni textos < 11 px",
+      "ok": true,
+      "detail": {
+        "overflow": false,
+        "tiny": []
+      }
+    },
+    {
+      "name": "360px /videos: sin scroll horizontal ni textos < 11 px",
+      "ok": true,
+      "detail": {
+        "overflow": false,
+        "tiny": []
+      }
+    },
+    {
+      "name": "360px /noticias/noticia-de-prueba-16: sin scroll horizontal ni textos < 11 px",
+      "ok": true,
+      "detail": {
+        "overflow": false,
+        "tiny": []
+      }
+    },
+    {
+      "name": "360px /categoria/politica: sin scroll horizontal ni textos < 11 px",
+      "ok": true,
+      "detail": {
+        "overflow": false,
+        "tiny": []
+      }
+    },
+    {
+      "name": "390px /: sin scroll horizontal ni textos < 11 px",
+      "ok": true,
+      "detail": {
+        "overflow": false,
+        "tiny": []
+      }
+    },
+    {
+      "name": "390px /servicios: sin scroll horizontal ni textos < 11 px",
+      "ok": true,
+      "detail": {
+        "overflow": false,
+        "tiny": []
+      }
+    },
+    {
+      "name": "390px /videos: sin scroll horizontal ni textos < 11 px",
+      "ok": true,
+      "detail": {
+        "overflow": false,
+        "tiny": []
+      }
+    },
+    {
+      "name": "390px /noticias/noticia-de-prueba-16: sin scroll horizontal ni textos < 11 px",
+      "ok": true,
+      "detail": {
+        "overflow": false,
+        "tiny": []
+      }
+    },
+    {
+      "name": "390px /categoria/politica: sin scroll horizontal ni textos < 11 px",
+      "ok": true,
+      "detail": {
+        "overflow": false,
+        "tiny": []
+      }
+    },
+    {
+      "name": "768px /: sin scroll horizontal ni textos < 11 px",
+      "ok": true,
+      "detail": {
+        "overflow": false,
+        "tiny": []
+      }
+    },
+    {
+      "name": "768px /servicios: sin scroll horizontal ni textos < 11 px",
+      "ok": true,
+      "detail": {
+        "overflow": false,
+        "tiny": []
+      }
+    },
+    {
+      "name": "768px /videos: sin scroll horizontal ni textos < 11 px",
+      "ok": true,
+      "detail": {
+        "overflow": false,
+        "tiny": []
+      }
+    },
+    {
+      "name": "768px /noticias/noticia-de-prueba-16: sin scroll horizontal ni textos < 11 px",
+      "ok": true,
+      "detail": {
+        "overflow": false,
+        "tiny": []
+      }
+    },
+    {
+      "name": "768px /categoria/politica: sin scroll horizontal ni textos < 11 px",
+      "ok": true,
+      "detail": {
+        "overflow": false,
+        "tiny": []
+      }
+    },
+    {
+      "name": "1024px /: sin scroll horizontal ni textos < 11 px",
+      "ok": true,
+      "detail": {
+        "overflow": false,
+        "tiny": []
+      }
+    },
+    {
+      "name": "1024px /servicios: sin scroll horizontal ni textos < 11 px",
+      "ok": true,
+      "detail": {
+        "overflow": false,
+        "tiny": []
+      }
+    },
+    {
+      "name": "1024px /videos: sin scroll horizontal ni textos < 11 px",
+      "ok": true,
+      "detail": {
+        "overflow": false,
+        "tiny": []
+      }
+    },
+    {
+      "name": "1024px /noticias/noticia-de-prueba-16: sin scroll horizontal ni textos < 11 px",
+      "ok": true,
+      "detail": {
+        "overflow": false,
+        "tiny": []
+      }
+    },
+    {
+      "name": "1024px /categoria/politica: sin scroll horizontal ni textos < 11 px",
+      "ok": true,
+      "detail": {
+        "overflow": false,
+        "tiny": []
+      }
+    },
+    {
+      "name": "1280px /: sin scroll horizontal ni textos < 11 px",
+      "ok": true,
+      "detail": {
+        "overflow": false,
+        "tiny": []
+      }
+    },
+    {
+      "name": "1280px /servicios: sin scroll horizontal ni textos < 11 px",
+      "ok": true,
+      "detail": {
+        "overflow": false,
+        "tiny": []
+      }
+    },
+    {
+      "name": "1280px /videos: sin scroll horizontal ni textos < 11 px",
+      "ok": true,
+      "detail": {
+        "overflow": false,
+        "tiny": []
+      }
+    },
+    {
+      "name": "1280px /noticias/noticia-de-prueba-16: sin scroll horizontal ni textos < 11 px",
+      "ok": true,
+      "detail": {
+        "overflow": false,
+        "tiny": []
+      }
+    },
+    {
+      "name": "1280px /categoria/politica: sin scroll horizontal ni textos < 11 px",
+      "ok": true,
+      "detail": {
+        "overflow": false,
+        "tiny": []
+      }
+    },
+    {
+      "name": "1440px /: sin scroll horizontal ni textos < 11 px",
+      "ok": true,
+      "detail": {
+        "overflow": false,
+        "tiny": []
+      }
+    },
+    {
+      "name": "1440px /servicios: sin scroll horizontal ni textos < 11 px",
+      "ok": true,
+      "detail": {
+        "overflow": false,
+        "tiny": []
+      }
+    },
+    {
+      "name": "1440px /videos: sin scroll horizontal ni textos < 11 px",
+      "ok": true,
+      "detail": {
+        "overflow": false,
+        "tiny": []
+      }
+    },
+    {
+      "name": "1440px /noticias/noticia-de-prueba-16: sin scroll horizontal ni textos < 11 px",
+      "ok": true,
+      "detail": {
+        "overflow": false,
+        "tiny": []
+      }
+    },
+    {
+      "name": "1440px /categoria/politica: sin scroll horizontal ni textos < 11 px",
+      "ok": true,
+      "detail": {
+        "overflow": false,
+        "tiny": []
+      }
+    }
+  ],
+  "errors": []
+}

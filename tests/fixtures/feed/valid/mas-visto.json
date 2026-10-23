@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "actualizado": "2026-10-23T15:00:00-03:00",
+  "metrica": "alcance en Instagram",
+  "ventanas": {
+    "24h": [
+      { "titulo": "Tercera en alcance", "url": "https://lavozriojana.com/noticias/noticia-de-prueba-8", "seccion": "salud", "publicada": "2026-10-22T11:00:00-03:00", "instagram": { "url": "https://www.instagram.com/p/C0ffeeAbc01/", "alcance": 5400, "interacciones": 120 } },
+      { "titulo": "Primera en alcance", "url": "https://lavozriojana.com/noticias/noticia-de-prueba-3", "seccion": "interior", "publicada": "2026-10-22T13:00:00-03:00", "instagram": { "url": "https://www.instagram.com/reel/C0ffeeAbc02/", "alcance": 11701, "interacciones": 240 } },
+      { "titulo": "SEGUNDA EN ALCANCE", "url": "https://lavozriojana.com/noticias/noticia-de-prueba-6", "seccion": "economia", "publicada": "2026-10-22T10:00:00-03:00", "instagram": { "url": "https://www.instagram.com/p/C0ffeeAbc03/", "alcance": 8020, "interacciones": 90 } },
+      { "titulo": "Primera repetida", "url": "https://lavozriojana.com/noticias/noticia-de-prueba-3/", "seccion": "interior", "publicada": "2026-10-22T13:00:00-03:00", "instagram": { "url": "https://www.instagram.com/p/C0ffeeAbc04/", "alcance": 900, "interacciones": 4 } },
+      { "titulo": "Sin cifras", "url": "https://lavozriojana.com/noticias/noticia-de-prueba-9", "seccion": "educacion", "publicada": "2026-10-22T09:00:00-03:00", "instagram": null },
+      { "titulo": "NOTA QUE EL CMS NO PUBLICA", "url": "https://lavozriojana.com/noticias/nota-que-no-existe", "seccion": "sociedad", "publicada": "2026-10-22T09:00:00-03:00", "instagram": { "url": "https://www.instagram.com/p/C0ffeeAbc05/", "alcance": 300, "interacciones": 2 } },
+      { "titulo": "URL de otro sitio", "url": "https://otro-medio.com/noticias/x", "seccion": "sociedad", "publicada": "2026-10-22T09:00:00-03:00", "instagram": { "url": "https://www.instagram.com/p/C0ffeeAbc06/", "alcance": 99999, "interacciones": 9 } }
+    ],
+    "7d": [
+      { "titulo": "Semana uno", "url": "https://lavozriojana.com/noticias/noticia-de-prueba-14", "seccion": "salud", "publicada": "2026-10-20T11:00:00-03:00", "instagram": { "url": "https://www.instagram.com/p/C0ffeeAbc07/", "alcance": 30500, "interacciones": 700 } },
+      { "titulo": "Semana dos", "url": "https://lavozriojana.com/noticias/noticia-de-prueba-25", "seccion": "economia", "publicada": "2026-10-19T11:00:00-03:00", "instagram": { "url": "https://www.instagram.com/p/C0ffeeAbc08/", "alcance": 20100, "interacciones": 500 } },
+      { "titulo": "Semana tres", "url": "https://lavozriojana.com/noticias/noticia-de-prueba-3", "seccion": "interior", "publicada": "2026-10-22T13:00:00-03:00", "instagram": { "url": "https://www.instagram.com/reel/C0ffeeAbc02/", "alcance": 15000, "interacciones": 300 } },
+      { "titulo": "Semana cuatro", "url": "https://lavozriojana.com/noticias/noticia-de-prueba-36", "seccion": "cultura", "publicada": "2026-10-18T11:00:00-03:00", "instagram": { "url": "https://www.instagram.com/p/C0ffeeAbc09/", "alcance": 9000, "interacciones": 100 } },
+      { "titulo": "Semana cinco", "url": "https://lavozriojana.com/noticias/noticia-de-prueba-47", "seccion": "deportes", "publicada": "2026-10-17T11:00:00-03:00", "instagram": { "url": "https://www.instagram.com/p/C0ffeeAbc10/", "alcance": 8000, "interacciones": 80 } },
+      { "titulo": "Semana seis", "url": "https://lavozriojana.com/noticias/noticia-de-prueba-58", "seccion": "espectaculos", "publicada": "2026-10-17T10:00:00-03:00", "instagram": { "url": "https://www.instagram.com/p/C0ffeeAbc11/", "alcance": 7000, "interacciones": 70 } }
+    ]
+  },
+  "por_seccion_7d": {
+    "politica": [
+      { "titulo": "Política uno", "url": "https://lavozriojana.com/noticias/noticia-de-prueba-23", "seccion": "politica", "publicada": "2026-10-21T11:00:00-03:00", "instagram": { "url": "https://www.instagram.com/p/C0ffeeAbc12/", "alcance": 12000, "interacciones": 200 } },
+      { "titulo": "Política dos", "url": "https://lavozriojana.com/noticias/noticia-de-prueba-1", "seccion": "politica", "publicada": "2026-10-22T15:00:00-03:00", "instagram": { "url": "https://www.instagram.com/p/C0ffeeAbc13/", "alcance": 9500, "interacciones": 150 } },
+      { "titulo": "Política tres", "url": "https://lavozriojana.com/noticias/noticia-de-prueba-45", "seccion": "politica", "publicada": "2026-10-20T11:00:00-03:00", "instagram": { "url": "https://www.instagram.com/p/C0ffeeAbc14/", "alcance": 4000, "interacciones": 40 } }
+    ],
+    "interior": [],
+    "Clave Inválida": [
+      { "titulo": "Se descarta la sección", "url": "https://lavozriojana.com/noticias/noticia-de-prueba-3", "seccion": "x", "publicada": "2026-10-21T11:00:00-03:00", "instagram": null }
+    ]
+  }
+}

@@ -71,6 +71,8 @@ function measure() {
 }
 
 const context = await browser.newContext({ deviceScaleFactor: 1 });
+// Instagram's CDN and scripts (feed thumbnails) are never contacted from QA.
+await context.route(/cdninstagram\.com|fbcdn\.net|instagram\.com/, route => route.fulfill({ status: 204, body: '' }));
 const page = await context.newPage();
 page.on('pageerror', e => errors.push(String(e)));
 page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });

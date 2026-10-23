@@ -13,9 +13,14 @@ import { PostViewTracker } from '@/components/news/PostViewTracker';
 import { ShareLinks } from '@/components/news/ShareLinks';
 import { Sources } from '@/components/news/Sources';
 import { StoryTimeline } from '@/components/news/StoryTimeline';
+import { UpdateNotice } from '@/components/news/UpdateNotice';
+import { VideoFeature } from '@/components/feed/VideoFeature';
+import { VideosRail } from '@/components/feed/VideosRail';
 import { CommentForm } from '@/components/forms/CommentForm';
 import { InfiniteArticleFeed } from '@/components/news/InfiniteArticleFeed';
 import { formatHeadline } from '@/lib/headline';
+import { getActualizacionesFeed, getArticleVideos, getHistoriasFeed, getPublishedPostSummaries } from '@/lib/feed';
+import { buildStoryTimeline, findVerifiedStory, isEventStoryKey, pickLatestUpdate, selectUpdateCandidates } from '@/lib/feed-select';
 import { authorProfileUrl } from '@/lib/author';
 import { estimateReadingMinutes, formatDate, formatDateTime } from '@/lib/format';
 import { absoluteUrl, SITE_LOGO_URL, SITE_NAME, SITE_URL } from '@/lib/site';
@@ -75,7 +80,9 @@ export default async function NewsPage({ params }: Props) {
     notFound();
   }
 
-  const [related, mostRead, storyTimeline] = await Promise.all([
+  // Only `event:` keys identify one verified event; other keys get no timeline.
+  const eventKey = isEventStoryKey(post.storyKey) ? post.storyKey : null;
+  const [related, mostRead, sameEventPosts, updatesFeed, storiesFeed, videos] = await Promise.all([
     getRelatedPosts(post, 7).catch(() => []),
     prisma.post
       .findMany({
@@ -85,12 +92,31 @@ export default async function NewsPage({ params }: Props) {
         take: 7
       })
       .catch(() => []),
-    getStoryTimeline(post.storyKey ?? '', post.id).catch(() => [])
+    eventKey ? getStoryTimeline(eventKey, post.id).catch(() => []) : Promise.resolve([]),
+    getActualizacionesFeed(),
+    eventKey ? getHistoriasFeed() : Promise.resolve(null),
+    getArticleVideos(params.slug, new Date())
   ]);
 
-  // "Seguí esta historia" y "En contexto" son mutuamente excluyentes (Parte
-  // 38): el timeline gana cuando existe (≥2 notas previas relacionadas).
-  const archiveContextEntries = storyTimeline.length < 2 ? parseArchiveContext(post.metadata) : [];
+  // Feeds name stories by URL: the CMS confirms they are published and gives
+  // their dates (one query for the update candidates and the event).
+  const updateCandidates = selectUpdateCandidates(updatesFeed, post.slug);
+  const feedStory = eventKey ? findVerifiedStory(storiesFeed, eventKey, post.slug) : null;
+  const feedPosts = await getPublishedPostSummaries(
+    [...updateCandidates.map((item) => item.slug), ...(feedStory?.notas.map((note) => note.url.slug) ?? [])].filter((slug) => slug !== post.slug)
+  );
+  const latestUpdate = pickLatestUpdate(updateCandidates, feedPosts, post.publishedAt);
+  const storyEntries = buildStoryTimeline({
+    storyKey: eventKey,
+    current: { slug: post.slug, title: post.title, excerpt: post.excerpt, publishedAt: post.publishedAt, storyKey: post.storyKey },
+    sameKey: sameEventPosts,
+    feedStory,
+    feedPosts
+  });
+
+  // "Seguí esta historia" y "En contexto" cumplen la misma función: nunca juntos.
+  // La cronología gana cuando hay al menos dos notas verificadas del hecho.
+  const archiveContextEntries = storyEntries.length ? [] : parseArchiveContext(post.metadata);
 
   const readingMinutes = estimateReadingMinutes(post.contentText);
   // Presentation only: metadata, JSON-LD and share text keep the stored title.
@@ -249,6 +275,14 @@ export default async function NewsPage({ params }: Props) {
               </div>
 
               <ShareLinks title={post.title} path={`/noticias/${post.slug}`} />
+
+              {latestUpdate && (
+                <UpdateNotice
+                  path={latestUpdate.path}
+                  title={formatHeadline(latestUpdate.title, feedPosts.get(latestUpdate.slug)?.excerpt)}
+                  novedad={latestUpdate.novedad}
+                />
+              )}
             </header>
 
             {/* Hero image */}
@@ -285,7 +319,13 @@ export default async function NewsPage({ params }: Props) {
               </div>
             )}
 
+            {/* The story's own Instagram video, after the first paragraphs and the
+                inline ad (or after the body when it is short). */}
+            {videos.related && bodyParts.afterHtml && <VideoFeature video={videos.related} variant="article" />}
+
             <ArticleBody html={bodyParts.afterHtml} />
+
+            {videos.related && !bodyParts.afterHtml && <VideoFeature video={videos.related} variant="article" />}
 
             {post.videoUrl && <ArticleVideo url={post.videoUrl} poster={post.videoPoster || post.mainImageUrl} />}
 
@@ -295,8 +335,22 @@ export default async function NewsPage({ params }: Props) {
 
             <Sources sources={post.sources} legacy={legacySourceItem} />
 
-            <StoryTimeline items={storyTimeline} />
+            <StoryTimeline entries={storyEntries} />
             {archiveContextEntries.length > 0 && <ArchiveContextNote entries={archiveContextEntries} />}
+
+            {videos.others.length > 0 && (
+              <section className="article-videos" aria-labelledby="article-videos-title">
+                <div className="cat-block-head">
+                  <h2 className="section-title" id="article-videos-title">
+                    Videos
+                  </h2>
+                  <a className="cat-block-more" href="/videos">
+                    Ver todos
+                  </a>
+                </div>
+                <VideosRail videos={videos.others} className="videos-rail-article" />
+              </section>
+            )}
 
             <AuthorBox author={post.author} />
 

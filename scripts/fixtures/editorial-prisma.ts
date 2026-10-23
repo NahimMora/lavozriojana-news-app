@@ -51,7 +51,7 @@ const posts = Array.from({ length: 78 }, (_, i) => ({
   videoUrl: i === 5 ? '/qa/horizontal.mp4' : i === 8 ? '/qa/vertical.mp4' : null, videoPoster: `/qa/photo-${i % 6}.jpg`,
   isFeatured: i < 5, isBreaking: i < 3, editorialPriority: 100 - i, viewCount: 200 - i,
   tags: [{ tagId: 1, tag: { name: 'La Rioja', slug: 'la-rioja' } }], comments: [{ id: 1, authorName: 'Lector de prueba', body: 'Comentario de ejemplo para revisar la experiencia de lectura.' }],
-  sources: [{ id: 1, name: 'Fuente de prueba', type: 'ELABORACION_PROPIA', url: null, order: 0 }], sourceName: null, sourceUrl: null, storyKey: i % 11 === 0 ? 'historia-de-prueba' : null, metadata: null
+  sources: [{ id: 1, name: 'Fuente de prueba', type: 'ELABORACION_PROPIA', url: null, order: 0 }], sourceName: null, sourceUrl: null, storyKey: [4, 15, 26].includes(i) ? 'event:3f2a-ruta-75' : i === 60 ? 'event:otro' : i % 11 === 0 ? 'story:historia-de-prueba' : null, metadata: null
 }));
 function matches(row: any, where: any = {}): boolean {
   return Object.entries(where).every(([key, value]: [string, any]) => {

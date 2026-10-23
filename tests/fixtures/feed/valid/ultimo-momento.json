@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "actualizado": "2026-10-23T16:05:00-03:00",
+  "nota": {
+    "titulo": "VECINOS DE SANAGASTA RECLAMAN POR EL ESTADO DE LA RUTA 75",
+    "url": "https://lavozriojana.com/noticias/noticia-de-prueba-20",
+    "seccion": "economia",
+    "activado": "2026-10-23T16:02:41-03:00",
+    "vigente": true
+  },
+  "alerta": {
+    "fuente": "Servicio Meteorológico Nacional",
+    "estado": "activa",
+    "tipo": "alerta",
+    "nivel": "naranja",
+    "fenomeno": "viento",
+    "zonas": [
+      "Vinchina",
+      "General Lamadrid"
+    ],
+    "vence": "2026-10-24T02:59:59-03:00",
+    "descripcion": "Texto de prueba: se esperan vientos del sector sur con ráfagas intensas en las zonas indicadas.",
+    "actualizado": "2026-10-23T16:00:00-03:00"
+  }
+}

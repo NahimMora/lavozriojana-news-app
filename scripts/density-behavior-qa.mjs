@@ -17,6 +17,8 @@ const errors = [];
 
 async function open(options = {}, route = '/') {
   const context = await browser.newContext(options);
+  // Instagram's CDN and scripts (feed thumbnails) are never contacted from QA.
+  await context.route(/cdninstagram\.com|fbcdn\.net|instagram\.com/, route => route.fulfill({ status: 204, body: '' }));
   const page = await context.newPage();
   page.on('pageerror', e => errors.push(String(e)));
   page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
@@ -36,8 +38,9 @@ async function open(options = {}, route = '/') {
       animation: getComputedStyle(track).animationName,
       copies: lists.length,
       hiddenCopy: lists[1]?.getAttribute('aria-hidden'),
-      tabbable: [...bar.querySelectorAll('a')].filter(a => a.tabIndex >= 0).length,
-      links: bar.querySelectorAll('a').length,
+      // The feed's pinned story sits outside the moving lists: only they are duplicated.
+      tabbable: [...bar.querySelectorAll('.breaking-items a')].filter(a => a.tabIndex >= 0).length,
+      links: bar.querySelectorAll('.breaking-items a').length,
       duration: getComputedStyle(track).animationDuration
     };
   });
@@ -50,7 +53,7 @@ async function open(options = {}, route = '/') {
   const c = await x(); await page.waitForTimeout(600); const d = await x();
   check('botón pausa detiene el ticker', Math.abs(c - d) < 0.5 && await page.getByRole('button', { name: /Reanudar titulares/ }).isVisible(), { c, d });
   await page.getByRole('button', { name: /Reanudar titulares/ }).click();
-  await page.locator('.breaking-bar').hover();
+  await page.locator('.breaking-ticker').hover();
   const e = await x(); await page.waitForTimeout(500); const f = await x();
   check('hover pausa el ticker', Math.abs(e - f) < 0.5, { e, f });
   await page.mouse.move(5, 700);

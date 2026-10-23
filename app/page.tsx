@@ -4,11 +4,14 @@ import { AdSenseUnit } from '@/components/news/AdSenseUnit';
 import { AhoraMore } from '@/components/news/AhoraMore';
 import { BannerSquare } from '@/components/news/BannerAd';
 import { BreakingNewsBar } from '@/components/news/BreakingNewsBar';
-import { MostRead } from '@/components/news/MostRead';
+import { ServicesSummary } from '@/components/feed/ServicesSummary';
+import { HomeRankings } from '@/components/feed/HomeRankings';
+import { VideosBand } from '@/components/feed/VideosBand';
 import { PostCard } from '@/components/news/PostCard';
 import { getHomeData } from '@/lib/posts';
 import type { PublicPost } from '@/lib/posts';
 import { getActiveBanner } from '@/lib/banners';
+import { getUrgentStory } from '@/lib/feed';
 import { formatHeadline } from '@/lib/headline';
 
 const headlineOf = (post: PublicPost) => formatHeadline(post.title, post.excerpt, post.contentText);
@@ -143,12 +146,15 @@ export default async function HomePage() {
     getActiveBanner('HOME_MIDDLE').catch(() => null),
     getActiveBanner('SIDEBAR').catch(() => null)
   ]);
+  /* Urgent story of ultimo-momento.json, pinned in the ticker (shared with
+     the layout's notices through React cache). */
+  const urgentPromise = getUrgentStory().catch(() => null);
   try {
     data = await getHomeData();
   } catch {
     /* base de datos vacía o inicio en frío */
   }
-  const [middleBanner, sideBanner] = await bannersPromise;
+  const [[middleBanner, sideBanner], urgentStory] = await Promise.all([bannersPromise, urgentPromise]);
 
   /* ── Pool management: cada post se usa una sola vez ─── */
   type PostId = (typeof data.latest)[0]['id'];
@@ -216,7 +222,9 @@ export default async function HomePage() {
 
   return (
     <>
-      <BreakingNewsBar posts={data.breaking} />
+      {/* If the urgent story already leads the opening, pinning it again would
+          repeat the same headline twice in the first screen. */}
+      <BreakingNewsBar posts={data.breaking} pinned={urgentStory && urgentStory.slug !== mainPost?.slug ? urgentStory : null} />
       <h1 className="sr-only">La Voz Riojana</h1>
 
       {/* ── Hero editorial ─────────────────────────────────── */}
@@ -272,6 +280,12 @@ export default async function HomePage() {
       <div className="container">
         <AdSenseUnit slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_HOME_TOP} className="ad-slot-home-top" />
       </div>
+
+      {/* ── Servicios: una línea después de la apertura, no antes ── */}
+      <ServicesSummary />
+
+      {/* ── Videos: banda propia apenas pasada la apertura ───── */}
+      <VideosBand knownPosts={data.latest} />
 
       {/* ── Últimas noticias + sidebar ──────────────────────── */}
       {latestPosts.length > 0 && (
@@ -366,7 +380,7 @@ export default async function HomePage() {
                     {cat6 && <CategorySection block={cat6} embedded />}
                   </div>
                   <div className="cats-rank-right">
-                    <MostRead posts={data.mostRead} />
+                    <HomeRankings mostRead={data.mostRead} knownPosts={data.latest} />
                   </div>
                 </div>
               </div>
@@ -403,7 +417,7 @@ export default async function HomePage() {
         return nodes;
       })}
       {catBlocks.length < 6 && data.mostRead.length > 0 && (
-        <div className="container section topline"><MostRead posts={data.mostRead} /></div>
+        <div className="container section topline"><HomeRankings mostRead={data.mostRead} knownPosts={data.latest} /></div>
       )}
     </>
   );
