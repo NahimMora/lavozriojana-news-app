@@ -1,5 +1,4 @@
 import { formatDateShort } from '@/lib/format';
-import { formatHeadline } from '@/lib/headline';
 
 type TimelineItem = {
   id: number;
@@ -27,7 +26,7 @@ export function StoryTimeline({ items }: { items: TimelineItem[] }) {
               {formatDateShort(item.publishedAt)}
             </time>
             <a className="story-timeline-title" href={`/noticias/${item.slug}`}>
-              {formatHeadline(item.title)}
+              {item.title}
             </a>
           </li>
         ))}

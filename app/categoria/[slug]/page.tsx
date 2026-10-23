@@ -107,31 +107,30 @@ export default async function CategoryPage({ params, searchParams }: Props) {
       {/* Colored category hero */}
       <div className={`cat-hero category-${cssSlug}`}>
         <div className="container">
+          <span className="cat-hero-label">Secciones / La Voz Riojana</span>
           <h1>{category.name}</h1>
           {category.description && <p>{category.description}</p>}
         </div>
       </div>
 
-      <div className="container category-page-content">
+      <div className="container" style={{ paddingTop: 8 }}>
         <Breadcrumbs items={[{ label: category.name }]} />
+        <BannerAd slot="CATEGORY_TOP" />
 
-        <div className="news-layout category-news-layout">
+        <div className="news-layout" style={{ marginTop: 16 }}>
           <div>
             {posts.length === 0 ? (
               <div style={{ padding: '32px 0', textAlign: 'center' }}>
                 <p className="muted">No hay noticias publicadas en esta categoría todavía.</p>
-                <BannerAd slot="CATEGORY_TOP" />
               </div>
             ) : (
               <>
                 {/* First post: large horizontal card */}
                 {posts[0] && (
                   <div className="category-lead">
-                    <PostCard post={posts[0]} variant="horizontal" imageSizes="(min-width: 1024px) 300px, (min-width: 560px) 240px, 112px" priority />
+                    <PostCard post={posts[0]} variant="lead" priority />
                   </div>
                 )}
-
-                <BannerAd slot="CATEGORY_TOP" />
 
                 {/* Rest: grid */}
                 {posts.length > 1 && (

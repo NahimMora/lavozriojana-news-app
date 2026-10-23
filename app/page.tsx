@@ -7,7 +7,6 @@ import { MostRead } from '@/components/news/MostRead';
 import { PostCard } from '@/components/news/PostCard';
 import { getHomeData } from '@/lib/posts';
 import type { PublicPost } from '@/lib/posts';
-import { formatHeadline } from '@/lib/headline';
 
 export const runtime = 'nodejs';
 export const revalidate = 60;
@@ -25,9 +24,9 @@ function CategorySection({
     posts.length === 1 ? (
       <PostCard post={posts[0]} variant="horizontal" autoplayInView />
     ) : posts.length === 2 ? (
-      <div className="editorial-grid editorial-grid-pair">
-        <PostCard post={posts[0]} autoplayInView />
-        <PostCard post={posts[1]} autoplayInView />
+      <div className="editorial-2col">
+        <PostCard post={posts[0]} variant="featured" autoplayInView />
+        <PostCard post={posts[1]} variant="compact" autoplayInView />
       </div>
     ) : (
       <div className="editorial-grid">
@@ -71,7 +70,7 @@ function LoUltimoSlice({ posts }: { posts: PublicPost[] }) {
                 {post.category.name}
               </Link>
               <Link className="lo-title" href={`/noticias/${post.slug}`}>
-                {formatHeadline(post.title, post.excerpt)}
+                {post.title}
               </Link>
             </div>
           ))}
@@ -91,7 +90,7 @@ function EnFocoSlice({ posts }: { posts: PublicPost[] }) {
           <h2 className="section-title">En foco</h2>
         </div>
         <div className="en-foco-layout">
-          <PostCard post={main} variant="horizontal" autoplayInView />
+          <PostCard post={main} variant="featured" autoplayInView />
           <div className="en-foco-sidebar">
             {rest.slice(0, 4).map((post) => (
               <div className="en-foco-item" key={post.id}>
@@ -99,7 +98,7 @@ function EnFocoSlice({ posts }: { posts: PublicPost[] }) {
                   {post.category.name}
                 </Link>
                 <h3 className="post-title">
-                  <Link href={`/noticias/${post.slug}`}>{formatHeadline(post.title, post.excerpt)}</Link>
+                  <Link href={`/noticias/${post.slug}`}>{post.title}</Link>
                 </h3>
               </div>
             ))}
@@ -197,6 +196,7 @@ export default async function HomePage() {
       {/* ── Hero editorial ─────────────────────────────────── */}
       <section className="home-opening" aria-label="Noticias destacadas">
         <div className="container">
+          <div className="home-edition-line"><span>La actualidad, desde La Rioja</span><span>Edición digital</span></div>
           {mainPost ? (
             <div className="home-hero-grid">
               {/* IZQUIERDA: nota principal + 2 sub-cards */}
@@ -287,7 +287,7 @@ export default async function HomePage() {
                             {post.category.name}
                           </Link>
                           <h3 className="sidebar-hi-title">
-                            <Link href={`/noticias/${post.slug}`}>{formatHeadline(post.title, post.excerpt)}</Link>
+                            <Link href={`/noticias/${post.slug}`}>{post.title}</Link>
                           </h3>
                         </div>
                         {post.mainImageUrl && (

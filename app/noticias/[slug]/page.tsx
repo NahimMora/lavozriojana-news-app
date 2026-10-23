@@ -22,7 +22,6 @@ import { postDocumentTitle, postModifiedDate, postSocialImage } from '@/lib/seo'
 import { getPostBySlug, getRelatedPosts, getStoryTimeline, publicPostInclude } from '@/lib/posts';
 import { prisma } from '@/lib/prisma';
 import { splitArticleHtmlAfterParagraphs, splitFirstArticleParagraph } from '@/lib/article-html';
-import { formatHeadline } from '@/lib/headline';
 
 export const runtime = 'nodejs';
 export const revalidate = 60;
@@ -217,7 +216,7 @@ export default async function NewsPage({ params }: Props) {
                 ))}
               </div>
 
-              <h1 className="article-title">{formatHeadline(post.title, post.excerpt)}</h1>
+              <h1 className="article-title">{post.title}</h1>
               <ArticleLead html={articleParts.firstParagraphHtml} fallback={post.excerpt} />
 
               <div className="article-byline">
@@ -345,7 +344,7 @@ export default async function NewsPage({ params }: Props) {
                         {item.category.name}
                       </a>
                       <h3 className="sidebar-hi-title">
-                        <a href={`/noticias/${item.slug}`}>{formatHeadline(item.title, item.excerpt)}</a>
+                        <a href={`/noticias/${item.slug}`}>{item.title}</a>
                       </h3>
                       {item.publishedAt && (
                         <time className="inline-rel-date">{formatDate(item.publishedAt)}</time>

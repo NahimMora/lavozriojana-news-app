@@ -4,7 +4,6 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { splitFirstArticleParagraph } from '@/lib/article-html';
-import { formatHeadline } from '@/lib/headline';
 
 /* ── Types ─────────────────────────────────────────────── */
 interface RelatedPost {
@@ -69,7 +68,7 @@ function InlineRelated({ posts, categoryName }: { posts: RelatedPost[]; category
                 {p.category.name}
               </Link>
               <h3 className="sidebar-hi-title">
-                <Link href={`/noticias/${p.slug}`}>{formatHeadline(p.title)}</Link>
+                <Link href={`/noticias/${p.slug}`}>{p.title}</Link>
               </h3>
               {p.publishedAt && (
                 <time className="inline-rel-date">{formatDate(p.publishedAt)}</time>
@@ -145,7 +144,7 @@ function InlineArticle({ post, onVisible }: { post: InlinePost; onVisible: (slug
               ))}
             </div>
             <h2 className="article-title" style={{ fontSize: 'clamp(1.7rem, 4vw, 2.8rem)' }}>
-              <Link href={`/noticias/${post.slug}`}>{formatHeadline(post.title, post.excerpt)}</Link>
+              <Link href={`/noticias/${post.slug}`}>{post.title}</Link>
             </h2>
             {articleParts.firstParagraphHtml ? (
               <div
