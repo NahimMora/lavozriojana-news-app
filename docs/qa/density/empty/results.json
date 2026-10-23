@@ -1,0 +1,559 @@
+{
+  "label": "empty",
+  "origin": "http://127.0.0.1:3108",
+  "pages": [
+    {
+      "name": "home",
+      "width": 360,
+      "height": 800,
+      "status": 200,
+      "overflow": false,
+      "headerHeight": 98,
+      "firstCardTop": null,
+      "firstImageTop": null,
+      "visibleHeadlines": 0,
+      "blocks": {
+        "opening": {
+          "top": 98,
+          "height": 124
+        },
+        "ahora": null,
+        "leadCard": null,
+        "enFoco": null,
+        "titulares": null,
+        "destacados": null,
+        "catHero": null
+      },
+      "rowSpread": {
+        "grid": [],
+        "sub": [],
+        "titulares": []
+      },
+      "lines": {
+        "ahora": [],
+        "titulares": [],
+        "enFoco": [],
+        "lead": []
+      },
+      "fonts": {
+        "lead": null,
+        "featured": null,
+        "standard": null,
+        "list": null,
+        "titulares": null,
+        "kicker": null,
+        "meta": null
+      },
+      "ticker": null,
+      "headerHeightScrolled": 50,
+      "headerHeightRestored": 98
+    },
+    {
+      "name": "home",
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "overflow": false,
+      "headerHeight": 98,
+      "firstCardTop": null,
+      "firstImageTop": null,
+      "visibleHeadlines": 0,
+      "blocks": {
+        "opening": {
+          "top": 98,
+          "height": 124
+        },
+        "ahora": null,
+        "leadCard": null,
+        "enFoco": null,
+        "titulares": null,
+        "destacados": null,
+        "catHero": null
+      },
+      "rowSpread": {
+        "grid": [],
+        "sub": [],
+        "titulares": []
+      },
+      "lines": {
+        "ahora": [],
+        "titulares": [],
+        "enFoco": [],
+        "lead": []
+      },
+      "fonts": {
+        "lead": null,
+        "featured": null,
+        "standard": null,
+        "list": null,
+        "titulares": null,
+        "kicker": null,
+        "meta": null
+      },
+      "ticker": null,
+      "headerHeightScrolled": 50,
+      "headerHeightRestored": 98
+    },
+    {
+      "name": "home",
+      "width": 768,
+      "height": 1024,
+      "status": 200,
+      "overflow": false,
+      "headerHeight": 160,
+      "firstCardTop": null,
+      "firstImageTop": null,
+      "visibleHeadlines": 0,
+      "blocks": {
+        "opening": {
+          "top": 160,
+          "height": 138
+        },
+        "ahora": null,
+        "leadCard": null,
+        "enFoco": null,
+        "titulares": null,
+        "destacados": null,
+        "catHero": null
+      },
+      "rowSpread": {
+        "grid": [],
+        "sub": [],
+        "titulares": []
+      },
+      "lines": {
+        "ahora": [],
+        "titulares": [],
+        "enFoco": [],
+        "lead": []
+      },
+      "fonts": {
+        "lead": null,
+        "featured": null,
+        "standard": null,
+        "list": null,
+        "titulares": null,
+        "kicker": null,
+        "meta": null
+      },
+      "ticker": null,
+      "headerHeightScrolled": 160,
+      "headerHeightRestored": 160
+    },
+    {
+      "name": "home",
+      "width": 1024,
+      "height": 768,
+      "status": 200,
+      "overflow": false,
+      "headerHeight": 160,
+      "firstCardTop": null,
+      "firstImageTop": null,
+      "visibleHeadlines": 0,
+      "blocks": {
+        "opening": {
+          "top": 160,
+          "height": 138
+        },
+        "ahora": null,
+        "leadCard": null,
+        "enFoco": null,
+        "titulares": null,
+        "destacados": null,
+        "catHero": null
+      },
+      "rowSpread": {
+        "grid": [],
+        "sub": [],
+        "titulares": []
+      },
+      "lines": {
+        "ahora": [],
+        "titulares": [],
+        "enFoco": [],
+        "lead": []
+      },
+      "fonts": {
+        "lead": null,
+        "featured": null,
+        "standard": null,
+        "list": null,
+        "titulares": null,
+        "kicker": null,
+        "meta": null
+      },
+      "ticker": null,
+      "headerHeightScrolled": 160,
+      "headerHeightRestored": 160
+    },
+    {
+      "name": "home",
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "overflow": false,
+      "headerHeight": 160,
+      "firstCardTop": null,
+      "firstImageTop": null,
+      "visibleHeadlines": 0,
+      "blocks": {
+        "opening": {
+          "top": 160,
+          "height": 138
+        },
+        "ahora": null,
+        "leadCard": null,
+        "enFoco": null,
+        "titulares": null,
+        "destacados": null,
+        "catHero": null
+      },
+      "rowSpread": {
+        "grid": [],
+        "sub": [],
+        "titulares": []
+      },
+      "lines": {
+        "ahora": [],
+        "titulares": [],
+        "enFoco": [],
+        "lead": []
+      },
+      "fonts": {
+        "lead": null,
+        "featured": null,
+        "standard": null,
+        "list": null,
+        "titulares": null,
+        "kicker": null,
+        "meta": null
+      },
+      "ticker": null,
+      "headerHeightScrolled": 160,
+      "headerHeightRestored": 160
+    },
+    {
+      "name": "home",
+      "width": 1440,
+      "height": 900,
+      "status": 200,
+      "overflow": false,
+      "headerHeight": 160,
+      "firstCardTop": null,
+      "firstImageTop": null,
+      "visibleHeadlines": 0,
+      "blocks": {
+        "opening": {
+          "top": 160,
+          "height": 138
+        },
+        "ahora": null,
+        "leadCard": null,
+        "enFoco": null,
+        "titulares": null,
+        "destacados": null,
+        "catHero": null
+      },
+      "rowSpread": {
+        "grid": [],
+        "sub": [],
+        "titulares": []
+      },
+      "lines": {
+        "ahora": [],
+        "titulares": [],
+        "enFoco": [],
+        "lead": []
+      },
+      "fonts": {
+        "lead": null,
+        "featured": null,
+        "standard": null,
+        "list": null,
+        "titulares": null,
+        "kicker": null,
+        "meta": null
+      },
+      "ticker": null,
+      "headerHeightScrolled": 160,
+      "headerHeightRestored": 160
+    },
+    {
+      "name": "category",
+      "width": 360,
+      "height": 800,
+      "status": 200,
+      "overflow": false,
+      "headerHeight": 98,
+      "firstCardTop": null,
+      "firstImageTop": null,
+      "visibleHeadlines": 0,
+      "blocks": {
+        "opening": null,
+        "ahora": null,
+        "leadCard": null,
+        "enFoco": null,
+        "titulares": null,
+        "destacados": null,
+        "catHero": {
+          "top": 98,
+          "height": 126
+        }
+      },
+      "rowSpread": {
+        "grid": [],
+        "sub": [],
+        "titulares": []
+      },
+      "lines": {
+        "ahora": [],
+        "titulares": [],
+        "enFoco": [],
+        "lead": []
+      },
+      "fonts": {
+        "lead": null,
+        "featured": null,
+        "standard": null,
+        "list": null,
+        "titulares": null,
+        "kicker": null,
+        "meta": null
+      },
+      "ticker": null,
+      "headerHeightScrolled": 50,
+      "headerHeightRestored": 98
+    },
+    {
+      "name": "category",
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "overflow": false,
+      "headerHeight": 98,
+      "firstCardTop": null,
+      "firstImageTop": null,
+      "visibleHeadlines": 0,
+      "blocks": {
+        "opening": null,
+        "ahora": null,
+        "leadCard": null,
+        "enFoco": null,
+        "titulares": null,
+        "destacados": null,
+        "catHero": {
+          "top": 98,
+          "height": 126
+        }
+      },
+      "rowSpread": {
+        "grid": [],
+        "sub": [],
+        "titulares": []
+      },
+      "lines": {
+        "ahora": [],
+        "titulares": [],
+        "enFoco": [],
+        "lead": []
+      },
+      "fonts": {
+        "lead": null,
+        "featured": null,
+        "standard": null,
+        "list": null,
+        "titulares": null,
+        "kicker": null,
+        "meta": null
+      },
+      "ticker": null,
+      "headerHeightScrolled": 50,
+      "headerHeightRestored": 98
+    },
+    {
+      "name": "category",
+      "width": 768,
+      "height": 1024,
+      "status": 200,
+      "overflow": false,
+      "headerHeight": 160,
+      "firstCardTop": null,
+      "firstImageTop": null,
+      "visibleHeadlines": 0,
+      "blocks": {
+        "opening": null,
+        "ahora": null,
+        "leadCard": null,
+        "enFoco": null,
+        "titulares": null,
+        "destacados": null,
+        "catHero": {
+          "top": 160,
+          "height": 87
+        }
+      },
+      "rowSpread": {
+        "grid": [],
+        "sub": [],
+        "titulares": []
+      },
+      "lines": {
+        "ahora": [],
+        "titulares": [],
+        "enFoco": [],
+        "lead": []
+      },
+      "fonts": {
+        "lead": null,
+        "featured": null,
+        "standard": null,
+        "list": null,
+        "titulares": null,
+        "kicker": null,
+        "meta": null
+      },
+      "ticker": null,
+      "headerHeightScrolled": 160,
+      "headerHeightRestored": 160
+    },
+    {
+      "name": "category",
+      "width": 1024,
+      "height": 768,
+      "status": 200,
+      "overflow": false,
+      "headerHeight": 160,
+      "firstCardTop": null,
+      "firstImageTop": null,
+      "visibleHeadlines": 0,
+      "blocks": {
+        "opening": null,
+        "ahora": null,
+        "leadCard": null,
+        "enFoco": null,
+        "titulares": null,
+        "destacados": null,
+        "catHero": {
+          "top": 160,
+          "height": 89
+        }
+      },
+      "rowSpread": {
+        "grid": [],
+        "sub": [],
+        "titulares": []
+      },
+      "lines": {
+        "ahora": [],
+        "titulares": [],
+        "enFoco": [],
+        "lead": []
+      },
+      "fonts": {
+        "lead": null,
+        "featured": null,
+        "standard": null,
+        "list": null,
+        "titulares": null,
+        "kicker": null,
+        "meta": null
+      },
+      "ticker": null,
+      "headerHeightScrolled": 97,
+      "headerHeightRestored": 160
+    },
+    {
+      "name": "category",
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "overflow": false,
+      "headerHeight": 160,
+      "firstCardTop": null,
+      "firstImageTop": null,
+      "visibleHeadlines": 0,
+      "blocks": {
+        "opening": null,
+        "ahora": null,
+        "leadCard": null,
+        "enFoco": null,
+        "titulares": null,
+        "destacados": null,
+        "catHero": {
+          "top": 160,
+          "height": 98
+        }
+      },
+      "rowSpread": {
+        "grid": [],
+        "sub": [],
+        "titulares": []
+      },
+      "lines": {
+        "ahora": [],
+        "titulares": [],
+        "enFoco": [],
+        "lead": []
+      },
+      "fonts": {
+        "lead": null,
+        "featured": null,
+        "standard": null,
+        "list": null,
+        "titulares": null,
+        "kicker": null,
+        "meta": null
+      },
+      "ticker": null,
+      "headerHeightScrolled": 97,
+      "headerHeightRestored": 160
+    },
+    {
+      "name": "category",
+      "width": 1440,
+      "height": 900,
+      "status": 200,
+      "overflow": false,
+      "headerHeight": 160,
+      "firstCardTop": null,
+      "firstImageTop": null,
+      "visibleHeadlines": 0,
+      "blocks": {
+        "opening": null,
+        "ahora": null,
+        "leadCard": null,
+        "enFoco": null,
+        "titulares": null,
+        "destacados": null,
+        "catHero": {
+          "top": 160,
+          "height": 99
+        }
+      },
+      "rowSpread": {
+        "grid": [],
+        "sub": [],
+        "titulares": []
+      },
+      "lines": {
+        "ahora": [],
+        "titulares": [],
+        "enFoco": [],
+        "lead": []
+      },
+      "fonts": {
+        "lead": null,
+        "featured": null,
+        "standard": null,
+        "list": null,
+        "titulares": null,
+        "kicker": null,
+        "meta": null
+      },
+      "ticker": null,
+      "headerHeightScrolled": 160,
+      "headerHeightRestored": 160
+    }
+  ],
+  "errors": []
+}

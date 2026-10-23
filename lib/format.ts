@@ -46,6 +46,18 @@ export function formatTime(date: Date | string | null | undefined) {
   }).format(new Date(date));
 }
 
+/** Hora de cable para listados en vivo: "18:05" si es de hoy, "22 oct" si no. */
+export function formatWireTime(date: Date | string | null | undefined, now: Date = new Date()) {
+  if (!date) return '';
+  const timeZone = 'America/Argentina/La_Rioja';
+  const value = new Date(date);
+  const day = (d: Date) => new Intl.DateTimeFormat('en-CA', { timeZone }).format(d);
+  if (day(value) === day(now)) {
+    return new Intl.DateTimeFormat('es-AR', { hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZone }).format(value);
+  }
+  return new Intl.DateTimeFormat('es-AR', { day: 'numeric', month: 'short', timeZone }).format(value).replace('.', '');
+}
+
 export function estimateReadingMinutes(text: string) {
   const words = text.trim().split(/\s+/).filter(Boolean).length;
   return Math.max(1, Math.ceil(words / 210));

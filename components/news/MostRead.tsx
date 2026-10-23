@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { PublicPost } from '@/lib/posts';
+import { formatHeadline } from '@/lib/headline';
 
 export function MostRead({ posts }: { posts: PublicPost[] }) {
   if (!posts.length) return null;
@@ -10,7 +11,7 @@ export function MostRead({ posts }: { posts: PublicPost[] }) {
       <ol className="rank-list">
         {posts.map((post, i) => (
           <li key={post.id}>
-            <span className="rank-number" aria-label={`Posición ${i + 1}`}>
+            <span className="rank-number" aria-hidden="true">
               {i + 1}
             </span>
             <div>
@@ -18,7 +19,7 @@ export function MostRead({ posts }: { posts: PublicPost[] }) {
                 {post.category.name}
               </Link>
               <Link href={`/noticias/${post.slug}`} className="rank-title">
-                {post.title}
+                {formatHeadline(post.title, post.excerpt, post.contentText)}
               </Link>
             </div>
           </li>

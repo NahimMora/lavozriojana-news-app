@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { PublicPost } from '@/lib/posts';
-import { formatDate } from '@/lib/format';
+import { formatDate, formatWireTime } from '@/lib/format';
+import { formatHeadline } from '@/lib/headline';
 import { authorProfileUrl } from '@/lib/author';
 import { CardImage } from './PostCardMedia';
 
@@ -33,6 +34,9 @@ function VideoChip({ post }: { post: PublicPost }) {
   );
 }
 
+/** Variantes y su escala (ver "Sistema de densidad" en globals.css):
+ * lead > featured > default > compact/side > list. Los titulares se recortan
+ * con line-clamp según la variante; el texto completo queda en el enlace. */
 export function PostCard({
   post,
   variant = 'default',
@@ -57,18 +61,19 @@ export function PostCard({
   const isOverlay    = variant === 'overlay';
   const isSide       = variant === 'side';
   const isLead       = variant === 'lead';
+  // Imported headlines arrive in uppercase; the stored title is not changed.
+  const headline = formatHeadline(post.title, post.excerpt, post.contentText);
   // Only media fields cross the Server/Client boundary, never article HTML.
-  const mediaPost = { title: post.title, mainImageUrl: post.mainImageUrl, mainImageAlt: post.mainImageAlt, videoUrl: post.videoUrl, category: post.category };
+  const mediaPost = { title: headline, mainImageUrl: post.mainImageUrl, mainImageAlt: post.mainImageAlt, videoUrl: post.videoUrl, category: post.category };
+  const href = `/noticias/${post.slug}`;
 
-  /* ── List (AHORA) ──────────────────────────── */
+  /* ── List (AHORA): hora de cable + titular ── */
   if (isList) {
     return (
       <article className="post-card list">
-        <Link className="kicker" href={`/categoria/${post.category.slug}`}>
-          {post.category.name}
-        </Link>
-        <Link href={`/noticias/${post.slug}`} className="post-title list-title">
-          {post.title}
+        <time className="list-time" dateTime={post.publishedAt?.toISOString()}>{formatWireTime(post.publishedAt)}</time>
+        <Link href={href} className="post-title list-title">
+          {headline}
         </Link>
       </article>
     );
@@ -79,7 +84,7 @@ export function PostCard({
     return (
       <article className="post-card overlay">
         <div className="overlay-wrap">
-          <Link href={`/noticias/${post.slug}`} className="post-media" aria-label={post.title}>
+          <Link href={href} className="post-media" aria-hidden="true" tabIndex={-1}>
             <CardImage post={mediaPost} priority={priority} sizes={imageSizes || '(min-width: 1280px) 720px, (min-width: 768px) 58vw, 100vw'} autoplayInView={autoplayInView} />
             <VideoBadge post={post} />
           </Link>
@@ -88,7 +93,7 @@ export function PostCard({
               {post.category.name}
             </Link>
             <h2 className="overlay-title">
-              <Link href={`/noticias/${post.slug}`}>{post.title}</Link>
+              <Link href={href}>{headline}</Link>
             </h2>
             {post.excerpt && (
               <p className="overlay-excerpt">{post.excerpt}</p>
@@ -103,16 +108,16 @@ export function PostCard({
   if (isSide) {
     return (
       <article className="post-card side">
-        <Link href={`/noticias/${post.slug}`} className="post-media" aria-label={post.title}>
+        <Link href={href} className="post-media" aria-hidden="true" tabIndex={-1}>
           <CardImage post={mediaPost} sizes="112px" />
           <VideoBadge post={post} />
         </Link>
-        <div>
+        <div className="post-body">
           <Link className="kicker" href={`/categoria/${post.category.slug}`}>
             {post.category.name}
           </Link>
-          <h2 className="post-title" style={{ fontSize: '.84rem', marginTop: 3 }}>
-            <Link href={`/noticias/${post.slug}`}>{post.title}</Link>
+          <h2 className="post-title side-title">
+            <Link href={href}>{headline}{post.videoUrl && <span className="sr-only">, con video</span>}</Link>
           </h2>
           <div className="post-meta">
             <time dateTime={post.publishedAt?.toISOString()}>{formatDate(post.publishedAt)}</time>
@@ -126,6 +131,8 @@ export function PostCard({
   const cardClass = [
     'post-card',
     isLead       ? 'lead'       : '',
+    isFeatured   ? 'featured'   : '',
+    variant === 'default' ? 'default' : '',
     isCompact    ? 'compact'    : '',
     isHorizontal ? 'horizontal' : '',
     isMini       ? 'mini'       : '',
@@ -143,29 +150,29 @@ export function PostCard({
      corto, Next.js sirve una imagen más chica que el contenedor y el
      navegador la estira (se ve pixelada). */
   const mediaSizes = imageSizes || (isLead
-    ? '(min-width: 1280px) 860px, (min-width: 768px) 65vw, 100vw'
+    ? '(min-width: 1280px) 640px, (min-width: 768px) 60vw, 100vw'
     : isHorizontal
-    ? '(min-width: 1280px) 620px, (min-width: 768px) 45vw, 100vw'
+    ? '(min-width: 1280px) 520px, (min-width: 768px) 45vw, 100vw'
     : isCompact
-    ? '(min-width: 768px) 96px, 104px'
+    ? '(min-width: 768px) 112px, 104px'
     : isLarge || isFeatured
-    ? '(min-width: 768px) 58vw, 100vw'
-    : '(min-width: 1280px) 400px, (min-width: 900px) 25vw, (min-width: 560px) 47vw, 100vw');
+    ? '(min-width: 1280px) 520px, (min-width: 768px) 45vw, 100vw'
+    : '(min-width: 1024px) 420px, (min-width: 560px) 47vw, 120px');
 
   return (
     <article className={cardClass}>
-      <Link href={`/noticias/${post.slug}`} className="post-media" aria-label={post.title}>
+      <Link href={href} className="post-media" aria-hidden="true" tabIndex={-1}>
         <CardImage post={mediaPost} priority={priority} sizes={mediaSizes} autoplayInView={autoplayInView} />
         <VideoBadge post={post} />
         {!isCompact && !isMini && <VideoChip post={post} />}
       </Link>
 
-      <div>
+      <div className="post-body">
         <Link className="kicker" href={`/categoria/${post.category.slug}`}>
           {post.category.name}
         </Link>
         <h2 className={titleClass}>
-          <Link href={`/noticias/${post.slug}`}>{post.title}</Link>
+          <Link href={href}>{headline}{post.videoUrl && <span className="sr-only">, con video</span>}</Link>
         </h2>
         {showExcerpt && (
           <p className={`post-excerpt${isFeatured ? ' short' : ''}`}>{post.excerpt}</p>

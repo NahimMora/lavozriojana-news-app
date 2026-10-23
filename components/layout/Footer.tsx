@@ -5,6 +5,40 @@ import { getCategoriesSafe } from '@/lib/posts';
 import { slugify } from '@/lib/slug';
 import { CookiePreferencesButton } from './CookiePreferencesButton';
 
+const social = [
+  {
+    href: 'https://facebook.com/lavozriojana',
+    label: 'Facebook',
+    icon: <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" fill="currentColor" />
+  },
+  {
+    href: 'https://instagram.com/lavozriojana.ok',
+    label: 'Instagram',
+    icon: (
+      <g fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+        <circle cx="12" cy="12" r="4" />
+        <circle cx="17.5" cy="6.5" r=".5" fill="currentColor" />
+      </g>
+    )
+  }
+];
+
+const institutional = [
+  { href: '/quienes-somos', label: 'Quiénes somos' },
+  { href: '/equipo', label: 'Equipo' },
+  { href: '/contacto', label: 'Contacto' },
+  { href: '/publicidad', label: 'Publicidad' }
+];
+
+const legal = [
+  { href: '/politica-editorial', label: 'Política editorial' },
+  { href: '/politica-de-correcciones', label: 'Correcciones' },
+  { href: '/politica-de-uso-de-ia', label: 'Uso de IA' },
+  { href: '/politica-de-privacidad', label: 'Privacidad' },
+  { href: '/terminos-y-condiciones', label: 'Términos' }
+];
+
 export async function Footer() {
   const dbCategories = await getCategoriesSafe();
   const categories =
@@ -14,83 +48,70 @@ export async function Footer() {
 
   return (
     <footer className="site-footer">
-      <div className="footer-top">
-        <div className="container">
-          <div className="footer-grid">
-
-            {/* Brand */}
-            <div className="footer-brand-block">
-              <Link href="/" className="footer-brand-link" aria-label={`Inicio · ${SITE_NAME}`}>
-                <Image
-                  src="/logo.png"
-                  alt={SITE_NAME}
-                  width={80}
-                  height={80}
-                  sizes="64px"
-                  className="footer-logo"
-                />
-                <span className="footer-wordmark">La Voz<br />Riojana</span>
-              </Link>
-              <p className="footer-brand-desc">
-                Noticias de La Rioja con foco local, actualidad y cobertura provincial.
-              </p>
-              <div className="footer-social" aria-label="Redes sociales">
-                <a href="https://facebook.com/lavozriojana"  target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook">FB</a>
-                <a href="https://twitter.com/"                target="_blank" rel="noopener noreferrer" aria-label="X / Twitter" title="X">X</a>
-                <a href="https://instagram.com/lavozriojana.ok" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="IG">IG</a>
-              </div>
-            </div>
-
-            {/* Secciones */}
-            <div>
-              <h3>Secciones</h3>
-              <div className="footer-links">
-                {categories.slice(0, 7).map((cat) => (
-                  <Link href={`/categoria/${cat.slug}`} key={cat.slug}>{cat.name}</Link>
-                ))}
-              </div>
-            </div>
-
-            {/* Más */}
-            <div>
-              <h3>Más</h3>
-              <div className="footer-links">
-                {categories.slice(7, 14).map((cat) => (
-                  <Link href={`/categoria/${cat.slug}`} key={cat.slug}>{cat.name}</Link>
-                ))}
-              </div>
-            </div>
-
-            {/* Institucional */}
-            <div>
-              <h3>Institucional</h3>
-              <div className="footer-links">
-                <Link href="/quienes-somos">Quiénes somos</Link>
-                <Link href="/equipo">Equipo</Link>
-                <Link href="/contacto">Contacto</Link>
-                <Link href="/publicidad">Publicidad</Link>
-              </div>
-            </div>
-
-            {/* Legal */}
-            <div>
-              <h3>Legal</h3>
-              <div className="footer-links">
-                <Link href="/politica-editorial">Política editorial</Link>
-                <Link href="/politica-de-correcciones">Correcciones</Link>
-                <Link href="/politica-de-uso-de-ia">Uso de IA</Link>
-                <Link href="/politica-de-privacidad">Privacidad</Link>
-                <Link href="/terminos-y-condiciones">Términos</Link>
-                <CookiePreferencesButton />
-              </div>
-            </div>
-          </div>
+      <div className="container footer-main">
+        <div className="footer-brand-block">
+          <Link href="/" className="footer-brand-link">
+            <Image src="/logo.png" alt="" width={80} height={80} sizes="56px" className="footer-logo" />
+            <span className="footer-wordmark">{SITE_NAME}</span>
+          </Link>
+          <p className="footer-brand-desc">
+            Noticias de La Rioja con foco local, actualidad y cobertura provincial.
+          </p>
+          <ul className="footer-social" aria-label="Redes sociales">
+            {social.map((item) => (
+              <li key={item.label}>
+                <a href={item.href} target="_blank" rel="noopener noreferrer" aria-label={item.label}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">{item.icon}</svg>
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
+
+        <nav className="footer-nav" aria-label="Pie de página">
+          <div className="footer-col footer-col-sections">
+            <h2 className="footer-heading">Secciones</h2>
+            <ul className="footer-links footer-links-sections">
+              {categories.slice(0, 14).map((cat) => (
+                <li key={cat.slug}>
+                  <Link href={`/categoria/${cat.slug}`}>{cat.name}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="footer-col">
+            <h2 className="footer-heading">Institucional</h2>
+            <ul className="footer-links">
+              {institutional.map((item) => (
+                <li key={item.href}>
+                  <Link href={item.href}>{item.label}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="footer-col">
+            <h2 className="footer-heading">Legal</h2>
+            <ul className="footer-links">
+              {legal.map((item) => (
+                <li key={item.href}>
+                  <Link href={item.href}>{item.label}</Link>
+                </li>
+              ))}
+              <li>
+                <CookiePreferencesButton />
+              </li>
+            </ul>
+          </div>
+        </nav>
       </div>
 
-      <div className="container footer-bottom">
-        <span>© {new Date().getFullYear()} {SITE_NAME}. Todos los derechos reservados.</span>
-        <span>lavozriojana.com · La Rioja, Argentina</span>
+      <div className="footer-bottom">
+        <div className="container footer-bottom-inner">
+          <span>© {new Date().getFullYear()} {SITE_NAME}. Todos los derechos reservados.</span>
+          <span>{SITE_SLOGAN}</span>
+        </div>
       </div>
     </footer>
   );

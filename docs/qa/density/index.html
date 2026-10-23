@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="es-AR"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>La Voz Riojana · Densidad editorial</title>
+<style>body{margin:0;padding:24px;font:16px/1.5 system-ui;color:#111827;background:#eef0f2}h1{font:600 30px Georgia;margin:0 0 12px}p{max-width:860px}label{display:inline-block;margin:0 20px 20px 0}select{font:inherit;padding:8px;border:1px solid #9ca3af}main{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}figure{margin:0;min-width:0}figcaption{font-weight:600;padding:12px 0}img{width:100%;height:auto;display:block;background:#fff;box-shadow:0 2px 12px #0001}.missing{padding:24px;background:#fff;color:#5f6672}@media(max-width:700px){main{grid-template-columns:1fr}body{padding:16px}}</style>
+<h1>La Voz Riojana · Segunda iteración: densidad editorial</h1>
+<p>Mismo contenido de prueba en ambas columnas: titulares ficticios en mayúsculas, como llegan del autopublicador, y fotografías públicas de referencia. No representan noticias publicadas y no se usó la base de producción. Las medidas están en <a href="after/results.json">after/results.json</a> y <a href="before/results.json">before/results.json</a>; el comportamiento, en <a href="behavior-3101.json">behavior-3101.json</a>; los titulares reales normalizados, en <a href="headlines.txt">headlines.txt</a>.</p>
+<label>Vista <select id="view">
+  <option value="home">Portada (primer viewport)</option>
+  <option value="category">Categoría (primer viewport)</option>
+  <option value="ahora">Bloque Ahora</option>
+  <option value="latest">Últimas noticias + Destacados</option>
+  <option value="destacados">Destacados</option>
+  <option value="titulares">Titulares del día</option>
+  <option value="en-foco">En foco</option>
+</select></label>
+<label>Ancho <select id="width"><option>1440</option><option>1280</option><option>1024</option><option>768</option><option>390</option><option>360</option></select> px</label>
+<main>
+  <figure><figcaption>Antes</figcaption><a id="before-link"><img id="before" alt="Diseño anterior"></a></figure>
+  <figure><figcaption>Después</figcaption><a id="after-link"><img id="after" alt="Diseño con densidad editorial"></a></figure>
+</main>
+<script>
+const view=document.getElementById('view'),width=document.getElementById('width');
+// Section crops exist at 390 and 1440 only.
+function update(){
+  const crop=!['home','category'].includes(view.value);
+  if(crop&&!['390','1440'].includes(width.value)) width.value='1440';
+  for(const stage of ['before','after']){
+    const src=stage+'/'+view.value+'-'+width.value+'.png', img=document.getElementById(stage);
+    img.hidden=false; img.src=src; document.getElementById(stage+'-link').href=src;
+    img.onerror=()=>{img.hidden=true};
+  }
+}
+view.onchange=width.onchange=update;update();
+</script>
+</html>

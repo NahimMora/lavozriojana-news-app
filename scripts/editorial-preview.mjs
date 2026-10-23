@@ -24,11 +24,11 @@ await cp(path.join(root, 'scripts/fixtures/images'), path.join(preview, 'public/
 const port = process.argv[2] || '3100';
 if (!/^\d{4,5}$/.test(port)) throw new Error('Usá un puerto local válido.');
 const flags = process.argv.slice(3);
-if (flags.some(flag => !['--build', '--empty', '--sparse', '--single'].includes(flag))) throw new Error('Opciones: --build, --empty, --sparse, --single');
+if (flags.some(flag => !['--build', '--empty', '--sparse', '--single', '--no-ads'].includes(flag))) throw new Error('Opciones: --build, --empty, --sparse, --single, --no-ads');
 const buildOnly = flags.includes('--build');
 // Allowlist: credentials, NODE_OPTIONS and production settings cannot leak in.
 const env = Object.fromEntries(Object.entries(process.env).filter(([key]) => /^(PATH|PATHEXT|SYSTEMROOT|WINDIR|TEMP|TMP|COMSPEC|APPDATA|LOCALAPPDATA|USERPROFILE|NUMBER_OF_PROCESSORS)$/i.test(key)));
-Object.assign(env, { NODE_ENV: buildOnly ? 'production' : 'development', NEXT_TELEMETRY_DISABLED: '1', DATABASE_URL: 'mysql://preview:preview@127.0.0.1:1/isolated', NEXT_PUBLIC_SITE_URL: `http://127.0.0.1:${port}`, LVR_PREVIEW_MODE: flags.includes('--empty') ? 'empty' : flags.includes('--single') ? 'single' : flags.includes('--sparse') ? 'sparse' : 'full' });
+Object.assign(env, { NODE_ENV: buildOnly ? 'production' : 'development', NEXT_TELEMETRY_DISABLED: '1', DATABASE_URL: 'mysql://preview:preview@127.0.0.1:1/isolated', NEXT_PUBLIC_SITE_URL: `http://127.0.0.1:${port}`, LVR_PREVIEW_MODE: flags.includes('--empty') ? 'empty' : flags.includes('--single') ? 'single' : flags.includes('--sparse') ? 'sparse' : 'full', LVR_PREVIEW_ADS: flags.includes('--no-ads') ? 'off' : 'on' });
 if (buildOnly) {
   const configPath = path.join(preview, 'next.config.mjs');
   const config = await readFile(configPath, 'utf8');
