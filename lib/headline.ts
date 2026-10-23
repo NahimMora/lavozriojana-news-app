@@ -2,14 +2,20 @@
  * Context supplies the spelling of names; known local names and acronyms cover
  * headlines whose excerpt doesn't repeat them. Already edited titles stay intact.
  */
-const acronyms = new Set(('ONU OMS OPS OEA UE FMI BID BM BCRA AFIP ARCA ANSES PAMI INDEC IPC IVA DNI CBU CVU CUIL CUIT UTA CGT ATE CTA UATRE RENATRE UOCRA UCR PJ PRO LLA EE UU EEUU USA NASA FIFA AFA ATP NBA IA ADN VIH HPV COVID SAME UNLaR UNdeC EDELaR YPF YCRT').split(' '));
+const acronyms = new Set(('ONU OMS OPS OEA UE FMI BID BM BCRA AFIP ARCA ANSES PAMI INDEC IPC IVA DNI CBU CVU CUIL CUIT UTA CGT ATE CTA UATRE RENATRE UOCRA UCR PJ PRO LLA EE UU EEUU USA NASA FIFA AFA ATP NBA IA ADN VIH HPV COVID SAME UNLaR UNdeC UNDelta UTN INV EDELaR YPF YCRT').split(' '));
 const namePhrases = [
   'La Rioja', 'La Voz Riojana', 'Argentina', 'Chilecito', 'Famatina', 'Chañarmuyo',
   'Sanagasta', 'Chamical', 'Aimogasta', 'Chepes', 'Villa Unión', 'Patquía',
   'Anillaco', 'Arauco', 'Vinchina', 'Ulapes', 'Nonogasta', 'Pagancillo',
   'Buenos Aires', 'Santa Fe', 'Córdoba', 'Catamarca', 'Mendoza', 'Tucumán',
   'Salta', 'Jujuy', 'San Juan', 'San Luis', 'Santiago del Estero',
-  'Estados Unidos', 'Brasil', 'Uruguay', 'Paraguay', 'Bolivia', 'Chile'
+  'Estados Unidos', 'Brasil', 'Uruguay', 'Paraguay', 'Bolivia', 'Chile',
+  'Costa Rica', 'Mar del Plata', 'Bariloche', 'San Justo', 'Rosario Central',
+  'Paso de la Patria', 'Paraná', 'Itatí', 'Malvinas', 'El Saladillo',
+  // Frequent local names and recurring subjects when excerpts omit their spelling.
+  'Quintela', 'Ricardo', 'Menem', 'Mercado Luna', 'Yanina Latorre',
+  'Nora Colosimo', 'La Joaqui', 'Luck Ra', 'Tomás Holder', 'Daniel Osvaldo',
+  'Dibu Martínez', 'Diego Maradona', 'Casa Mama', 'Remediar'
 ];
 const common = new Set(('el la los las un una unos unas en de del al por para con sin sobre entre desde hasta hacia tras según durante ante bajo contra que quien quienes cómo cuando donde qué más menos muy ya no sí se su sus este esta estos estas ese esa esos esas fue son es era hay será serán hubo habrá como también además así luego hoy ayer mañana mientras y o e ni pero porque aunque si a lo').split(' '));
 const word = /[\p{L}\p{N}]+(?:[-’'][\p{L}\p{N}]+)*/gu;

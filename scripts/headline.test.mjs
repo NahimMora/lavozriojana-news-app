@@ -14,6 +14,9 @@ test('preserves edited headlines and empty input', () => {
 test('uses sentence case with local names and accented initial letters', () => {
   assert.equal(formatHeadline('AVANZAN LAS OBRAS EN CHAÑARMUYO Y LA RIOJA'), 'Avanzan las obras en Chañarmuyo y La Rioja');
   assert.equal(formatHeadline('ÚLTIMAS NOVEDADES EN CHILECITO'), 'Últimas novedades en Chilecito');
+  assert.equal(formatHeadline('RICARDO QUINTELA PARTICIPÓ DE UNA CUMBRE EN MAR DEL PLATA'), 'Ricardo Quintela participó de una cumbre en Mar del Plata');
+  assert.equal(formatHeadline('YANINA LATORRE CRUZÓ A NORA COLOSIMO'), 'Yanina Latorre cruzó a Nora Colosimo');
+  assert.equal(formatHeadline('ACUERDO DE LA UNDELTA Y LA UNDEC EN COSTA RICA'), 'Acuerdo de la UNDelta y la UNdeC en Costa Rica');
 });
 test('recovers names from context, without capitalizing articles or initial verbs', () => {
   assert.equal(formatHeadline('FERNANDO NAHIM MORA INFORMÓ SOBRE EL ACUERDO', 'Fernando Nahim Mora informó sobre el acuerdo.'), 'Fernando Nahim Mora informó sobre el acuerdo');
