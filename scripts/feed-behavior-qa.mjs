@@ -71,36 +71,48 @@ const fixtureNow = async () => JSON.parse(await (await fetch(`${feeds}/qa-feed/u
   const urgent = await fixtureNow();
   const urgentPath = new URL(urgent.nota.url).pathname;
   const { context, page } = await open(feeds, '/');
-  const home = await page.evaluate(() => ({
-    pinned: document.querySelector('.breaking-pinned')?.getAttribute('href'),
-    tickerLinks: [...document.querySelectorAll('.breaking-items:not([aria-hidden]) a')].map((a) => a.getAttribute('href')),
-    bars: document.querySelectorAll('.breaking-bar').length,
-    strip: !!document.querySelector('.urgent-strip'),
-    leadHref: document.querySelector('.hero-lead a.post-title, .hero-lead .post-title a')?.getAttribute('href')
-  }));
-  check('portada: la nota urgente queda fija en el ticker existente, sin una segunda franja', home.pinned === urgentPath && home.bars === 1 && !home.strip, home);
-  check('portada: la nota fijada no se repite en el ticker ni es la principal', !home.tickerLinks.includes(urgentPath) && home.leadHref !== urgentPath, home);
-  const focus = await page.evaluate(() => getComputedStyle(document.querySelector('.breaking-pinned')).animationName);
-  check('ticker: la nota fijada no se mueve', focus === 'none', { focus });
+  const home = await page.evaluate(() => {
+    const li = document.querySelector('.breaking-items:not([aria-hidden]) li:first-child');
+    return {
+      first: li && { urgent: li.classList.contains('is-urgent'), href: li.querySelector('a').getAttribute('href') },
+      tickerLinks: [...document.querySelectorAll('.breaking-items:not([aria-hidden]) a')].map((a) => a.getAttribute('href')),
+      bars: document.querySelectorAll('.breaking-bar').length,
+      strip: !!document.querySelector('.urgent-strip'),
+      leadHref: document.querySelector('.hero-lead a.post-title, .hero-lead .post-title a')?.getAttribute('href')
+    };
+  });
+  check('portada: la nota urgente abre el ticker, marcada, sin una segunda franja', home.first?.urgent && home.first.href === urgentPath && home.bars === 1 && !home.strip, home);
+  check('portada: la nota urgente aparece una sola vez en el ticker y no es la principal', home.tickerLinks.filter((href) => href === urgentPath).length === 1 && home.leadHref !== urgentPath, home);
+  const moving = async (target) => target.evaluate(async () => {
+    const track = document.querySelector('.breaking-track');
+    const x = () => new DOMMatrix(getComputedStyle(track).transform).m41;
+    const start = x();
+    await new Promise((resolve) => setTimeout(resolve, 600));
+    return { name: getComputedStyle(track).animationName, moved: Math.abs(x() - start), duration: getComputedStyle(track.parentElement).getPropertyValue('--ticker-duration') };
+  });
+  const desktopMove = await moving(page);
+  check('ticker: se desplaza en escritorio a velocidad medida', desktopMove.name === 'ticker' && desktopMove.moved > 5, desktopMove);
+  await page.locator('.ticker-toggle').click();
+  const pausedMove = await moving(page);
+  check('ticker: el botón lo pausa', pausedMove.moved < 1, pausedMove);
   await context.close();
 
-  const other = await open(feeds, '/noticias/noticia-de-prueba-8');
-  const strip = await other.page.evaluate(() => document.querySelector('.urgent-strip-link')?.getAttribute('href'));
-  check('otra nota: muestra el último momento con enlace a la nota urgente', strip === urgentPath, { strip });
-  await other.context.close();
+  const phone = await open(feeds, '/', { context: { viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true } });
+  await phone.page.locator('.breaking-ticker').tap().catch(() => {});
+  await phone.page.goto(feeds + '/', { waitUntil: 'networkidle' });
+  const phoneMove = await moving(phone.page);
+  check('ticker: también se mueve en el teléfono, con la urgente incluida', phoneMove.name === 'ticker' && phoneMove.moved > 5, phoneMove);
+  await phone.context.close();
 
-  for (const variant of [urgentPath, `${urgentPath}/`, urgentPath.toUpperCase().replace('/NOTICIAS/', '/noticias/')]) {
-    const own = await open(feeds, variant);
-    const present = await own.page.evaluate(() => !!document.querySelector('.urgent-strip'));
-    const finalPath = new URL(own.page.url()).pathname;
-    check(`su propia nota (${variant}): no se anuncia a sí misma`, !present || finalPath.toLowerCase() !== urgentPath, { present, finalPath });
-    await own.context.close();
-  }
+  const other = await open(feeds, '/noticias/noticia-de-prueba-8');
+  const outside = await other.page.evaluate(() => ({ strip: !!document.querySelector('.urgent-strip'), alert: !!document.querySelector('.weather-alert'), notices: !!document.querySelector('.site-notices') }));
+  check('otra nota: sin franja de último momento ni alerta (solo en la portada)', !outside.strip && !outside.alert && !outside.notices, outside);
+  await other.context.close();
 }
 
 /* ─── Alertas ─── */
 {
-  const { context, page } = await open(feeds, '/noticias/noticia-de-prueba-8');
+  const { context, page } = await open(feeds, '/');
   const band = await page.evaluate(() => {
     const el = document.querySelector('.weather-alert');
     return el && { count: document.querySelectorAll('.weather-alert').length, text: el.querySelector('.weather-alert-line').textContent, level: el.className, label: getComputedStyle(el.querySelector('.weather-alert-label')).backgroundColor, expanded: el.querySelector('.weather-alert-toggle').getAttribute('aria-expanded'), detailHidden: el.querySelector('.weather-alert-detail').hidden };
@@ -122,7 +134,7 @@ const fixtureNow = async () => JSON.parse(await (await fetch(`${feeds}/qa-feed/u
   // The page stays open past the alert's end: it must leave the page.
   const urgent = await fixtureNow();
   const hideAt = Math.min(Date.parse(urgent.alerta.vence), Date.parse(urgent.actualizado) + 3 * 3600_000);
-  const timed = await open(feeds, '/noticias/noticia-de-prueba-8', { clock: Date.now() });
+  const timed = await open(feeds, '/', { clock: Date.now() });
   const before = await timed.page.evaluate(() => !!document.querySelector('.weather-alert'));
   await timed.page.clock.fastForward(hideAt - Date.now() + 2000);
   await timed.page.waitForTimeout(100);
@@ -316,13 +328,15 @@ for (const route of ['/', '/noticias/noticia-de-prueba-16', '/noticias/noticia-d
   const state = await page.evaluate(() => ({
     status: document.title,
     // The CMS timeline does not depend on the feeds; only the feed's novedad does.
-    modules: ['.site-notices', '.services-strip', '.videos-band', '.video-feature', '.article-videos', '.ranking-tabs', '.update-notice', '.story-timeline-news', '.trending', '.breaking-pinned'].filter((selector) => document.querySelector(selector)),
+    modules: ['.site-notices', '.services-strip', '.videos-band', '.video-feature', '.article-videos', '.ranking-tabs', '.update-notice', '.story-timeline-news', '.trending'].filter((selector) => document.querySelector(selector)),
+    // Service cards may only show the weather, which falls back to Open-Meteo as the header does.
+    cards: [...document.querySelectorAll('.svc-card')].map((card) => card.querySelector('.svc-card-label')?.textContent),
     cmsTimeline: document.querySelectorAll('.story-timeline-item').length,
     news: document.querySelectorAll('.post-card, .article-title').length,
     overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth
   }));
   const pageOk = route === '/servicios' ? await page.evaluate(() => !!document.querySelector('#clima, .service-empty')) : route === '/videos' ? await page.evaluate(() => !!document.querySelector('.videos-empty a[href*="instagram.com"]')) : state.news > 0;
-  check(`sin feeds ${route}: funciona y no reserva espacio`, !state.modules.length && pageOk && !state.overflow, state);
+  check(`sin feeds ${route}: funciona y no reserva espacio`, !state.modules.length && state.cards.every((label) => label === 'Clima en La Rioja') && pageOk && !state.overflow, state);
   await context.close();
 }
 

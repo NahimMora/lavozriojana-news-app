@@ -89,23 +89,21 @@ export default async function ServicesPage() {
       {view.alerts.length > 0 && <AlertsList alerts={view.alerts} now={now} />}
 
       {sections.some((section) => section.id !== 'alertas') ? (
-        // Two independent columns on desktop, so a short section leaves no gap
-        // beside a long one; on phones the sections follow a reading order.
+        // Balanced columns (three on wide screens, two on tablets): each
+        // panel keeps its natural height and the next one fills the shortest
+        // column, so a short section leaves no hole beside a long one. On
+        // phones the panels follow this reading order.
         <div className="service-grid">
-          <div className="service-col">
-            {view.weather ? (
-              <WeatherWidget view={view.weather} now={now} />
-            ) : (
-              view.current && <WeatherFallback temperatura={view.current.temperatura} source={view.current.source} observed={view.current.observed} now={now} />
-            )}
-            {view.payments && <PaymentsWidget view={view.payments} now={now} />}
-            {view.cuts && <CutsWidget view={view.cuts} now={now} />}
-          </div>
-          <div className="service-col">
-            {view.dollar && <DollarWidget view={view.dollar} now={now} />}
-            {view.holidays && <HolidaysWidget holidays={view.holidays.items} source={view.holidays.source} updated={view.holidays.updated} now={now} />}
-            {view.quakes && <QuakesWidget view={view.quakes} now={now} />}
-          </div>
+          {view.weather ? (
+            <WeatherWidget view={view.weather} now={now} />
+          ) : (
+            view.current && <WeatherFallback temperatura={view.current.temperatura} source={view.current.source} observed={view.current.observed} now={now} />
+          )}
+          {view.dollar && <DollarWidget view={view.dollar} now={now} />}
+          {view.payments && <PaymentsWidget view={view.payments} now={now} />}
+          {view.holidays && <HolidaysWidget holidays={view.holidays.items} source={view.holidays.source} updated={view.holidays.updated} now={now} />}
+          {view.cuts && <CutsWidget view={view.cuts} now={now} />}
+          {view.quakes && <QuakesWidget view={view.quakes} now={now} />}
         </div>
       ) : (
         <div className="service-empty">

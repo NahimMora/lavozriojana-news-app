@@ -12,15 +12,19 @@ export function AlertsList({ alerts, now }: { alerts: ActiveAlert[]; now: Date }
       <ul className="alerts-list">
         {alerts.map((alert) => (
           <li className={`alert-card level-${alert.level}`} key={alert.key}>
-            <p className="alert-card-line">
-              <strong className="weather-alert-label">{alert.label}</strong> {alert.cause}
-            </p>
-            {alert.zones.length > 0 && <p className="alert-card-zones">{formatZones(alert.zones, alert.zones.length)}</p>}
-            <p className="alert-card-until">{alert.until}</p>
-            {alert.description && <p className="alert-card-description">{alert.description}</p>}
-            <p className="service-meta">
-              Fuente: {alert.source} · Actualizado: {formatUpdated(alert.updated, now)}
-            </p>
+            <div className="alert-card-main">
+              <p className="alert-card-line">
+                <strong className="weather-alert-label">{alert.label}</strong> {alert.cause}
+              </p>
+              {alert.zones.length > 0 && <p className="alert-card-zones">{formatZones(alert.zones, alert.zones.length)}</p>}
+              <p className="alert-card-until">{alert.until}</p>
+            </div>
+            <div className="alert-card-detail">
+              {alert.description && <p className="alert-card-description">{alert.description}</p>}
+              <p className="service-meta">
+                Fuente: {alert.source} · Actualizado: {formatUpdated(alert.updated, now)}
+              </p>
+            </div>
           </li>
         ))}
       </ul>

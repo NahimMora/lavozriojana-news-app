@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Suspense } from 'react';
-import { INITIAL_CATEGORIES, SITE_NAME, SITE_SLOGAN } from '@/lib/site';
+import { FACEBOOK_URL, INITIAL_CATEGORIES, INSTAGRAM_URL, SITE_NAME, SITE_SLOGAN } from '@/lib/site';
 import { getCategoriesSafe } from '@/lib/posts';
 import { slugify } from '@/lib/slug';
 import { formatTodayLabel } from '@/lib/format';
@@ -76,9 +76,9 @@ export async function Header() {
               <Link href="/videos">Videos</Link>
             </nav>
             <div className="masthead-social" aria-label="Redes sociales">
-              <a href="https://facebook.com/lavozriojana" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><IconFacebook /></a>
+              <a href={FACEBOOK_URL} target="_blank" rel="noopener noreferrer" aria-label="Facebook"><IconFacebook /></a>
               <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer" aria-label="X"><IconX /></a>
-              <a href="https://instagram.com/lavozriojana.ok" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><IconInstagram /></a>
+              <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" aria-label="Instagram"><IconInstagram /></a>
             </div>
           </div>
         </div>

@@ -13,6 +13,13 @@ export const MEDIA_URL =
     ''
   );
 
+/* Redes y contacto oficiales. */
+export const FACEBOOK_URL = 'https://www.facebook.com/profile.php?id=61591170825327';
+export const INSTAGRAM_URL = 'https://instagram.com/lavozriojana.ok';
+/** WhatsApp oficial para que los lectores manden noticias (fotos, videos, datos). */
+export const WHATSAPP_NUMBER_DISPLAY = '380 492-2704';
+export const WHATSAPP_NEWS_URL = `https://wa.me/5493804922704?text=${encodeURIComponent('Hola La Voz Riojana, quiero enviarles una noticia:')}`;
+
 export const DEFAULT_OG_IMAGE = `${MEDIA_URL}/og/la-voz-riojana-og.jpg`;
 
 /* Google exige logo raster (no SVG) para NewsArticle/Organization structured data */

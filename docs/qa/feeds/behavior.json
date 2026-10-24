@@ -3,11 +3,15 @@
   "absent": "http://127.0.0.1:3102",
   "checks": [
     {
-      "name": "portada: la nota urgente queda fija en el ticker existente, sin una segunda franja",
+      "name": "portada: la nota urgente abre el ticker, marcada, sin una segunda franja",
       "ok": true,
       "detail": {
-        "pinned": "/noticias/noticia-de-prueba-20",
+        "first": {
+          "urgent": true,
+          "href": "/noticias/noticia-de-prueba-20"
+        },
         "tickerLinks": [
+          "/noticias/noticia-de-prueba-20",
           "/noticias/noticia-de-prueba-1",
           "/noticias/noticia-de-prueba-2",
           "/noticias/noticia-de-prueba-3"
@@ -18,11 +22,15 @@
       }
     },
     {
-      "name": "portada: la nota fijada no se repite en el ticker ni es la principal",
+      "name": "portada: la nota urgente aparece una sola vez en el ticker y no es la principal",
       "ok": true,
       "detail": {
-        "pinned": "/noticias/noticia-de-prueba-20",
+        "first": {
+          "urgent": true,
+          "href": "/noticias/noticia-de-prueba-20"
+        },
         "tickerLinks": [
+          "/noticias/noticia-de-prueba-20",
           "/noticias/noticia-de-prueba-1",
           "/noticias/noticia-de-prueba-2",
           "/noticias/noticia-de-prueba-3"
@@ -33,41 +41,39 @@
       }
     },
     {
-      "name": "ticker: la nota fijada no se mueve",
+      "name": "ticker: se desplaza en escritorio a velocidad medida",
       "ok": true,
       "detail": {
-        "focus": "none"
+        "name": "ticker",
+        "moved": 37.295700000000004,
+        "duration": "32s"
       }
     },
     {
-      "name": "otra nota: muestra el último momento con enlace a la nota urgente",
+      "name": "ticker: el botón lo pausa",
       "ok": true,
       "detail": {
-        "strip": "/noticias/noticia-de-prueba-20"
+        "name": "ticker",
+        "moved": 0,
+        "duration": "32s"
       }
     },
     {
-      "name": "su propia nota (/noticias/noticia-de-prueba-20): no se anuncia a sí misma",
+      "name": "ticker: también se mueve en el teléfono, con la urgente incluida",
       "ok": true,
       "detail": {
-        "present": false,
-        "finalPath": "/noticias/noticia-de-prueba-20"
+        "name": "ticker",
+        "moved": 37.0683,
+        "duration": "31s"
       }
     },
     {
-      "name": "su propia nota (/noticias/noticia-de-prueba-20/): no se anuncia a sí misma",
+      "name": "otra nota: sin franja de último momento ni alerta (solo en la portada)",
       "ok": true,
       "detail": {
-        "present": false,
-        "finalPath": "/noticias/noticia-de-prueba-20"
-      }
-    },
-    {
-      "name": "su propia nota (/noticias/NOTICIA-DE-PRUEBA-20): no se anuncia a sí misma",
-      "ok": true,
-      "detail": {
-        "present": false,
-        "finalPath": "/noticias/NOTICIA-DE-PRUEBA-20"
+        "strip": false,
+        "alert": false,
+        "notices": false
       }
     },
     {
@@ -75,7 +81,7 @@
       "ok": true,
       "detail": {
         "count": 1,
-        "text": "Alerta naranja por viento · Vinchina y General Lamadrid · Vigente hasta las 12:31",
+        "text": "Alerta naranja por viento · Vinchina y General Lamadrid · Vigente hasta las 13:02",
         "level": "weather-alert level-naranja",
         "label": "rgb(240, 124, 0)",
         "expanded": "false",
@@ -87,7 +93,7 @@
       "ok": true,
       "detail": {
         "count": 1,
-        "text": "Alerta naranja por viento · Vinchina y General Lamadrid · Vigente hasta las 12:31",
+        "text": "Alerta naranja por viento · Vinchina y General Lamadrid · Vigente hasta las 13:02",
         "level": "weather-alert level-naranja",
         "label": "rgb(240, 124, 0)",
         "expanded": "false",
@@ -117,7 +123,7 @@
       "detail": {
         "before": true,
         "after": false,
-        "hideAt": "2026-10-24T07:36:15.000Z"
+        "hideAt": "2026-10-24T08:07:38.000Z"
       }
     },
     {
@@ -353,7 +359,7 @@
       "detail": {
         "video": true,
         "src": "https://instagram.fsla2-1.fna.fbcdn.net/o1/v/t2/f2/m86/prueba-reel-vertical.mp4?_nc_cat=108&oe=6A1B2C3D",
-        "ready": 4,
+        "ready": 1,
         "controls": true,
         "crossorigin": false,
         "ratio": "0.5625 / 1",
@@ -449,6 +455,9 @@
       "detail": {
         "status": "La Voz Riojana | Noticias de La Rioja",
         "modules": [],
+        "cards": [
+          "Clima en La Rioja"
+        ],
         "cmsTimeline": 0,
         "news": 69,
         "overflow": false
@@ -460,6 +469,9 @@
       "detail": {
         "status": "Una nueva campaña de prevención llega a los centros de salud | La Voz Riojana",
         "modules": [],
+        "cards": [
+          "Clima en La Rioja"
+        ],
         "cmsTimeline": 3,
         "news": 4,
         "overflow": false
@@ -471,6 +483,9 @@
       "detail": {
         "status": "VECINOS DE SANAGASTA RECLAMAN POR EL ESTADO DE LA RUTA 75 | La Voz Riojana",
         "modules": [],
+        "cards": [
+          "Clima en La Rioja"
+        ],
         "cmsTimeline": 0,
         "news": 4,
         "overflow": false
@@ -482,6 +497,9 @@
       "detail": {
         "status": "Política | La Voz Riojana",
         "modules": [],
+        "cards": [
+          "Clima en La Rioja"
+        ],
         "cmsTimeline": 0,
         "news": 8,
         "overflow": false
@@ -493,6 +511,7 @@
       "detail": {
         "status": "Servicios | La Voz Riojana",
         "modules": [],
+        "cards": [],
         "cmsTimeline": 0,
         "news": 0,
         "overflow": false
@@ -504,6 +523,7 @@
       "detail": {
         "status": "Videos | La Voz Riojana",
         "modules": [],
+        "cards": [],
         "cmsTimeline": 0,
         "news": 0,
         "overflow": false
