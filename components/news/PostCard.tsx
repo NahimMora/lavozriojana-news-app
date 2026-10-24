@@ -64,7 +64,7 @@ export function PostCard({
   // Imported headlines arrive in uppercase; the stored title is not changed.
   const headline = formatHeadline(post.title, post.excerpt, post.contentText);
   // Only media fields cross the Server/Client boundary, never article HTML.
-  const mediaPost = { title: headline, mainImageUrl: post.mainImageUrl, mainImageAlt: post.mainImageAlt, videoUrl: post.videoUrl, category: post.category };
+  const mediaPost = { title: headline, mainImageUrl: post.mainImageUrl, mainImageAlt: post.mainImageAlt, videoUrl: post.videoUrl, category: { slug: post.category.slug, name: post.category.name } };
   const href = `/noticias/${post.slug}`;
 
   /* ── List (AHORA): hora de cable + titular ── */

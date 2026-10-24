@@ -1,9 +1,22 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { buildContentSecurityPolicy } from '@/lib/csp';
+import { SITE_URL } from '@/lib/site';
 
 export function middleware(request: NextRequest) {
-  const response = NextResponse.next();
   const isDev = process.env.NODE_ENV !== 'production';
+
+  // www.lavozriojana.com is a Cloudflare CNAME to the same app: without this
+  // 301 the whole site is served twice. Cloudflare's own redirect rule (see
+  // README_DEPLOY_HOSTINGER.md) answers first when set; this is the fallback.
+  const host = (request.headers.get('x-forwarded-host') || request.headers.get('host') || '').split(',')[0].trim();
+  if (host.toLowerCase().startsWith('www.')) {
+    const target = new URL(`${request.nextUrl.pathname}${request.nextUrl.search}`, SITE_URL);
+    return NextResponse.redirect(target, 301);
+  }
+
+  const response = NextResponse.next();
+  // HTTPS only from now on; no includeSubDomains so other subdomains are not bound.
+  if (!isDev) response.headers.set('Strict-Transport-Security', 'max-age=31536000');
   const mediaUrl = process.env.NEXT_PUBLIC_MEDIA_URL || process.env.R2_PUBLIC_BASE_URL || 'https://media.lavozriojana.com';
 
   response.headers.set('X-Content-Type-Options', 'nosniff');

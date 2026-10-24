@@ -1,7 +1,10 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getCategoriesSafe } from '@/lib/posts';
 import { INITIAL_CATEGORIES } from '@/lib/site';
 import { slugify } from '@/lib/slug';
+
+export const metadata: Metadata = { title: 'Página no encontrada' };
 
 export default async function NotFound() {
   const dbCategories = await getCategoriesSafe();

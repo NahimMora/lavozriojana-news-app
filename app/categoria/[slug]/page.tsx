@@ -11,6 +11,7 @@ import { getSectionTrending } from '@/lib/feed';
 import { absoluteUrl, SITE_NAME, SITE_URL } from '@/lib/site';
 import { prisma } from '@/lib/prisma';
 import { publicPostInclude, type PublicPost } from '@/lib/posts';
+import { notFoundMetadata, pageMetadata, parsePageParam } from '@/lib/seo';
 
 export const runtime = 'nodejs';
 export const revalidate = 120;
@@ -22,35 +23,18 @@ type Props = {
 
 export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
   const category = await prisma.category.findUnique({ where: { slug: params.slug } }).catch(() => null);
-  if (!category) return { title: 'Categoría no encontrada' };
-  const page = Math.max(1, Number(searchParams.page || 1));
+  if (!category || !category.isActive) return notFoundMetadata('Categoría no encontrada');
+  const page = parsePageParam(searchParams.page);
   const path = page > 1 ? `/categoria/${category.slug}?page=${page}` : `/categoria/${category.slug}`;
 
-  const title = page > 1 ? `${category.name} - página ${page}` : category.name;
-  const description = category.description || `Noticias de ${category.name} en La Rioja.`;
-  const url = absoluteUrl(path);
+  const title = page > 1 ? `${category.name} - página ${page}` : `${category.name}: noticias de La Rioja`;
+  const description = category.description || `Últimas noticias de ${category.name} en La Rioja, Argentina.`;
 
-  return {
-    title,
-    description,
-    alternates: { canonical: url },
-    openGraph: {
-      type: 'website',
-      url,
-      siteName: SITE_NAME,
-      title,
-      description
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description
-    }
-  };
+  return pageMetadata({ path, title, description });
 }
 
 export default async function CategoryPage({ params, searchParams }: Props) {
-  const page = Math.max(1, Number(searchParams.page || 1));
+  const page = parsePageParam(searchParams.page);
   const perPage = 13; /* 1 nota destacada + 12 en grilla de 3 columnas (4 filas completas) */
 
   const category = await prisma.category
@@ -81,7 +65,10 @@ export default async function CategoryPage({ params, searchParams }: Props) {
       orderBy: [{ viewCount: 'desc' }, { publishedAt: 'desc' }],
       take: 10
     })
-  ]).catch(() => [[], 0, []]);
+  ]).catch(() => [[], -1, []] as [PublicPost[], number, PublicPost[]]);
+  // Pages past the last one are empty: 404 so they never get indexed
+  // (total -1 means the query failed; that is not a reason to 404).
+  if (page > 1 && total >= 0 && page > Math.ceil(total / perPage)) notFound();
   const sectionTrends = await trendingPromise;
 
   /* Category slug → CSS class */
@@ -145,7 +132,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
                 ))}
               </div>
             )}
-            <Pagination page={page} perPage={perPage} total={total} basePath={`/categoria/${category.slug}`} />
+            <Pagination page={page} perPage={perPage} total={Math.max(0, total)} basePath={`/categoria/${category.slug}`} />
           </div>
 
           <aside className="sidebar" aria-label="Lateral de la sección">
