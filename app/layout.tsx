@@ -6,8 +6,7 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { BackToTopButton } from '@/components/layout/BackToTopButton';
 import { CookieConsent } from '@/components/layout/CookieConsent';
-import { SiteNotices } from '@/components/feed/SiteNotices';
-import { DEFAULT_OG_IMAGE, SITE_LOGO_URL, SITE_NAME, SITE_SLOGAN, SITE_URL } from '@/lib/site';
+import { DEFAULT_OG_IMAGE, FACEBOOK_URL, INSTAGRAM_URL, SITE_LOGO_URL, SITE_NAME, SITE_SLOGAN, SITE_URL } from '@/lib/site';
 import { ADSENSE_CLIENT_ID } from '@/lib/adsense';
 import { GA_MEASUREMENT_ID } from '@/lib/gtag';
 
@@ -101,7 +100,7 @@ const organizationJsonLd = {
     name: 'Fernando Nahim Mora'
   },
   ethicsPolicy: `${SITE_URL}/politica-editorial`,
-  sameAs: ['https://facebook.com/lavozriojana', 'https://instagram.com/lavozriojana.ok']
+  sameAs: [FACEBOOK_URL, INSTAGRAM_URL]
 };
 
 const websiteJsonLd = {
@@ -166,7 +165,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className="site-shell">
           <Header />
           <main id="contenido" className="site-main" tabIndex={-1}>
-            <SiteNotices />
             {children}
           </main>
           <Footer />

@@ -1,12 +1,12 @@
 import { Suspense } from 'react';
-import { getActiveAlerts, getUrgentStory } from '@/lib/feed';
+import { getActiveAlerts } from '@/lib/feed';
 import { formatAge, formatUpdated, formatZones, HOUR } from '@/lib/feed-select';
 import { SiteNoticesClient, type NoticeAlert } from './SiteNoticesClient';
 
 /**
- * Site-wide notices under the header: an active weather alert and, outside
- * the home page (where the ticker carries it), the feed's urgent story.
- * Rendered apart from the page content so a slow feed never holds the news.
+ * Weather alert at the top of the home page only (the urgent story travels
+ * in the ticker). /servicios lists every alert in full. Rendered apart from
+ * the page content so a slow feed never holds the news.
  */
 export function SiteNotices() {
   return (
@@ -18,8 +18,8 @@ export function SiteNotices() {
 
 async function SiteNoticesData() {
   const now = new Date();
-  const [alerts, urgent] = await Promise.all([getActiveAlerts(now), getUrgentStory()]);
-  if (!alerts.length && !urgent) return null;
+  const alerts = await getActiveAlerts(now);
+  if (!alerts.length) return null;
 
   const notices: NoticeAlert[] = alerts.map((alert) => ({
     key: alert.key,
@@ -36,5 +36,5 @@ async function SiteNoticesData() {
     hideAt: alert.hideAt
   }));
 
-  return <SiteNoticesClient alerts={notices} urgent={urgent} />;
+  return <SiteNoticesClient alerts={notices} />;
 }

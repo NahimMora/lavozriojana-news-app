@@ -6,6 +6,7 @@ import { MostRead } from '@/components/news/MostRead';
 import { Pagination } from '@/components/news/Pagination';
 import { PostCard } from '@/components/news/PostCard';
 import { SectionTrends } from '@/components/feed/SectionTrends';
+import { ServiceCards } from '@/components/services/ServiceCards';
 import { getSectionTrending } from '@/lib/feed';
 import { absoluteUrl, SITE_NAME, SITE_URL } from '@/lib/site';
 import { prisma } from '@/lib/prisma';
@@ -152,6 +153,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
                 stories so the rail stays as tall as the grid. */}
             <MostRead posts={sectionTrends.length ? mostRead.slice(0, 6) : mostRead} />
             <SectionTrends stories={sectionTrends} sectionName={category.name} />
+            <ServiceCards kinds={['dolar', 'clima', 'feriado']} limit={2} />
             <BannerAd slot="SIDEBAR" />
           </aside>
         </div>
