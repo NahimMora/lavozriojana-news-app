@@ -49,7 +49,11 @@
       html += figure(`viewport-before/home-${w}.png`, `Antes · ${w} px`) + figure(`viewport-after/home-${w}.png`, `Con feeds · ${w} px`) + figure(`viewport-absent/home-${w}.png`, `Sin feeds · ${w} px`);
     }
     html += '</div></section>';
-    html += '<section><h2>Instagram real (post De2pKcEjffC)</h2><div class="grid">';
+    html += '<section><h2>Reproductor: mp4, iframe y enlace</h2><div class="grid">';
+    for (const [file, label] of [['nota-video', 'Nivel 1 · mp4 en la nota'], ['nota-vencido-iframe', 'Nivel 2 · firma vencida → iframe'], ['videos-video', 'Nivel 1 · /videos'], ['videos-bloqueado', 'Nivel 3 · Instagram bloqueado'], ['portada-dialogo', 'Nivel 1 · diálogo de la portada'], ['portada-banda', 'Banda Videos']]) for (const w of shown.filter((w) => w === 390 || w === 1440)) html += figure(`player/${file}-${w}.png`, `${label} · ${w} px`);
+    html += figure('player/real-iframe-1440.png', 'Iframe real de Instagram con la CSP de producción · 1440 px');
+    html += '</div></section>';
+    html += '<section><h2>Instagram real del 23-10 (vista sin CSP; ver docs)</h2><div class="grid">';
     for (const [file, label] of [['real-home-band-1440', 'Portada, banda Videos · 1440 px'], ['real-home-band-390', 'Portada, banda Videos · 390 px'], ['real-videos-1440', '/videos · 1440 px'], ['real-videos-1440-playing', '/videos reproduciendo · 1440 px'], ['real-article3-1440', 'Video dentro de la nota · 1440 px'], ['real-article3-390-playing', 'Nota reproduciendo · 390 px']]) html += figure(`instagram-real/${file}.png`, label);
     html += '</div></section>';
     for (const [name, label] of pages) {

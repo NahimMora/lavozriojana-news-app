@@ -12,7 +12,7 @@
  * - Unknown numbers stay null: nothing is turned into zero or filled in.
  */
 import { z } from 'zod';
-import { safeExternalUrl, toInstagramLink, toInstagramThumbnail, toNewsLink } from './feed-url';
+import { safeExternalUrl, toInstagramLink, toInstagramThumbnail, toInstagramVideo, toNewsLink } from './feed-url';
 
 export const FEED_VERSION = 1;
 
@@ -334,6 +334,9 @@ const videoSchema = z.object({
       return link;
     }),
     miniatura: z.unknown().transform((value) => toInstagramThumbnail(value)),
+    /* Signed mp4 of the Reel and when its signature expires (both null when there is none). */
+    video: z.unknown().transform((value) => toInstagramVideo(value)),
+    video_vence: isoDateTime.optional().nullable().catch(null).transform((value) => value ?? null),
     tipo: optionalText(20)
   }),
   url_nota: optionalNewsUrl,

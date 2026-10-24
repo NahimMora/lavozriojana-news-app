@@ -74,3 +74,17 @@ export function toInstagramThumbnail(value: unknown): string | null {
   if (!url || url.protocol !== 'https:' || !INSTAGRAM_CDN.test(url.hostname.toLowerCase())) return null;
   return url.toString();
 }
+
+/**
+ * The Reel's mp4 (Graph API `media_url` of our own account), signed and
+ * temporary, from Instagram's CDN over https only. Played straight from
+ * there: never copied, proxied or stored.
+ */
+export function toInstagramVideo(value: unknown): string | null {
+  return toInstagramThumbnail(value);
+}
+
+/** Official embed page of a post or Reel, for a plain iframe (no embed.js). */
+export function instagramEmbedUrl(link: Pick<InstagramLink, 'kind' | 'shortcode'>) {
+  return `https://www.instagram.com/${link.kind}/${link.shortcode}/embed/`;
+}

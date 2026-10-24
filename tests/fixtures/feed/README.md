@@ -11,6 +11,9 @@ Prisma (`scripts/fixtures/editorial-prisma.ts`).
 - `valid/videos.json` incluye un post público real de @lavozriojana.ok
   (`https://www.instagram.com/p/De2pKcEjffC/`) para ver el reproductor real en la vista aislada. Su
   miniatura es una URL firmada de Instagram que vence a los pocos días: después se ve el panel neutro.
+  Su `video` es una ruta ficticia del CDN de Instagram, con `video_vence`: la QA la responde con
+  `scripts/fixtures/images/vertical.mp4` y, abierta a mano, falla y pasa al iframe del post real.
+  Las demás entradas no traen `video`.
 - `invalid/`: archivos completos que deben rechazarse (versión, JSON, fecha, campos).
 
 `scripts/feed-preview-fixtures.mjs` copia `valid/` a la vista aislada desplazando todas las fechas al

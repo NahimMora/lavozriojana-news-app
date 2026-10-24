@@ -31,24 +31,24 @@
       "name": "ticker se desplaza",
       "ok": true,
       "detail": {
-        "a": -53.0966,
-        "b": -86.7873
+        "a": -50.0624,
+        "b": -83.7403
       }
     },
     {
       "name": "botón pausa detiene el ticker",
       "ok": true,
       "detail": {
-        "c": -90.1308,
-        "d": -90.1308
+        "c": -87.3842,
+        "d": -87.3842
       }
     },
     {
       "name": "hover pausa el ticker",
       "ok": true,
       "detail": {
-        "e": -91.648,
-        "f": -91.648
+        "e": -88.6,
+        "f": -88.6
       }
     },
     {

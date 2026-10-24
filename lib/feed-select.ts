@@ -532,6 +532,17 @@ export function selectCuts(cortes: CortesBlock | null | undefined, now: Date, li
 /* ─── Videos ──────────────────────────────────────────── */
 
 export const VIDEOS_FEED_MAX_AGE = 14 * DAY;
+/** A signed mp4 is offered only if it outlives this margin: a reader who opens the page now can watch it. */
+export const VIDEO_URL_MARGIN = 15 * MINUTE;
+
+/**
+ * The mp4 to play first, or null to go straight to Instagram's player.
+ * Without a valid expiry the URL is not used: its life cannot be checked.
+ */
+export function selectVideoSource(instagram: Pick<VideoItem['instagram'], 'video' | 'video_vence'>, now: Date): string | null {
+  if (!instagram.video || !instagram.video_vence) return null;
+  return ms(instagram.video_vence) > now.getTime() + VIDEO_URL_MARGIN ? instagram.video : null;
+}
 
 /** Newest first, one card per Instagram post, nothing dated in the future. */
 export function selectVideos(feed: VideosFeed | null, now: Date, limit = 24): VideoItem[] {
