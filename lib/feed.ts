@@ -29,12 +29,14 @@ import {
   selectSectionTrending,
   selectTrending,
   selectUrgentNote,
+  selectVideoSource,
   selectVideos,
   selectWeather,
   formatUpdated,
   type TrendingEntry,
   type WeatherView
 } from './feed-select';
+import { instagramEmbedUrl } from './feed-url';
 import { formatWireTime } from './format';
 import { formatHeadline } from './headline';
 import { isDatabaseConfigured, prisma } from './prisma';
@@ -174,6 +176,10 @@ export type VideoCardData = {
   title: string;
   permalink: string;
   thumbnail: string | null;
+  /** Signed mp4 from Instagram's CDN, only while it lasts beyond 15 minutes. */
+  videoUrl: string | null;
+  /** Official embed page, the player when there is no mp4 or it fails. */
+  embedUrl: string;
   /** Internal path of the related story, only when the CMS publishes it. */
   notePath: string | null;
   /** Credit for videos taken from X, with its original link when valid. */
@@ -198,6 +204,8 @@ export async function getVideoCards(now: Date, limit: number, known: PublicPost[
       title: formatHeadline(video.titulo, post?.excerpt, post?.contentText),
       permalink: video.instagram.url.url,
       thumbnail: video.instagram.miniatura,
+      videoUrl: selectVideoSource(video.instagram, now),
+      embedUrl: instagramEmbedUrl(video.instagram.url),
       notePath: post ? `/noticias/${post.slug}` : null,
       credit: video.origen === 'x' ? { label: 'X', href: video.fuente_video } : null,
       dateTime: video.publicado,

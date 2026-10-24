@@ -12,9 +12,11 @@ el esquema ni el pipeline de publicación.
   lo comprobé con `git grep` sin modificar ese repositorio.
 - Por eso la implementación sigue los contratos de la consigna y se validó **con fixtures**. No
   se validaron datos reales ni fuentes reales.
-- El reproductor de Instagram sí se probó con **un post público real** de @lavozriojana.ok
-  (`https://www.instagram.com/p/De2pKcEjffC/`): miniatura firmada real y `embed.js` oficial,
-  en la portada, dentro de una nota y en `/videos` (capturas en `qa/feeds/instagram-real/`).
+- El 23-10 se probó el embed con **un post público real** de @lavozriojana.ok
+  (`https://www.instagram.com/p/De2pKcEjffC/`), pero la vista aislada no copiaba `middleware.ts`
+  y por eso no tenía la CSP de producción. En producción, esa CSP bloqueaba `embed.js`, el
+  iframe y las miniaturas, así que los videos no se veían. Corregido el 24-10 (ver "Reproductor
+  de video y CSP"). Desde entonces la vista aislada aplica la misma CSP que producción.
 - `index.json` no tiene un contrato definido y no estaba publicado: **no se consume**. No se
   inventaron campos ni dependencias.
 
@@ -132,6 +134,43 @@ app/servicios, app/videos
 Los datos que superan su ventana fresca se muestran con "hace N h" y su fuente. La hora de
 observación nunca se toma de la hora de consulta: Open-Meteo informa la suya (`current.time`).
 
+## Reproductor de video y CSP
+
+`videos.json` trae en `instagram` dos campos agregados, opcionales:
+- `video`: el mp4 del Reel, es decir el `media_url` de la Graph API de nuestra cuenta, servido
+  desde el CDN de Instagram. Es una URL firmada que vence.
+- `video_vence`: cuándo vence esa firma.
+
+La web acepta `video` solo si es https sobre `*.cdninstagram.com` o `*.fbcdn.net`. Lo ofrece solo
+si `video_vence` es válido y supera `ahora + 15 min`; sin vencimiento no lo usa, porque no puede
+saber cuánto dura. Un valor inválido queda `null` sin descartar la entrada. La URL nunca se copia,
+se descarga ni pasa por un proxy, y las páginas que la usan se regeneran cada 60 a 300 s, por
+debajo de la hora que dura la firma.
+
+`components/feed/InstagramPlayer.tsx` se monta recién cuando el lector toca "Ver video". Antes,
+nada de Instagram se pide salvo la miniatura. Tiene tres niveles:
+
+1. **mp4 en `<video>` nativo**: con poster, controles, `playsInline` y autoplay (permitido tras el
+   gesto; si el navegador lo rechaza, quedan los controles). La proporción sale del propio video
+   (9:16), hasta 80% del alto de la ventana. No lleva `crossOrigin` ni `referrerPolicy`. Un
+   `error`, por ejemplo una firma vencida con la página abierta, pasa al nivel 2.
+2. **Iframe de la página oficial `/<p|reel>/<código>/embed/`**: sin `embed.js`. Su alto lo dan los
+   mensajes `MEASURE` que Instagram envía por `postMessage`. Se considera que funciona cuando
+   llega el primer mensaje de `https://www.instagram.com`, no por el evento `load`: un iframe
+   bloqueado también dispara `load` (verificado en Chromium). Sin mensajes en 8 s, pasa al nivel 3.
+3. **Mensaje con el enlace al post**.
+
+El texto de privacidad, igual en los niveles 1 y 2: «El video se reproduce desde los servidores
+de Instagram (Meta) y se carga solo cuando lo reproducís.»
+
+La CSP vive en `lib/csp.ts` (pura y probada) y la aplica `middleware.ts`:
+- `img-src`: suma `https://*.cdninstagram.com https://*.fbcdn.net`, para las miniaturas.
+- `media-src` (nueva): `'self' blob: <mediaUrl> https://*.cdninstagram.com https://*.fbcdn.net`.
+  También arregla los mp4 propios del CMS (`ArticleVideo`), que hasta ahora caían en
+  `default-src 'self'` y quedaban bloqueados.
+- `frame-src`: suma `https://www.instagram.com`.
+- `script-src`: no cambia. No se carga ningún script de Instagram.
+
 ## Reglas editoriales por módulo
 
 - **Alertas.**
@@ -174,18 +213,18 @@ observación nunca se toma de la hora de consulta: Open-Meteo informa la suya (`
   - Tarjeta liviana con miniatura temporal (`<img>` común, `referrerPolicy="no-referrer"`, sin
     `next/image` ni dominios nuevos).
   - Si la miniatura falla, aparece un panel neutro, sin foto inventada.
-  - El reproductor oficial (blockquote + `embed.js`) se carga **solo al abrir un video**, una
-    vez por página, en un diálogo accesible.
-  - Si en 8 s no aparece el iframe, o si el script se bloquea, queda el enlace «Miralo en
-    Instagram».
+  - El video se carga **solo al reproducirlo**: en un diálogo accesible desde las tarjetas, o en
+    el lugar dentro de la nota y en `/videos`.
+  - El reproductor tiene tres niveles: mp4 nativo, iframe oficial y enlace (ver "Reproductor de
+    video y CSP").
   - Para `origen: x`, el crédito «Video: X» enlaza a `fuente_video` si es válido.
   - oEmbed no se usó: requiere un token de aplicación de Meta que no está disponible.
 
 ## Privacidad y rendimiento
 
-- **Embeds.** Ningún script social se carga globalmente: `embed.js` se pide al abrir un video
-  (verificado: antes de abrir, cero solicitudes; después, una sola). El diálogo aclara que el
-  reproductor es de Instagram (Meta).
+- **Video.** No se carga ningún script de Instagram. El mp4 o el iframe se piden solo al
+  reproducir; antes, la QA verifica cero solicitudes de reproducción. El texto de privacidad lo
+  aclara.
 - **Miniaturas.** Las imágenes de la tarjeta se piden al CDN de Instagram en el navegador del
   lector, igual que cualquier imagen de terceros. No usan cookies del sitio ni el sistema de
   consentimiento (que cubre analítica y publicidad). Si se quiere evitar esa solicitud, la
@@ -239,13 +278,13 @@ sin feeds a 390 y 1440 px, y el antes/después del primer viewport.
 
 | Prueba | Resultado |
 |---|---|
-| `npm test` (`tests/feed.test.mjs` + titulares) | **62/62**: 56 de feeds (cargador ante 404, 500, timeout, JSON inválido, versión, campo ausente, fecha inválida o sin zona, feed viejo o futuro, último válido, espera, deduplicación; validación; alertas; último momento; actualizaciones; cronologías; Instagram; servicios con fechas, nulos, ceros y vigencia; videos) y 6 de titulares |
-| `scripts/feed-behavior-qa.mjs` | **74/74**: banda "Videos" después de servicios y sin el título "En Instagram"; ranking con pestañas "Más leídas" / "En Instagram"; video propio dentro de la nota con reproductor en el lugar y carril sin repetirlo; nota sin video propio con carril; `/videos` encabezado por el último video; ticker con nota fija sin duplicar; franja en otras notas y no en la propia; alerta única, color, teclado y vencimiento con la página abierta (reloj simulado); actualización en el sentido correcto y sin aviso en la propia, autorreferencia, invertida o sin datos; cronología ordenada, sin duplicados ni otro hecho, sin "En contexto"; `story:` sin cronología; pestañas con flechas; sin cifras de alcance; `embed.js` solo al abrir y una vez; miniaturas vencidas; embed bloqueado y no incrustable; categorías con y sin tendencias; sin feeds en 6 rutas; 360-1440 px sin scroll horizontal ni textos < 11 px; sin errores de consola |
+| `npm test` (`tests/feed.test.mjs` + titulares) | **69/69**: suma mp4 y vencimiento en el contrato, margen de 15 min, URL de embed para `/p/` y `/reel/`, transiciones del reproductor, mensajes `MEASURE` y CSP; 56 de feeds (cargador ante 404, 500, timeout, JSON inválido, versión, campo ausente, fecha inválida o sin zona, feed viejo o futuro, último válido, espera, deduplicación; validación; alertas; último momento; actualizaciones; cronologías; Instagram; servicios con fechas, nulos, ceros y vigencia; videos) y 6 de titulares |
+| `scripts/feed-behavior-qa.mjs` | **79/79**: nivel 1 con `<video>` 9:16; firma vencida → iframe del mismo post; sin mp4 → iframe directo con su alto; Instagram bloqueado o no incrustable → mensaje con enlace; CSP servida con los dominios correctos; ninguna violación de CSP en consola; banda "Videos" después de servicios y sin el título "En Instagram"; ranking con pestañas "Más leídas" / "En Instagram"; video propio dentro de la nota con reproductor en el lugar y carril sin repetirlo; nota sin video propio con carril; `/videos` encabezado por el último video; ticker con nota fija sin duplicar; franja en otras notas y no en la propia; alerta única, color, teclado y vencimiento con la página abierta (reloj simulado); actualización en el sentido correcto y sin aviso en la propia, autorreferencia, invertida o sin datos; cronología ordenada, sin duplicados ni otro hecho, sin "En contexto"; `story:` sin cronología; pestañas con flechas; sin cifras de alcance; `embed.js` nunca se pide; miniaturas vencidas; categorías con y sin tendencias; sin feeds en 6 rutas; 360-1440 px sin scroll horizontal ni textos < 11 px; sin errores de consola |
 | `scripts/density-behavior-qa.mjs` | **26/26** con feeds y **26/26** sin feeds. Se ajustaron dos pruebas del ticker para contar solo las listas móviles, ya que la nota fija no se duplica. |
 | typecheck, lint, `git diff --check` | sin errores |
 | Compilación aislada (`editorial-preview.mjs --build`) | correcta, **34 páginas**. Persiste el aviso EPERM de `standalone` en Windows, previo a este trabajo. |
 
-Instagram nunca se contactó en las pruebas: su CDN y `embed.js` se respondieron localmente.
+Instagram nunca se contactó en las pruebas automáticas: su CDN (miniaturas y mp4) y su página de embed se respondieron localmente.
 
 ### Cómo repetir
 
@@ -263,9 +302,11 @@ node scripts/feed-visual-qa.mjs after http://127.0.0.1:3101
 - **Contratos sin datos reales.** Al publicarse los feeds hay que revisar los primeros archivos
   contra los "Supuestos a confirmar". Los fallos de validación quedan en el log como
   `[feed] <nombre>: schema (<campo>)`.
-- **Instagram real.** El embed oficial se vio funcionar con un post público real. Las pruebas
-  automáticas usan un `embed.js` simulado. Falta revisar un post que no permita incrustación
-  (está cubierto por la espera de 8 s y el enlace, pero no con un caso real).
+- **Instagram real.** El iframe oficial del post real se vio funcionar con la CSP de producción
+  aplicada (captura `qa/feeds/player/real-iframe-1440.png`). El nivel 1 se probó con un mp4 local
+  servido como si fuera el CDN: el `media_url` real lo genera el AutoPublicador y todavía no está
+  publicado. Las pruebas automáticas simulan Instagram. Falta un caso real de post que no permita
+  incrustación (cubierto por la espera de 8 s y el enlace).
 - **Miniaturas de terceros.** Ver "Privacidad". Si se prefiere no exponer al lector a ese CDN,
   hay que copiarlas a R2 desde el AutoPublicador.
 - **Navegadores.** Solo Chromium. Faltan Safari/WebKit y Firefox.

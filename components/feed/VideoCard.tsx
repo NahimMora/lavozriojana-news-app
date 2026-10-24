@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import type { VideoCardData } from '@/lib/feed';
 import { OverlayDialog } from '@/components/layout/OverlayDialog';
-import { InstagramEmbed } from './InstagramEmbed';
+import { INSTAGRAM_PRIVACY_NOTE, InstagramPlayer } from './InstagramPlayer';
 
 /**
  * Instagram serves thumbnails through signed URLs that expire. They are shown
@@ -37,7 +37,7 @@ export function VideoThumb({ src }: { src: string | null }) {
   );
 }
 
-/** A light card; Instagram's player loads only when the reader opens the video. */
+/** A light card; the video loads only when the reader opens it. */
 export function VideoCard({ video }: { video: VideoCardData }) {
   const [open, setOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -78,7 +78,7 @@ export function VideoCard({ video }: { video: VideoCardData }) {
       {open && (
         <OverlayDialog title="Video" className="video-dialog" onClose={() => setOpen(false)} returnFocusRef={buttonRef}>
           <p className="video-dialog-title">{video.title}</p>
-          <InstagramEmbed permalink={video.permalink} title={video.title} />
+          <InstagramPlayer title={video.title} permalink={video.permalink} embedUrl={video.embedUrl} videoUrl={video.videoUrl} poster={video.thumbnail} />
           <p className="video-dialog-links">
             <a href={video.permalink} target="_blank" rel="noopener noreferrer">
               Ver en Instagram
@@ -90,7 +90,7 @@ export function VideoCard({ video }: { video: VideoCardData }) {
               </a>
             )}
           </p>
-          <p className="video-dialog-privacy">El reproductor es de Instagram (Meta) y se carga solo cuando abrís un video.</p>
+          <p className="video-dialog-privacy">{INSTAGRAM_PRIVACY_NOTE}</p>
         </OverlayDialog>
       )}
     </article>

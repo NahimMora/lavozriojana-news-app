@@ -3,13 +3,13 @@
 import Link from 'next/link';
 import { useId, useState } from 'react';
 import type { VideoCardData } from '@/lib/feed';
-import { InstagramEmbed } from './InstagramEmbed';
+import { INSTAGRAM_PRIVACY_NOTE, InstagramPlayer } from './InstagramPlayer';
 import { VideoThumb } from './VideoCard';
 
 /**
  * One video given room of its own: inside the story it belongs to
  * (`article`) or as the latest one at the top of /videos (`featured`). The
- * Instagram player replaces the cover in place, only when the reader asks.
+ * player replaces the cover in place, only when the reader asks.
  */
 export function VideoFeature({ video, variant }: { video: VideoCardData; variant: 'article' | 'featured' }) {
   const [playing, setPlaying] = useState(false);
@@ -20,7 +20,7 @@ export function VideoFeature({ video, variant }: { video: VideoCardData; variant
     <section className={`video-feature is-${variant}${playing ? ' is-playing' : ''}`} aria-labelledby={titleId}>
       <div className="video-feature-media">
         {playing ? (
-          <InstagramEmbed permalink={video.permalink} title={video.title} />
+          <InstagramPlayer title={video.title} permalink={video.permalink} embedUrl={video.embedUrl} videoUrl={video.videoUrl} poster={video.thumbnail} />
         ) : (
           <button type="button" className="video-feature-cover" onClick={() => setPlaying(true)}>
             <VideoThumb src={video.thumbnail} />
@@ -71,7 +71,7 @@ export function VideoFeature({ video, variant }: { video: VideoCardData; variant
             </Link>
           )}
         </div>
-        <p className="video-feature-privacy">El reproductor es de Instagram (Meta) y se carga solo cuando reproducís el video.</p>
+        <p className="video-feature-privacy">{INSTAGRAM_PRIVACY_NOTE}</p>
       </div>
     </section>
   );

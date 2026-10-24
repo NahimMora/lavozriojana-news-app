@@ -8,7 +8,8 @@ import { writePreviewFeeds } from './feed-preview-fixtures.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const preview = await mkdtemp(path.join(tmpdir(), 'lvr-editorial-'));
-for (const name of ['app', 'components', 'lib', 'types', 'public', 'prisma', 'package.json', 'tsconfig.json', 'next-env.d.ts', 'next.config.mjs', 'postcss.config.mjs', 'tailwind.config.ts', '.eslintrc.json']) {
+// middleware.ts included: the preview applies the same CSP as production.
+for (const name of ['app', 'components', 'lib', 'types', 'public', 'prisma', 'middleware.ts', 'package.json', 'tsconfig.json', 'next-env.d.ts', 'next.config.mjs', 'postcss.config.mjs', 'tailwind.config.ts', '.eslintrc.json']) {
   try { await cp(path.join(root, name), path.join(preview, name), { recursive: true }); }
   catch (error) { if (error.code !== 'ENOENT') throw error; }
 }

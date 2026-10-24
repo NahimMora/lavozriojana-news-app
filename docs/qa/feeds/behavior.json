@@ -75,7 +75,7 @@
       "ok": true,
       "detail": {
         "count": 1,
-        "text": "Alerta naranja por viento · Vinchina y General Lamadrid · Vigente hasta las 07:03 del sábado 24",
+        "text": "Alerta naranja por viento · Vinchina y General Lamadrid · Vigente hasta las 12:31",
         "level": "weather-alert level-naranja",
         "label": "rgb(240, 124, 0)",
         "expanded": "false",
@@ -87,7 +87,7 @@
       "ok": true,
       "detail": {
         "count": 1,
-        "text": "Alerta naranja por viento · Vinchina y General Lamadrid · Vigente hasta las 07:03 del sábado 24",
+        "text": "Alerta naranja por viento · Vinchina y General Lamadrid · Vigente hasta las 12:31",
         "level": "weather-alert level-naranja",
         "label": "rgb(240, 124, 0)",
         "expanded": "false",
@@ -117,7 +117,7 @@
       "detail": {
         "before": true,
         "after": false,
-        "hideAt": "2026-10-24T02:08:01.000Z"
+        "hideAt": "2026-10-24T07:36:15.000Z"
       }
     },
     {
@@ -292,27 +292,41 @@
       }
     },
     {
-      "name": "videos: ningún script de Instagram antes de abrir un video",
-      "ok": true
+      "name": "videos: ni mp4 ni reproductor de Instagram se piden antes de reproducir",
+      "ok": true,
+      "detail": []
     },
     {
-      "name": "videos: el reproductor se carga al abrir, con enlace a Instagram y a la noticia",
+      "name": "sin mp4: iframe directo de Instagram, alto según su mensaje MEASURE",
       "ok": true,
       "detail": {
         "open": true,
-        "iframe": true,
+        "iframe": "https://www.instagram.com/reel/C0ffeeVid01/embed/",
+        "height": "640px",
         "links": [
           "Ver en Instagram",
           "Leé la noticia"
-        ]
+        ],
+        "privacy": "El video se reproduce desde los servidores de Instagram (Meta) y se carga solo cuando lo reproducís."
       }
     },
     {
-      "name": "videos: embed.js se pide una sola vez",
+      "name": "texto de privacidad del reproductor",
       "ok": true,
       "detail": {
-        "count": 1
+        "open": true,
+        "iframe": "https://www.instagram.com/reel/C0ffeeVid01/embed/",
+        "height": "640px",
+        "links": [
+          "Ver en Instagram",
+          "Leé la noticia"
+        ],
+        "privacy": "El video se reproduce desde los servidores de Instagram (Meta) y se carga solo cuando lo reproducís."
       }
+    },
+    {
+      "name": "embed.js nunca se pide",
+      "ok": true
     },
     {
       "name": "videos de X: crédito «Video: X» con su enlace original",
@@ -325,19 +339,26 @@
       ]
     },
     {
-      "name": "nota con video propio: bloque dentro del cuerpo y reproductor en el lugar",
+      "name": "nota con video propio: bloque dentro del cuerpo",
       "ok": true,
       "detail": {
-        "inArticle": {
-          "present": true,
-          "inBody": true,
-          "permalink": "https://www.instagram.com/p/De2pKcEjffC/",
-          "rail": 4
-        },
-        "played": {
-          "iframe": true,
-          "dialog": false
-        }
+        "present": true,
+        "permalink": "https://www.instagram.com/p/De2pKcEjffC/",
+        "rail": 4
+      }
+    },
+    {
+      "name": "nivel 1: el mp4 firmado se reproduce en <video> nativo, 9:16, sin iframe ni diálogo",
+      "ok": true,
+      "detail": {
+        "video": true,
+        "src": "https://instagram.fsla2-1.fna.fbcdn.net/o1/v/t2/f2/m86/prueba-reel-vertical.mp4?_nc_cat=108&oe=6A1B2C3D",
+        "ready": 4,
+        "controls": true,
+        "crossorigin": false,
+        "ratio": "0.5625 / 1",
+        "iframe": false,
+        "dialog": false
       }
     },
     {
@@ -345,9 +366,16 @@
       "ok": true,
       "detail": {
         "present": true,
-        "inBody": true,
         "permalink": "https://www.instagram.com/p/De2pKcEjffC/",
         "rail": 4
+      }
+    },
+    {
+      "name": "nivel 2: mp4 vencido → iframe oficial del mismo post",
+      "ok": true,
+      "detail": {
+        "video": false,
+        "iframe": "https://www.instagram.com/p/De2pKcEjffC/embed/"
       }
     },
     {
@@ -368,6 +396,16 @@
       }
     },
     {
+      "name": "CSP servida: Instagram en img-src, media-src y frame-src; no en script-src",
+      "ok": true,
+      "detail": {
+        "img": "img-src 'self' data: blob: https://media.lavozriojana.com https://www.google-analytics.com https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.g.doubleclick.net https://*.cdninstagram.com https://*.fbcdn.net",
+        "media": "media-src 'self' blob: https://media.lavozriojana.com https://*.cdninstagram.com https://*.fbcdn.net",
+        "frame": "frame-src 'self' https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://www.google.com https://*.googlesyndication.com https://www.instagram.com",
+        "script": "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://pagead2.googlesyndication.com https://www.google-analytics.com https://googleads.g.doubleclick.net https://www.google.com"
+      }
+    },
+    {
       "name": "miniaturas vencidas: panel neutro, sin imagen rota",
       "ok": true,
       "detail": {
@@ -377,14 +415,15 @@
       }
     },
     {
-      "name": "embed bloqueado: la tarjeta sigue útil con enlace a Instagram",
+      "name": "nivel 3: Instagram bloqueado → mensaje con enlace al post",
       "ok": true,
       "detail": {
-        "failed": "No se pudo mostrar el video en esta página. Miralo en Instagram."
+        "text": "No se pudo mostrar el video en esta página. Miralo en Instagram.",
+        "href": "https://www.instagram.com/p/De2pKcEjffC/"
       }
     },
     {
-      "name": "publicación que no se puede incrustar: aviso y enlace tras la espera",
+      "name": "nivel 3: publicación que no se puede incrustar → mensaje tras la espera",
       "ok": true
     },
     {
@@ -709,7 +748,13 @@
         "overflow": false,
         "tiny": []
       }
+    },
+    {
+      "name": "ninguna violación de CSP en la consola",
+      "ok": true,
+      "detail": []
     }
   ],
-  "errors": []
+  "errors": [],
+  "cspViolations": []
 }

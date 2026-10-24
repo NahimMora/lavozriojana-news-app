@@ -505,3 +505,85 @@ describe('videos', () => {
     assert.equal(badSource.fuente_video, null);
   });
 });
+
+/* ─── Video de Instagram: mp4 firmado, embed y CSP ─────── */
+
+const player = await loadTs('lib/instagram-player.ts');
+const csp = await loadTs('lib/csp.ts');
+
+describe('instagram video', () => {
+  const base = fixtures.videos.items[0];
+  const withInstagram = (instagram) => ({ version: 1, actualizado: '2026-10-23T15:30:00-03:00', items: [{ ...base, instagram: { ...base.instagram, ...instagram } }] });
+
+  test('feed-types: a valid mp4 and its expiry are kept', () => {
+    const [item] = parse(types.videosSchema, withInstagram({})).items;
+    assert.match(item.instagram.video, /^https:\/\/instagram\.fsla2-1\.fna\.fbcdn\.net\/.+\.mp4\?/);
+    assert.equal(item.instagram.video_vence, '2026-10-25T12:15:44-03:00');
+  });
+
+  test('feed-types: mp4 from another domain or invalid expiry is null, the entry stays', () => {
+    const other = parse(types.videosSchema, withInstagram({ video: 'https://videos.example.com/reel.mp4' })).items;
+    assert.equal(other.length, 1);
+    assert.equal(other[0].instagram.video, null);
+    const insecure = parse(types.videosSchema, withInstagram({ video: 'http://scontent.cdninstagram.com/reel.mp4' })).items;
+    assert.equal(insecure[0].instagram.video, null);
+    const badDate = parse(types.videosSchema, withInstagram({ video_vence: 'mañana' })).items;
+    assert.equal(badDate.length, 1);
+    assert.equal(badDate[0].instagram.video_vence, null);
+    const missing = parse(types.videosSchema, withInstagram({ video: undefined, video_vence: undefined })).items;
+    assert.equal(missing[0].instagram.video, null);
+    assert.equal(missing[0].instagram.video_vence, null);
+  });
+
+  test('the mp4 is offered only if its signature lasts beyond 15 minutes', () => {
+    const video = 'https://scontent.cdninstagram.com/v/reel.mp4?oe=1';
+    const at = (minutes) => new Date(NOW.getTime() + minutes * 60_000).toISOString();
+    assert.equal(select.selectVideoSource({ video, video_vence: at(10) }, NOW), null);
+    assert.equal(select.selectVideoSource({ video, video_vence: at(30 * 60) }, NOW), video);
+    assert.equal(select.selectVideoSource({ video, video_vence: null }, NOW), null, 'no expiry: not used');
+    assert.equal(select.selectVideoSource({ video: null, video_vence: at(30 * 60) }, NOW), null);
+  });
+
+  test('embed URL for posts and Reels', () => {
+    assert.equal(urls.instagramEmbedUrl(urls.toInstagramLink('https://www.instagram.com/p/De2pKcEjffC/')), 'https://www.instagram.com/p/De2pKcEjffC/embed/');
+    assert.equal(urls.instagramEmbedUrl(urls.toInstagramLink('https://instagram.com/reels/DQxAbc123/?igsh=1')), 'https://www.instagram.com/reel/DQxAbc123/embed/');
+  });
+
+  test('player: mp4 first, iframe on error or without mp4, message on timeout', () => {
+    assert.equal(player.initialStage('https://scontent.cdninstagram.com/v/reel.mp4'), 'video');
+    assert.equal(player.initialStage(null), 'iframe');
+    assert.equal(player.nextStage('video', 'video-error'), 'iframe');
+    assert.equal(player.nextStage('iframe', 'iframe-timeout'), 'failed');
+    assert.equal(player.nextStage('iframe', 'iframe-message'), 'iframe');
+    assert.equal(player.nextStage('video', 'iframe-timeout'), 'video', 'a stale timer never hides a playing video');
+    assert.equal(player.nextStage('failed', 'video-error'), 'failed');
+    assert.equal(player.IFRAME_TIMEOUT_MS, 8000);
+  });
+
+  test('player: only messages from instagram.com count, MEASURE sets a bounded height', () => {
+    assert.deepEqual(player.readEmbedMessage('https://www.instagram.com', '{"details":{"height":708},"type":"MEASURE"}'), { fromInstagram: true, height: 708 });
+    assert.deepEqual(player.readEmbedMessage('https://www.instagram.com', '{"details":{},"type":"LOADING"}'), { fromInstagram: true, height: null });
+    assert.deepEqual(player.readEmbedMessage('https://www.instagram.com', '{"details":{"height":99999},"type":"MEASURE"}'), { fromInstagram: true, height: 1200 });
+    assert.deepEqual(player.readEmbedMessage('https://www.instagram.com', 'no es json'), { fromInstagram: true, height: null });
+    assert.deepEqual(player.readEmbedMessage('https://evil.test', '{"details":{"height":700},"type":"MEASURE"}'), { fromInstagram: false, height: null });
+  });
+
+  test('CSP: Instagram in img-src, media-src and frame-src; never in script-src', () => {
+    const policy = csp.buildContentSecurityPolicy({ isDev: false, mediaUrl: 'https://media.lavozriojana.com' });
+    const directive = (name) => policy.split('; ').find((part) => part.startsWith(`${name} `)) || '';
+    for (const name of ['img-src', 'media-src']) {
+      assert.match(directive(name), /https:\/\/\*\.cdninstagram\.com/);
+      assert.match(directive(name), /https:\/\/\*\.fbcdn\.net/);
+    }
+    assert.match(directive('media-src'), /^media-src 'self' blob: https:\/\/media\.lavozriojana\.com /, 'own CMS videos are allowed too');
+    assert.match(directive('frame-src'), /https:\/\/www\.instagram\.com/);
+    assert.doesNotMatch(directive('script-src'), /instagram|fbcdn/);
+    assert.doesNotMatch(directive('script-src'), /unsafe-eval/, 'production keeps no unsafe-eval');
+    // What was already there stays: Google tags and ads, default-src and framing rules.
+    assert.match(policy, /^default-src 'self'; /);
+    assert.match(directive('script-src'), /https:\/\/www\.googletagmanager\.com/);
+    assert.match(directive('frame-src'), /https:\/\/googleads\.g\.doubleclick\.net/);
+    assert.match(policy, /frame-ancestors 'self'; base-uri 'self'; form-action 'self'$/);
+    assert.match(csp.buildContentSecurityPolicy({ isDev: true, mediaUrl: 'x' }), /script-src 'self' 'unsafe-inline' 'unsafe-eval'/);
+  });
+});
