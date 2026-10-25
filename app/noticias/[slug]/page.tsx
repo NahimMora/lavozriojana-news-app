@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import { notFound, redirect } from 'next/navigation';
+import { notFound, permanentRedirect } from 'next/navigation';
 import { AdSenseUnit } from '@/components/news/AdSenseUnit';
 import { BannerAd } from '@/components/news/BannerAd';
 import { ArticleBody, ArticleLead } from '@/components/news/ArticleBody';
@@ -25,7 +25,7 @@ import { buildStoryTimeline, findVerifiedStory, isEventStoryKey, pickLatestUpdat
 import { authorProfileUrl } from '@/lib/author';
 import { estimateReadingMinutes, formatDate, formatDateTime } from '@/lib/format';
 import { absoluteUrl, FACEBOOK_URL, INSTAGRAM_URL, SITE_LOGO_URL, SITE_NAME, SITE_URL, WHATSAPP_NEWS_URL } from '@/lib/site';
-import { postDocumentTitle, postModifiedDate, postSocialImage } from '@/lib/seo';
+import { FEED_ALTERNATES, notFoundMetadata, postDocumentTitle, postModifiedDate, postSocialImage } from '@/lib/seo';
 import { getPostBySlug, getRelatedPosts, getStoryTimeline, publicPostInclude } from '@/lib/posts';
 import { prisma } from '@/lib/prisma';
 import { splitArticleHtmlAfterParagraphs, splitFirstArticleParagraph } from '@/lib/article-html';
@@ -39,7 +39,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = await getPostBySlug(params.slug).catch(() => null);
-  if (!post) return { title: 'Noticia no encontrada' };
+  if (!post) return notFoundMetadata('Noticia no encontrada');
 
   const title = postDocumentTitle(post);
   const description = post.seoDescription || post.excerpt;
@@ -50,9 +50,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: { absolute: title },
     description,
-    alternates: { canonical: url },
+    alternates: { canonical: url, types: FEED_ALTERNATES },
     openGraph: {
       type: 'article',
+      locale: 'es_AR',
       url,
       siteName: SITE_NAME,
       title: post.ogTitle || post.title,
@@ -77,7 +78,8 @@ export default async function NewsPage({ params }: Props) {
 
   if (!post) {
     const redirectRow = await prisma.redirect.findUnique({ where: { fromSlug: params.slug } }).catch(() => null);
-    if (redirectRow) redirect(`/noticias/${redirectRow.toSlug}`);
+    // 308: Google moves the old URL's ranking to the new one (a 307 would not).
+    if (redirectRow) permanentRedirect(`/noticias/${redirectRow.toSlug}`);
     notFound();
   }
 

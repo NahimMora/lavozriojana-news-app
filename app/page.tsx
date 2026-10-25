@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { AdSenseUnit } from '@/components/news/AdSenseUnit';
@@ -13,7 +14,8 @@ import type { PublicPost } from '@/lib/posts';
 import { getActiveBanner } from '@/lib/banners';
 import { getUrgentStory } from '@/lib/feed';
 import { formatHeadline } from '@/lib/headline';
-import { FACEBOOK_URL, INSTAGRAM_URL, WHATSAPP_NEWS_URL, WHATSAPP_NUMBER_DISPLAY } from '@/lib/site';
+import { FACEBOOK_URL, INSTAGRAM_URL, SITE_DESCRIPTION, SITE_NAME, WHATSAPP_NEWS_URL, WHATSAPP_NUMBER_DISPLAY } from '@/lib/site';
+import { pageMetadata } from '@/lib/seo';
 import { SiteNotices } from '@/components/feed/SiteNotices';
 import { ServiceCards } from '@/components/services/ServiceCards';
 
@@ -25,6 +27,17 @@ const MIDDLE_AD_CELL = 5;
 
 export const runtime = 'nodejs';
 export const revalidate = 60;
+
+export const metadata: Metadata = {
+  ...pageMetadata({
+    path: '/',
+    title: `${SITE_NAME} | Noticias de La Rioja`,
+    socialTitle: `${SITE_NAME} | Noticias de La Rioja, Argentina`,
+    description: SITE_DESCRIPTION
+  }),
+  /* Absolute: the layout template would otherwise append the site name again. */
+  title: { absolute: `${SITE_NAME} | Noticias de La Rioja` }
+};
 
 function CategorySection({
   block,

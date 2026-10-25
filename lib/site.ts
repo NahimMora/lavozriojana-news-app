@@ -20,7 +20,11 @@ export const INSTAGRAM_URL = 'https://instagram.com/lavozriojana.ok';
 export const WHATSAPP_NUMBER_DISPLAY = '380 492-2704';
 export const WHATSAPP_NEWS_URL = `https://wa.me/5493804922704?text=${encodeURIComponent('Hola La Voz Riojana, quiero enviarles una noticia:')}`;
 
-export const DEFAULT_OG_IMAGE = `${MEDIA_URL}/og/la-voz-riojana-og.jpg`;
+/* Served from public/ so it ships with the site (the old copy on R2 was missing). */
+export const DEFAULT_OG_IMAGE = `${SITE_URL}/og-default.jpg`;
+
+export const SITE_DESCRIPTION =
+  'Noticias de La Rioja, Argentina, al instante: política, policiales, Interior, economía, deportes y servicios. Último momento de la capital y el interior riojano.';
 
 /* Google exige logo raster (no SVG) para NewsArticle/Organization structured data */
 export const SITE_LOGO_URL = `${SITE_URL}/logo.png`;

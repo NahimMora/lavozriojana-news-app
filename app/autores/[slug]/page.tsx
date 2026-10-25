@@ -7,6 +7,7 @@ import { PostCard } from '@/components/news/PostCard';
 import { authorInitials, authorProfileUrl, parseSocialLinks } from '@/lib/author';
 import { getAuthorBySlug, getPostsByAuthor } from '@/lib/posts';
 import { absoluteUrl, SITE_NAME, SITE_URL } from '@/lib/site';
+import { notFoundMetadata, pageMetadata, parsePageParam } from '@/lib/seo';
 
 export const runtime = 'nodejs';
 export const revalidate = 300;
@@ -24,32 +25,29 @@ const SOCIAL_LABELS: Record<string, string> = {
   website: 'Sitio web'
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
   const author = await getAuthorBySlug(params.slug);
-  if (!author) return { title: 'Autor no encontrado' };
+  if (!author) return notFoundMetadata('Autor no encontrado');
 
-  const title = `${author.name} · Notas y perfil`;
+  const page = parsePageParam(searchParams.page);
+  const title = page > 1 ? `${author.name} · Notas, página ${page}` : `${author.name} · Notas y perfil`;
   const description =
     author.bio?.slice(0, 300) ||
     `Notas publicadas por ${author.name} en La Voz Riojana${author.specialty ? `, especializado/a en ${author.specialty}` : ''}.`;
-  const url = absoluteUrl(authorProfileUrl(author.slug));
+  const basePath = authorProfileUrl(author.slug);
 
-  return {
-    title,
-    description,
-    alternates: { canonical: url },
-    openGraph: { type: 'profile', url, siteName: SITE_NAME, title, description },
-    twitter: { card: 'summary', title, description }
-  };
+  return pageMetadata({ path: page > 1 ? `${basePath}?page=${page}` : basePath, title, description, type: 'profile' });
 }
 
 export default async function AuthorPage({ params, searchParams }: Props) {
   const author = await getAuthorBySlug(params.slug);
   if (!author) notFound();
 
-  const page = Math.max(1, Number(searchParams.page || 1));
+  const page = parsePageParam(searchParams.page);
   const perPage = 12;
   const { posts, total } = await getPostsByAuthor(author.id, page, perPage);
+  // Pages past the last one are empty: 404 so they never get indexed.
+  if (page > 1 && page > Math.ceil(total / perPage)) notFound();
 
   const socialLinks = parseSocialLinks(author.socialLinks);
   const profileUrl = absoluteUrl(authorProfileUrl(author.slug));

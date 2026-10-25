@@ -10,7 +10,7 @@ import { QuakesWidget } from '@/components/services/QuakesWidget';
 import { WeatherFallback, WeatherWidget } from '@/components/services/WeatherWidget';
 import { getServicesView } from '@/lib/feed';
 import { selectServicesSummary } from '@/lib/feed-select';
-import { absoluteUrl, SITE_NAME } from '@/lib/site';
+import { pageMetadata } from '@/lib/seo';
 
 export const runtime = 'nodejs';
 export const revalidate = 300;
@@ -18,13 +18,7 @@ export const revalidate = 300;
 const title = 'Servicios';
 const description = 'Clima, alertas, dólar, pagos, feriados, sismos y avisos de cortes en La Rioja, con su fuente y hora de actualización.';
 
-export const metadata: Metadata = {
-  title,
-  description,
-  alternates: { canonical: absoluteUrl('/servicios') },
-  openGraph: { type: 'website', url: absoluteUrl('/servicios'), siteName: SITE_NAME, title, description },
-  twitter: { card: 'summary_large_image', title, description }
-};
+export const metadata: Metadata = pageMetadata({ path: '/servicios', title, description });
 
 export default async function ServicesPage() {
   const now = new Date();

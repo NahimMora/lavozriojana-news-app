@@ -6,7 +6,8 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { BackToTopButton } from '@/components/layout/BackToTopButton';
 import { CookieConsent } from '@/components/layout/CookieConsent';
-import { DEFAULT_OG_IMAGE, FACEBOOK_URL, INSTAGRAM_URL, SITE_LOGO_URL, SITE_NAME, SITE_SLOGAN, SITE_URL } from '@/lib/site';
+import { DEFAULT_OG_IMAGE, FACEBOOK_URL, INSTAGRAM_URL, SITE_DESCRIPTION, SITE_LOGO_URL, SITE_NAME, SITE_SLOGAN, SITE_URL } from '@/lib/site';
+import { FEED_ALTERNATES } from '@/lib/seo';
 import { ADSENSE_CLIENT_ID } from '@/lib/adsense';
 import { GA_MEASUREMENT_ID } from '@/lib/gtag';
 
@@ -34,20 +35,17 @@ export const metadata: Metadata = {
     default: `${SITE_NAME} | Noticias de La Rioja`,
     template: `%s | ${SITE_NAME}`
   },
-  description: SITE_SLOGAN,
-  alternates: {
-    canonical: '/',
-    types: {
-      'application/rss+xml': '/feed.xml',
-      'application/atom+xml': '/atom.xml'
-    }
-  },
+  description: SITE_DESCRIPTION,
+  /* No canonical here: every page sets its own, and an inherited '/' would
+     point 404s and pages without metadata at the home page. */
+  alternates: { types: FEED_ALTERNATES },
+  /* No index/follow either (that is the default): an explicit "index" sat next
+     to the "noindex" Next.js adds to 404s. */
   robots: {
-    index: true,
-    follow: true,
+    'max-image-preview': 'large',
+    'max-snippet': -1,
+    'max-video-preview': -1,
     googleBot: {
-      index: true,
-      follow: true,
       'max-image-preview': 'large',
       'max-snippet': -1,
       'max-video-preview': -1
@@ -56,16 +54,15 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'es_AR',
-    url: SITE_URL,
     siteName: SITE_NAME,
     title: SITE_NAME,
-    description: SITE_SLOGAN,
-    images: [{ url: DEFAULT_OG_IMAGE, width: 1200, height: 630 }]
+    description: SITE_DESCRIPTION,
+    images: [{ url: DEFAULT_OG_IMAGE, width: 1200, height: 630, alt: SITE_NAME }]
   },
   twitter: {
     card: 'summary_large_image',
     title: SITE_NAME,
-    description: SITE_SLOGAN,
+    description: SITE_DESCRIPTION,
     images: [DEFAULT_OG_IMAGE]
   },
   manifest: '/manifest.webmanifest',
@@ -90,6 +87,8 @@ const organizationJsonLd = {
   name: SITE_NAME,
   url: SITE_URL,
   logo: SITE_LOGO_URL,
+  slogan: SITE_SLOGAN,
+  description: SITE_DESCRIPTION,
   email: 'contacto@lavozriojana.com',
   areaServed: {
     '@type': 'AdministrativeArea',

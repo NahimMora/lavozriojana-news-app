@@ -6,6 +6,7 @@ import { Breadcrumbs } from '@/components/news/Breadcrumbs';
 import { authorInitials, authorProfileUrl } from '@/lib/author';
 import { getActiveAuthorsSafe } from '@/lib/posts';
 import { absoluteUrl, SITE_NAME, SITE_URL } from '@/lib/site';
+import { pageMetadata } from '@/lib/seo';
 
 export const runtime = 'nodejs';
 export const revalidate = 3600;
@@ -13,15 +14,7 @@ export const revalidate = 3600;
 export async function generateMetadata(): Promise<Metadata> {
   const title = 'Equipo';
   const description = 'Conocé al equipo editorial de La Voz Riojana: responsable editorial, corresponsales por sección y firmas institucionales.';
-  const url = absoluteUrl('/equipo');
-
-  return {
-    title,
-    description,
-    alternates: { canonical: url },
-    openGraph: { type: 'website', url, siteName: SITE_NAME, title, description },
-    twitter: { card: 'summary', title, description }
-  };
+  return pageMetadata({ path: '/equipo', title, description });
 }
 
 function TeamCard({ author }: { author: Author }) {

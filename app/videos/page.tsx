@@ -3,7 +3,7 @@ import { Breadcrumbs } from '@/components/news/Breadcrumbs';
 import { VideoFeature } from '@/components/feed/VideoFeature';
 import { VideosRail } from '@/components/feed/VideosRail';
 import { getVideoCards } from '@/lib/feed';
-import { absoluteUrl, SITE_NAME } from '@/lib/site';
+import { pageMetadata } from '@/lib/seo';
 
 export const runtime = 'nodejs';
 export const revalidate = 300;
@@ -11,13 +11,7 @@ export const revalidate = 300;
 const title = 'Videos';
 const description = 'Reels y videos de La Voz Riojana en Instagram, con el enlace a cada noticia.';
 
-export const metadata: Metadata = {
-  title,
-  description,
-  alternates: { canonical: absoluteUrl('/videos') },
-  openGraph: { type: 'website', url: absoluteUrl('/videos'), siteName: SITE_NAME, title, description },
-  twitter: { card: 'summary_large_image', title, description }
-};
+export const metadata: Metadata = pageMetadata({ path: '/videos', title, description });
 
 export default async function VideosPage() {
   const [featured, ...rest] = await getVideoCards(new Date(), 25);

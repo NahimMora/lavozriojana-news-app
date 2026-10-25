@@ -3,6 +3,7 @@ import { Pagination } from '@/components/news/Pagination';
 import { PostCard } from '@/components/news/PostCard';
 import { searchPosts } from '@/lib/posts';
 import { absoluteUrl } from '@/lib/site';
+import { parsePageParam } from '@/lib/seo';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -30,7 +31,7 @@ const IconSearch = () => (
 
 export default async function SearchPage({ searchParams }: Props) {
   const q = (searchParams.q || '').trim();
-  const page = Math.max(1, Number(searchParams.page || 1));
+  const page = parsePageParam(searchParams.page);
   const perPage = 12;
   const result = q ? await searchPosts(q, page, perPage) : { posts: [], total: 0 };
 

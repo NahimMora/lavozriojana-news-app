@@ -104,6 +104,22 @@ lavozriojana.com
 
 No usar `www` como dominio principal. Si se configura `www`, redirigirlo a `https://lavozriojana.com`.
 
+El DNS está en Cloudflare. El registro `www` CNAME `lavozriojana.com` (proxied)
+solo hace que `www` **resuelva**: sin una regla, Hostinger sirve el sitio
+completo también en `www` con 200, y Google ve todo duplicado. La redirección
+se hace en dos capas:
+
+1. **Cloudflare (principal)**: Rules → Redirect Rules → crear regla
+   - Si: `Hostname` equals `www.lavozriojana.com`
+   - Entonces: Dynamic redirect, expresión
+     `concat("https://lavozriojana.com", http.request.uri.path)`,
+     status `301`, **Preserve query string** activado.
+2. **`middleware.ts` (respaldo)**: si una petición llega igual con host `www.`,
+   responde 301 al dominio sin `www`.
+
+Verificar: `curl -sI https://www.lavozriojana.com/servicios` debe dar `301`
+con `location: https://lavozriojana.com/servicios`.
+
 ## 7. Cloudflare R2 y media domain
 
 1. Crear bucket R2.
@@ -120,6 +136,9 @@ https://lavozriojana.com/robots.txt
 https://lavozriojana.com/sitemap.xml
 https://lavozriojana.com/sitemap-news.xml
 https://lavozriojana.com/api/public/categories
+https://lavozriojana.com/og-default.jpg          (imagen por defecto al compartir: 200)
+https://www.lavozriojana.com/                    (301 a https://lavozriojana.com/)
+https://lavozriojana.com/categoria/politica?page=999   (404)
 ```
 
 Probar endpoint privado sin key debe responder `401`. Con key debe responder datos.
